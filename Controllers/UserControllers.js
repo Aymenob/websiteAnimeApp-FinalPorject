@@ -28,7 +28,7 @@ const postUsers = async function (req, res) {
       res.status(500).json({ msg: err })
    }
 }
-//------------------------------get Users
+//-------------------------------get Users
 const getUsers = async function (req, res) {
    try {
       let users = await Users.find({})
