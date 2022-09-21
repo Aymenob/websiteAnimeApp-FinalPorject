@@ -36,3 +36,68 @@
     transform: rotate(360deg);
   }
 }
+.errors{
+  color: red;margin-left:1.4cm;
+}
+.register{
+  color: rgb(65, 104, 75);margin-left:6.4cm;
+  margin-top:0.2cm ;
+}
+.XContainer{
+  /*border: 3px black solid;*/
+  height: 100%;
+  display: grid;
+  margin-top: 3cm;
+  
+}
+.Xcontainer{
+  /*border: 3px solid green;*/
+  z-index: 0;
+  margin-left: 3cm;
+  margin-top: -0.5cm;
+  background-color: rgba(28, 73, 187, 0.373);
+  width:25cm;height: 7.5cm;
+ 
+ 
+}
+
+.Xpost-img img{
+  margin-top: 0.5cm;height: 5cm;
+  margin-left: 0.5cm;width:3.5cm
+  
+}
+.Xcaption>h3{
+  margin-top: 0.4cm;
+  margin-left: -2cm;
+}
+.Xcaption>p{
+  margin-top: 1cm;
+  margin-left: -2cm;
+  width:17.5cm;
+}
+.Xinfo{
+  margin-left: 1cm;
+  margin-top: 0.2cm;
+  display: grid;
+  grid-template-rows: 30% 10%;
+}
+.posterForm{
+  
+  z-index: 0;
+  margin-bottom: 1cm;
+  margin-left:3cm;
+ width:25cm;height:5cm;
+ --bs-bg-opacity: 1;
+ 
+ background-color: rgb(255, 250, 240);
+ box-shadow: 0px 0px 2px 2px rgb(221, 218, 218);
+ border-radius: 5px;
+}
+.form-group>input{
+width: 20cm;
+margin-left:2cm;
+}
+.form-group>label{
+  
+  margin-left:2cm;
+  }
