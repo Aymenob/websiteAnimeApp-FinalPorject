@@ -20,7 +20,7 @@ export const registerUser=createAsyncThunk("users/registerUser",async function (
 export const DeleteUser=createAsyncThunk("users/DeleteUser",async function (userID,{rejectWithValue}) {
   try {
     let reqInstance = axios.create({headers: {token : localStorage.getItem("access_token") }})
-    const {data}=await reqInstance.delete("http://localhost:8081/deleteUser:"+userID)
+    const {data}=await reqInstance.delete("http://localhost:8081/deleteUser"+userID)
     return data
   } catch (err) {
     return rejectWithValue(err.response.data.msg)
@@ -85,7 +85,7 @@ const initialState={
     state.user=payload.user
     state.token=payload.token
     state.authorized=true
-    localStorage.setItem("user",JSON.stringify(payload.result))
+    localStorage.setItem("user",JSON.stringify(payload.user))
     localStorage.setItem("token",JSON.stringify(payload.token)) 
     localStorage.setItem("authorized",true)
     

@@ -66,11 +66,11 @@ const loginUser = async function (req, res) {
 const deleteUser=async function (req,res) {
     try {
       const userId=req.params.id
-      let user=await Users.findOne({userId});console.log(user)
+      let user=await Users.findOne({_id:userId});console.log(user)
       let fileToDelete_PublicId=user.Image.public_id
       await cloudinary.uploader.destroy(fileToDelete_PublicId)
        
-       let deletedUser=await Users.deleteOne({userId})
+       let deletedUser=await Users.findByIdAndRemove({_id:userId});
        res.status(200).json(deletedUser)
     } catch (err) {res.status(500).json({msg:err})}
 }
