@@ -1,20 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState  } from 'react'
 import {useNavigate} from "react-router-dom";
-import { cleanLogin, logOUT,DeleteUser }  from "../Redux/usersSlice";
+import { cleanLogin, logOUT,DeleteUser,cleanImage,ModifyUser,cleanUser, cleanPassword, cleanName }  from "../Redux/usersSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import '../App.css';
+
 function Admin() {
     const dispatch=useDispatch()
     const navigate=useNavigate()
     const authorized=useSelector(state=>state.Users.authorized)
-    const userName=useSelector(state=>state.Users.user.userName)
-    const Email=useSelector(state=>state.Users.user.Email)
-    const Image=useSelector(state=>state.Users.user.Image.path)
-    const Role=useSelector(state=>state.Users.user.Role)
-    const userID=useSelector(state=>state.Users.user._id);console.log(userID)
+    const user=useSelector(state=>state.Users.user)
+    const errors=useSelector(state=>state.Users)
+    const [info, setinfo] = useState({Email:user.Email});console.log(info)
+    const Modify=(e)=>{setinfo({...info,[e.target.name]:e.target.value})}
+    const [selectedFile, setSelectedFile] = useState();console.log(selectedFile)
+    const data = new FormData();
+    info.userName?data.append('userName',info.userName):console.log("nothing");
+    data.append("Email",info.Email);data.append("Password",info.Password);data.append('Image', selectedFile)
+    const [modify, setmodify] = useState(true)
     useEffect(() => {
         authorized?((navigate("/Admin"))||(dispatch(cleanLogin()))):navigate("/")
        }, [authorized])
+  
     return (
 
         <div class="bg-light" style={{ height: "100vh" }}>
@@ -53,16 +59,20 @@ function Admin() {
                                         <th scope="col">userName</th>
                                         <th scope="col">email</th>
                                         <th scope="col">role</th>
+                                        {!modify&&<th scope="col">Password Confirmation</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                      <td><img width="120" height="150" src={Image} /></td>
-                                        <th>{userName}</th>
-                                        <td>{Email}</td>
-                                        <td>{Role}</td>
-                                      
-                                        <td><button class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();dispatch(DeleteUser(userID))}}>Delete</button></td>
+                                        {modify&&<td><img width="120" height="150" src={user.Image.path} /></td>}{!modify&&<th> <input style={{width:"8cm"}} name="Image"  onChange={(e)=>{setSelectedFile(e.target.files[0]);dispatch(cleanImage())}} type="file"  /></th>}
+                                        {modify&&<th >{user.userName}</th>}{!modify&&<th><input onChange={(e)=>{Modify(e)}} name="userName" defaultValue={user.userName}/></th>}
+                                        {modify&&<td>{user.Email}</td>}{!modify&&<th><input  name="Email" value={user.Email}/></th>}
+                                        {modify&&<td>{user.Role}</td>}{!modify&&<th><input   value={user.Role}/></th>}
+                                        {!modify&&<th><input placeholder='Required..' onChange={(e)=>{Modify(e)}} name="Password" type="password"/></th>}
+                                        {modify&&<td><button  class="btn btn-outline-success" onClick={(e)=>{e.preventDefault();setmodify(!modify)}}>Modify</button></td>}
+                                        {modify&&<td><button style={{right:"650px"}} class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();dispatch(DeleteUser(user._id));dispatch(logOUT());navigate("/")}}>Delete</button></td>}
+                                        {!modify&&<td><button  class="btn btn-outline-secondary" onClick={(e)=>{e.preventDefault();dispatch(ModifyUser({data:data,userID:user._id})).then((err)=>{err.payload[0].msg?alert(`${err.payload[0].msg}`):alert(`${err.payload}`)});dispatch(cleanLogin())}}>submit</button></td>}
+                                        {!modify&&<td><button style={{right:"650px"}} class="btn btn-outline-primary" onClick={(e)=>{e.preventDefault();setmodify(!modify);setinfo({});setSelectedFile();dispatch(cleanLogin())}}>Go back</button></td>}
                                         
                                         
                                     </tr>

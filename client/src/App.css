@@ -101,3 +101,18 @@ margin-left:2cm;
   
   margin-left:2cm;
   }
+  .table-hover input{
+    margin-left:0cm;
+  width:4cm;
+  }
+  .table-hover button{
+    position: fixed;
+    bottom: 300px;
+    right: 750px; 
+   
+  }
+  .table-hover input::placeholder {
+    font-weight:400;
+    
+    color: red;
+}

@@ -6,30 +6,33 @@ const { cloudinary } = require("../helpers/cloudinary")
 //------------------------------User signUp
 const postUsers = async function (req, res) {
    try {
+      const { userName, Password, Role, Email } = req.body
       const errors = validationResult(req);
+      const checkMail = await Users.findOne({ Email })
+       const checkUser = await Users.findOne({ userName })
       if (!errors.isEmpty()) {
         return res.status(400).json({ Errors: errors.array({ onlyFirstError: true }) });
       }
-      const { userName, Password, Role, Email } = req.body
-      const checkMail = await Users.findOne({ Email })
+     
+ 
       if (checkMail) {
          return res.status(400).json({msg:"Email is already registered"})
       }
-      const checkUser = await Users.findOne({ userName })
+     
       if (checkUser) {
          return res.status(400).json({msg:"userName already exist"})
       }
-      let image = req.files.Image.tempFilePath
-      let salt = await bcrypt.genSalt(10);
-      let hash = await bcrypt.hash(Password, salt);
-      let file = await cloudinary.uploader.upload(image)
-      let User= await new Users({ userName, Password: hash, Image: { path: file.url, public_id: file.public_id }, Role, Email })
-      let user = await User.save()
-      let token = await jwt.sign({id:user._id},process.env.TOKEN_SECRET)
-      res.status(200).json({user,token})
+      const image = req.files.Image.tempFilePath
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(Password, salt);
+      const file = await cloudinary.uploader.upload(image)
+      const User= await new Users({ userName, Password: hash, Image: { path: file.url, public_id: file.public_id }, Role, Email })
+      const result = await User.save()
+      const token = await jwt.sign({id:result._id},process.env.TOKEN_SECRET)
+      res.status(200).json({result,token})
    }
    catch (err) {
-      res.status(500).json({ msg: err })
+       res.status(500).json({ msg: err })
    }
 }
 //-------------------------------get Users
@@ -54,7 +57,7 @@ const loginUser = async function (req, res) {
       }
       const match = await bcrypt.compare(Password, result.Password)
       if (!match) {
-         return res.status(400).json({msg:"wrong password"})
+         return res.status(400).json({msg:"wrong Password"})
       }
       let token = await jwt.sign({ id: result._id }, process.env.TOKEN_SECRET)
       res.json({result,token})
@@ -66,7 +69,7 @@ const loginUser = async function (req, res) {
 const deleteUser=async function (req,res) {
     try {
       const userId=req.params.id
-      let user=await Users.findOne({_id:userId});console.log(user)
+      let user=await Users.findOne({_id:userId});
       let fileToDelete_PublicId=user.Image.public_id
       await cloudinary.uploader.destroy(fileToDelete_PublicId)
        
@@ -74,4 +77,55 @@ const deleteUser=async function (req,res) {
        res.status(200).json(deletedUser)
     } catch (err) {res.status(500).json({msg:err})}
 }
-module.exports = { postUsers, getUsers,loginUser,deleteUser }
+//------------------------------delete User
+const modifyUsers = async function (req, res) {
+   try {
+      const userId=req.params.id
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ Errors: errors.array({ onlyFirstError: true }) });
+      }
+      const { userName, Password,Email,newPassword } = req.body;
+      const checkMail = await Users.findOne({ Email })
+      const checkUser=await Users.findOne({$and:[{userName},{userName:{$nin:checkMail.userName}}]})
+      if (checkUser) {
+         return res.status(400).json({msg:"userName already exist"})
+      }
+      const match = await bcrypt.compare(Password, checkMail.Password)
+      if (!match) {
+         return res.status(400).json({msg:"Wrong Password"})
+      }
+      const image = req.files.Image.tempFilePath
+      const salt = await bcrypt.genSalt(10);
+      
+      const hashOldPassword= await bcrypt.hash(Password, salt)
+      if(newPassword==undefined){
+         let user=await Users.findOne({_id:userId});
+         let fileToDelete_PublicId=user.Image.public_id
+         await cloudinary.uploader.destroy(fileToDelete_PublicId)
+         const file = await cloudinary.uploader.upload(image)
+         const updateUser=await Users.findOneAndUpdate({Email},{ userName,Password:hashOldPassword,Image: { path: file.url, public_id: file.public_id } },{
+  returnOriginal: false
+})
+        return  res.status(200).json(updateUser)
+      }
+      //in case a new Password is entered
+      const hashNewPassword = await bcrypt.hash(newPassword, salt);
+      const oldMatch = await bcrypt.compare(newPassword, checkMail.Password)
+      if (oldMatch) {
+         return res.status(400).json({msg:"you entered the same Password"})
+      }
+      let user=await Users.findOne({_id:userId});
+         let fileToDelete_PublicId=user.Image.public_id
+         await cloudinary.uploader.destroy(fileToDelete_PublicId)
+      const file = await cloudinary.uploader.upload(image)
+      const updateUser2=await Users.findOneAndUpdate({Email},{ userName,Password:hashNewPassword,Image: { path: file.url, public_id: file.public_id } },{
+  returnOriginal: false
+})
+     return  res.status(200).json(updateUser2)
+   }
+   catch (err) {
+      res.status(500).json({ msg: err })
+   }
+}
+module.exports = { postUsers, getUsers,loginUser,deleteUser,modifyUsers }

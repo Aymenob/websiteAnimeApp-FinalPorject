@@ -26,6 +26,13 @@ export const DeleteUser=createAsyncThunk("users/DeleteUser",async function (user
     return rejectWithValue(err.response.data.msg)
   }
 })
+export const ModifyUser=createAsyncThunk("users/registerUser",async function (userInfo,{rejectWithValue}) {
+  try{
+    const {data}=await axios.put("http://localhost:8081/modifyUser"+userInfo.userID,userInfo.data)
+    return data
+  }
+  catch(err){return rejectWithValue(err.response.data.msg? err.response.data.msg :err.response.data.Errors )}
+})
 
 const initialState={
  
@@ -51,6 +58,7 @@ const initialState={
     cleanPassword:(state)=>{state.errorsPassword=null},
     cleanName:(state)=>{state.errorsUserName=null},
     cleanImage:(state)=>{state.errorsImage=null},
+    cleanUser:(state)=>{state.user={}},
     logOUT:(state)=>{
       localStorage.clear()
       state.user={}
@@ -82,12 +90,13 @@ const initialState={
   [registerUser.pending]:(state)=>{ state.loading=true},
   [registerUser.fulfilled]:(state,{payload})=>{
     state.loading=false
-    state.user=payload.user
+    state.user=payload.result
     state.token=payload.token
     state.authorized=true
-    localStorage.setItem("user",JSON.stringify(payload.user))
+    localStorage.setItem("user",JSON.stringify(payload.result))
     localStorage.setItem("token",JSON.stringify(payload.token)) 
     localStorage.setItem("authorized",true)
+    
     
     },
     
@@ -112,10 +121,31 @@ const initialState={
       },
        [DeleteUser.rejected]:(state,{payload})=>{
         state.errors=payload
-      }
+      },
+      [ModifyUser.pending]:(state)=>{ state.loading=true},
+      [ModifyUser.fulfilled]:(state,{payload})=>{
+ 
+        state.loading=false
+        
+        localStorage.removeItem("user")
+        localStorage.setItem("user",JSON.stringify(payload))
+        state.user=payload
+         },
+        
+        [ModifyUser.rejected]:(state,{payload})=>{
+          state.loading=false
+          
+          if (typeof(payload)==="string") {
+            payload.includes("Email")?state.errorsEmail=payload:state.errorsUserName=payload
+          } else {
+            payload.map(e=>e.param==="Email"?state.errorsEmail=e:null)
+            payload.map(e=>e.param==="Password"?state.errorsPassword=e:null)
+            payload.map(e=>e.param==="userName"?state.errorsUserName=e:null)
+            payload.map(e=>e.param==="Image"?state.errorsImage=e:null)
+          } }
   }
 })
 
-  export const { cleanLogin, cleanPassword,cleanName,cleanEmail,cleanImage,logOUT } = usersSlice.actions
+  export const { cleanLogin, cleanPassword,cleanName,cleanEmail,cleanImage,logOUT,cleanUser } = usersSlice.actions
   
   export default usersSlice.reducer
