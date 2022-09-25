@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {  useNavigate } from 'react-router-dom';
-import { loginUser } from "../Redux/usersSlice"
+import { cleanUser, loginUser,cleanName } from "../Redux/usersSlice"
 import { cleanLogin,cleanEmail,cleanPassword } from "../Redux/usersSlice";
 import '../App.css';
 function Login() {
@@ -49,7 +49,7 @@ function Login() {
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><i
                                             class="fa-solid fa-user"></i></span>
-                                        <input name="userName" type="text" onChange={(e)=>{setnewUser({...newUser,[e.target.name]:e.target.value});dispatch(cleanEmail())}} class="form-control" />
+                                        <input name="userName" type="text" onChange={(e)=>{setnewUser({...newUser,[e.target.name]:e.target.value});dispatch(cleanName())}} class="form-control" />
                                     </div>
                                     {errorsUserName?<p class="errors" >{errorsUserName.msg||errorsUserName}</p>:null}
                                 </div>

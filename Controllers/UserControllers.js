@@ -29,20 +29,20 @@ const postUsers = async function (req, res) {
       const User= await new Users({ userName, Password: hash, Image: { path: file.url, public_id: file.public_id }, Role, Email })
       const result = await User.save()
       const token = await jwt.sign({id:result._id},process.env.TOKEN_SECRET)
-      res.status(200).json({result,token})
+     return res.status(200).json({result,token})
    }
    catch (err) {
-       res.status(500).json({ msg: err })
+      return  res.status(500).json({ msg: err })
    }
 }
 
 //-------------------------------get Users
 const getUsers=async function(req,res){
    try {
-      let users=await Users.find({})
+      const users=await Users.find({})
       return  res.status(200).json(users)
    } catch (err) {
-      res.status(500).json({msg:err})
+     return  res.status(500).json({msg:err})
    }
 }
 //------------------------------User login
@@ -62,23 +62,23 @@ const loginUser = async function (req, res) {
       if (!match) {
          return res.status(400).json({msg:"wrong Password"})
       }
-      let token = await jwt.sign({ id: result._id }, process.env.TOKEN_SECRET)
-      res.json({result,token})
+      const token = await jwt.sign({ id: result._id }, process.env.TOKEN_SECRET)
+      return res.json({result,token})
    } catch (err) {
-      res.status(500).json({ msg: err })
+     return  res.status(500).json({ msg: err })
    }
 }
 //------------------------------delete User
 const deleteUser=async function (req,res) {
     try {
       const userId=req.params.id
-      let user=await Users.findOne({_id:userId});
-      let fileToDelete_PublicId=user.Image.public_id
+      const user=await Users.findOne({_id:userId});
+      const fileToDelete_PublicId=user.Image.public_id
       await cloudinary.uploader.destroy(fileToDelete_PublicId)
        
        let deletedUser=await Users.findByIdAndRemove({_id:userId});
-       res.status(200).json(deletedUser)
-    } catch (err) {res.status(500).json({msg:err})}
+       return res.status(200).json(deletedUser)
+    } catch (err) { return res.status(500).json({msg:err})}
 }
 //------------------------------delete User
 const modifyUsers = async function (req, res) {
@@ -103,8 +103,8 @@ const modifyUsers = async function (req, res) {
       
       const hashOldPassword= await bcrypt.hash(Password, salt)
       if(newPassword==undefined){
-         let user=await Users.findOne({_id:userId});
-         let fileToDelete_PublicId=user.Image.public_id
+         const user=await Users.findOne({_id:userId});
+         const fileToDelete_PublicId=user.Image.public_id
          await cloudinary.uploader.destroy(fileToDelete_PublicId)
          const file = await cloudinary.uploader.upload(image)
          const updateUser=await Users.findOneAndUpdate({Email},{ userName,Password:hashOldPassword,Image: { path: file.url, public_id: file.public_id } },{
@@ -118,8 +118,8 @@ const modifyUsers = async function (req, res) {
       if (oldMatch) {
          return res.status(400).json({msg:"you entered the same Password"})
       }
-      let user=await Users.findOne({_id:userId});
-         let fileToDelete_PublicId=user.Image.public_id
+      const  user=await Users.findOne({_id:userId});
+         const  fileToDelete_PublicId=user.Image.public_id
          await cloudinary.uploader.destroy(fileToDelete_PublicId)
       const file = await cloudinary.uploader.upload(image)
       const updateUser2=await Users.findOneAndUpdate({Email},{ userName,Password:hashNewPassword,Image: { path: file.url, public_id: file.public_id } },{
@@ -128,7 +128,7 @@ const modifyUsers = async function (req, res) {
      return  res.status(200).json(updateUser2)
    }
    catch (err) {
-      res.status(500).json({ msg: err })
+     return  res.status(500).json({ msg: err })
    }
 }
 module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers }

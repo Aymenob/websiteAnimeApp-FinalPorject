@@ -110,12 +110,13 @@ const initialState={
   [registerUser.pending]:(state)=>{ state.loading=true},
   [registerUser.fulfilled]:(state,{payload})=>{
     state.loading=false
+    state.authorized=true
     state.user=payload.result
     state.token=payload.token
-    state.authorized=true
+    localStorage.setItem("authorized",true)
     localStorage.setItem("user",JSON.stringify(payload.result))
     localStorage.setItem("token",JSON.stringify(payload.token)) 
-    localStorage.setItem("authorized",true)
+    
     
     
     },
@@ -177,7 +178,7 @@ const initialState={
          [DeleteUserAdmin.fulfilled]:(state,{payload})=>{
           state.loading=false
           state.deletedUser=payload
-          state.authorized=false
+          
         },
          [DeleteUserAdmin.rejected]:(state,{payload})=>{
           state.errors=payload
