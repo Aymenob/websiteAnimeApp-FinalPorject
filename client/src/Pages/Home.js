@@ -19,7 +19,7 @@ const Home = () => {
             <div class="Dropdown">
               <button class="link dropdown-toggle" type="button" >
                 <img class="rounded-circle " alt="" src={user?user.Image.path:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zh3zLDwF4t9ZB-qKYUsiT3zbwrVMAOOewb2mqmIyif1qifJnxo7T-c_k2jsxYbWENqs&usqp=CAU"} />
-                {!user?<span>Login</span>:<span>Logout</span>}<span class="caret"></span>
+                {!user&&<span>Login</span>}<span class="caret"></span>
               </button>
               <div class="Dropdown-menu" role="menu" aria-labelledby="menu1">
                 <li><a role="menuitem" tabindex="-1" href="#">Menu item 1</a></li>
