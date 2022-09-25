@@ -19,7 +19,7 @@ export const registerUser=createAsyncThunk("users/registerUser",async function (
 })
 export const DeleteUser=createAsyncThunk("users/DeleteUser",async function (userID,{rejectWithValue}) {
   try {
-    let reqInstance = axios.create({headers: {token : localStorage.getItem("access_token") }})
+    let reqInstance = axios.create({headers: {token : JSON.parse(localStorage.getItem("token")) }})
     const {data}=await reqInstance.delete("http://localhost:8081/deleteUser"+userID)
     return data
   } catch (err) {
@@ -33,6 +33,25 @@ export const ModifyUser=createAsyncThunk("users/registerUser",async function (us
   }
   catch(err){return rejectWithValue(err.response.data.msg? err.response.data.msg :err.response.data.Errors )}
 })
+export const getUsers=createAsyncThunk("users/getUsers",async function (_,{rejectWithValue}) {
+  try {
+    let reqInstance = axios.create({headers: {token : JSON.parse(localStorage.getItem("token")) }})
+    const {data}=await reqInstance.get("http://localhost:8081/getUsers")
+    return data
+  } catch (err) {
+    return rejectWithValue(err.response.data.msg)
+  }
+})
+export const DeleteUserAdmin=createAsyncThunk("users/DeleteUser",async function (userID,{rejectWithValue,dispatch}) {
+  try {
+    let reqInstance = axios.create({headers: {token : JSON.parse(localStorage.getItem("token")) }})
+    const {data}=await reqInstance.delete("http://localhost:8081/deleteUser"+userID)
+    dispatch(getUsers())
+    return data
+  } catch (err) {
+    return rejectWithValue(err.response.data.msg)
+  }
+})
 
 const initialState={
  
@@ -43,6 +62,7 @@ const initialState={
   errorsEmail:null,
   errorsImage:null,
   deletedUser:{},
+  users:[],
   user:JSON.parse(localStorage.getItem('user')),
   token:JSON.parse(localStorage.getItem("token")),
   authorized:Boolean(localStorage.getItem("authorized"))
@@ -53,7 +73,7 @@ const initialState={
   name: 'users',
   initialState,
   reducers: {
-    cleanLogin:(state)=>{state.errorsPassword=null;state.errorsUserName=null;state.errorsEmail=null;state.errorsImage=null},
+    cleanLogin:(state)=>{state.errorsPassword=null;state.errorsUserName=null;state.errorsEmail=null;state.errorsImage=null;state.errors=null},
     cleanEmail:(state)=>{state.errorsEmail=null},
     cleanPassword:(state)=>{state.errorsPassword=null},
     cleanName:(state)=>{state.errorsUserName=null},
@@ -142,7 +162,26 @@ const initialState={
             payload.map(e=>e.param==="Password"?state.errorsPassword=e:null)
             payload.map(e=>e.param==="userName"?state.errorsUserName=e:null)
             payload.map(e=>e.param==="Image"?state.errorsImage=e:null)
-          } }
+          } },
+
+          [getUsers.pending]:(state)=>{ state.loading=true},
+          [getUsers.fulfilled]:(state,{payload})=>{
+           state.loading=false
+           state.users=payload
+         },
+          [getUsers.rejected]:(state,{payload})=>{
+           state.errors=payload
+         },
+
+         [DeleteUserAdmin.pending]:(state)=>{ state.loading=true},
+         [DeleteUserAdmin.fulfilled]:(state,{payload})=>{
+          state.loading=false
+          state.deletedUser=payload
+          state.authorized=false
+        },
+         [DeleteUserAdmin.rejected]:(state,{payload})=>{
+          state.errors=payload
+        }
   }
 })
 

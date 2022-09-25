@@ -35,12 +35,15 @@ const postUsers = async function (req, res) {
        res.status(500).json({ msg: err })
    }
 }
+
 //-------------------------------get Users
-const getUsers = async function (req, res) {
+const getUsers=async function(req,res){
    try {
-      let users = await Users.find({})
-      res.status(400).json(users)
-   } catch (err) { res.status(500).json({ msg: err }) }
+      let users=await Users.find({})
+      return  res.status(200).json(users)
+   } catch (err) {
+      res.status(500).json({msg:err})
+   }
 }
 //------------------------------User login
 
@@ -128,4 +131,4 @@ const modifyUsers = async function (req, res) {
       res.status(500).json({ msg: err })
    }
 }
-module.exports = { postUsers, getUsers,loginUser,deleteUser,modifyUsers }
+module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers }

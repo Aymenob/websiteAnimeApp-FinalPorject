@@ -116,3 +116,17 @@ margin-left:2cm;
     
     color: red;
 }
+.HomeBackground{
+  position: relative;
+  z-index: 0;
+  height:100vh;
+  background-color:rgb(30, 32, 30);
+}
+.Home{
+  position: absolute;
+  z-index:10;
+  width:72%;height:100vh;
+  background-color: white;
+  left:200px;
+
+}

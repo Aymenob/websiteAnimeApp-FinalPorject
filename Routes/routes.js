@@ -5,6 +5,6 @@ const {postUsers,getUsers,loginUser,deleteUser,modifyUsers}=require("../Controll
 router.post("/postUser",postValidation,postUsers)
 router.get("/getUsers",Authentified,getUsers)
 router.post("/loginUser",LoginValidation,loginUser)
-router.delete("/deleteUser:id",deleteUser)
+router.delete("/deleteUser:id",Authentified,deleteUser)
 router.put("/modifyUser:id",modifyValidation,modifyUsers)
 module.exports={router}

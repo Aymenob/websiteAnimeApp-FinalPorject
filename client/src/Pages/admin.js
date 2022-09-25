@@ -1,26 +1,27 @@
-import React, { useEffect,useState  } from 'react'
-import {useNavigate} from "react-router-dom";
-import { cleanLogin, logOUT,DeleteUser,cleanImage,ModifyUser,cleanUser, cleanPassword, cleanName }  from "../Redux/usersSlice";
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import { cleanLogin, logOUT, DeleteUser, cleanImage, ModifyUser, cleanUser, cleanPassword, cleanName } from "../Redux/usersSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import '../App.css';
 
+
 function Admin() {
-    const dispatch=useDispatch()
-    const navigate=useNavigate()
-    const authorized=useSelector(state=>state.Users.authorized)
-    const user=useSelector(state=>state.Users.user)
-    const errors=useSelector(state=>state.Users)
-    const [info, setinfo] = useState({Email:user.Email});console.log(info)
-    const Modify=(e)=>{setinfo({...info,[e.target.name]:e.target.value})}
-    const [selectedFile, setSelectedFile] = useState();console.log(selectedFile)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const authorized = useSelector(state => state.Users.authorized)
+    const user = useSelector(state => state.Users.user)
+    const Admin = useSelector(state => state.Users.user.Role)
+    const [info, setinfo] = useState({ Email: user.Email }); console.log(info)
+    const Modify = (e) => { setinfo({ ...info, [e.target.name]: e.target.value }) }
+    const [selectedFile, setSelectedFile] = useState(); console.log(selectedFile)
     const data = new FormData();
-    info.userName?data.append('userName',info.userName):console.log("nothing");
-    data.append("Email",info.Email);data.append("Password",info.Password);data.append('Image', selectedFile)
+    info.userName ? data.append('userName', info.userName) : console.log("nothing");
+    data.append("Email", info.Email); data.append("Password", info.Password); data.append('Image', selectedFile)
     const [modify, setmodify] = useState(true)
     useEffect(() => {
-        authorized?((navigate("/Admin"))||(dispatch(cleanLogin()))):navigate("/")
-       }, [authorized])
-  
+        authorized ? ((navigate("/Admin")) || (dispatch(cleanLogin()))) : navigate("/")
+    }, [authorized])
+
     return (
 
         <div class="bg-light" style={{ height: "100vh" }}>
@@ -37,7 +38,8 @@ function Admin() {
                         </ul>
                         <div class="d-flex">
                             <div class="mx-4">
-                                <button class="btn btn-outline-primary" onClick={()=>{dispatch(logOUT());navigate("/")}}>Logout</button>
+                                {Admin === "admin" ? <button style={{ marginRight: "0.4cm" }} onClick={() => navigate("/AdminOnly")} type="button" class="btn btn-outline-success">Admin Space</button> : null}
+                                <button class="btn btn-outline-primary" onClick={() => { dispatch(logOUT()); navigate("/") }}>Logout</button>
                             </div>
                         </div>
                     </div>
@@ -49,7 +51,7 @@ function Admin() {
 
                     <div class="col-lg-12 col-md-12 mt-4">
                         <div class="d-flex">
-                            <i class="fa-solid fa-user fs-1 mx-2"></i> <h2>Profiles list</h2>
+                            <i class="fa-solid fa-user fs-1 mx-2"></i> <h2>Your Profile info</h2>
                         </div>
                         <div class="shadow-lg p-3 mb-5 bg-body rounded" style={{ backgroundColor: "white" }}>
                             <table class="table table-hover">
@@ -59,22 +61,24 @@ function Admin() {
                                         <th scope="col">userName</th>
                                         <th scope="col">email</th>
                                         <th scope="col">role</th>
-                                        {!modify&&<th scope="col">Password Confirmation</th>}
+                                        {!modify && <th scope="col">Password Confirmation</th>}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        {modify&&<td><img width="120" height="150" src={user.Image.path} /></td>}{!modify&&<th> <input style={{width:"8cm"}} name="Image"  onChange={(e)=>{setSelectedFile(e.target.files[0]);dispatch(cleanImage())}} type="file"  /></th>}
-                                        {modify&&<th >{user.userName}</th>}{!modify&&<th><input onChange={(e)=>{Modify(e)}} name="userName" defaultValue={user.userName}/></th>}
-                                        {modify&&<td>{user.Email}</td>}{!modify&&<th><input  name="Email" value={user.Email}/></th>}
-                                        {modify&&<td>{user.Role}</td>}{!modify&&<th><input   value={user.Role}/></th>}
-                                        {!modify&&<th><input placeholder='Required..' onChange={(e)=>{Modify(e)}} name="Password" type="password"/></th>}
-                                        {modify&&<td><button  class="btn btn-outline-success" onClick={(e)=>{e.preventDefault();setmodify(!modify)}}>Modify</button></td>}
-                                        {modify&&<td><button style={{right:"650px"}} class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();dispatch(DeleteUser(user._id));dispatch(logOUT());navigate("/")}}>Delete</button></td>}
-                                        {!modify&&<td><button  class="btn btn-outline-secondary" onClick={(e)=>{e.preventDefault();dispatch(ModifyUser({data:data,userID:user._id})).then((err)=>{err.payload[0].msg?alert(`${err.payload[0].msg}`):alert(`${err.payload}`)});dispatch(cleanLogin())}}>submit</button></td>}
-                                        {!modify&&<td><button style={{right:"650px"}} class="btn btn-outline-primary" onClick={(e)=>{e.preventDefault();setmodify(!modify);setinfo({});setSelectedFile();dispatch(cleanLogin())}}>Go back</button></td>}
-                                        
-                                        
+                                        {modify && <td><img width="120" height="150" src={user.Image.path} /></td>}{!modify && <th> <input style={{ width: "8cm" }} name="Image" onChange={(e) => { setSelectedFile(e.target.files[0]); dispatch(cleanImage()) }} type="file" /></th>}
+                                        {modify && <th >{user.userName}</th>}{!modify && <th><input onChange={(e) => { Modify(e) }} name="userName" defaultValue={user.userName} /></th>}
+                                        {modify && <td>{user.Email}</td>}{!modify && <th><input name="Email" value={user.Email} /></th>}
+                                        {modify && <td>{user.Role}</td>}{!modify && <th><input value={user.Role} /></th>}
+                                        {!modify && <th><input placeholder='Required..' onChange={(e) => { Modify(e) }} name="Password" type="password" /></th>}
+
+                                        {modify && <td><button class="btn btn-outline-success" onClick={(e) => { e.preventDefault(); setmodify(!modify) }}>Modify</button></td>}
+                                        {modify && <td><button style={{ right: "650px" }} class="btn btn-outline-danger" onClick={(e) => { e.preventDefault(); dispatch(DeleteUser(user._id)); dispatch(logOUT()); navigate("/") }}>Delete</button></td>}
+
+                                        {!modify && <td><button class="btn btn-outline-secondary" onClick={(e) => { e.preventDefault(); dispatch(ModifyUser({ data: data, userID: user._id })).then((err) => { err.payload[0].msg ? alert(`${err.payload[0].msg}`) : alert(`${err.payload}`) }); dispatch(cleanLogin()) }}>submit</button></td>}
+                                        {!modify && <td><button style={{ right: "650px" }} class="btn btn-outline-primary" onClick={(e) => { e.preventDefault(); setmodify(!modify); setinfo({}); setSelectedFile(); dispatch(cleanLogin()) }}>Go back</button></td>}
+
+
                                     </tr>
                                 </tbody>
                             </table>

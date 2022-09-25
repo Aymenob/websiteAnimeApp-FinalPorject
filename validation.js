@@ -29,7 +29,8 @@ const postValidation=[
     check("Password").notEmpty().withMessage("Password is empty").isLength({min:6}).withMessage("your password is too short!")
     ,check("newPassword").optional().isLength({min:6}).withMessage("your password is too short!"),
     check("Image").custom((value, {req}) => {
-      if(path.extname(req.files.Image.name)===".jpg"||path.extname(req.files.Image.name)===".jpeg"||path.extname(req.files.Image.name)===".png"){
+      if(path.extname(req.files.Image.name)===".jpg"||path.extname(req.files.Image.name)===".jpeg"||path.extname(req.files.Image.name)===".png"
+      ){
           return true
       }else{
           return false;
@@ -37,7 +38,7 @@ const postValidation=[
     ]
 const Authentified=function (req,res,next) {
   try {
-    let token=req.headers.token
+    const token=req.headers.token
     var decoded = jwt.verify(token,process.env.TOKEN_SECRET);
     if (!decoded) {
        return res.status(400).json("you are not authentified")
