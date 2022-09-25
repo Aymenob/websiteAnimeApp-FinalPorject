@@ -11,12 +11,12 @@ import {Routes,Route} from "react-router-dom";
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Login/>}  />
+      <Route path='/Login' element={<Login/>}  />
       <Route path='/Profile' element={<Profile/>}  />
       <Route path='/Register' element={<Register/>}  />
       <Route path='/Admin' element={<Admin/>}  />
       <Route path="/AdminOnly" element={<PrivateRoute children={<AdminOnly/>}/>}/>
-      <Route path="/Home" element={<Home/>}/>
+      <Route path="/" element={<Home/>}/>
 
     </Routes>
   );

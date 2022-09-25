@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {  useNavigate } from 'react-router-dom';
-import { cleanUser, loginUser,cleanName } from "../Redux/usersSlice"
+import { cleanUser, loginUser,cleanName,logOUT } from "../Redux/usersSlice"
 import { cleanLogin,cleanEmail,cleanPassword } from "../Redux/usersSlice";
 import '../App.css';
 function Login() {
@@ -15,7 +15,7 @@ function Login() {
       
    
     useEffect(() => {
-     authorized?((Navigate("/Admin"))||(dispatch(cleanLogin()))):Navigate("/")||(dispatch(cleanLogin()))
+     authorized?((Navigate("/"))||(dispatch(cleanLogin()))):Navigate("/Login")||(dispatch(cleanLogin()))
     }, [authorized])
     
     const dispatch=useDispatch()
@@ -23,6 +23,7 @@ function Login() {
     const  [newUser, setnewUser] = useState({});console.log(newUser)
     return (
         <div class="bg-light" style={{ height: "100vh" }}>
+            <button class="btn btn-outline-primary" style={{position:"absolute",right:"40px",top:"20px"}} onClick={() => { Navigate("/") }}>Home</button>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 

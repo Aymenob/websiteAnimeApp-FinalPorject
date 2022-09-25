@@ -28,9 +28,11 @@ const AdminOnly = () => {
                         </ul>
                         <div class="d-flex">
                             <div class="mx-4">
+                            <button class="btn btn-outline-primary" style={{position:"absolute",right:"225px",top:"7px"}} onClick={() => { navigate("/") }}>Home</button>
+
                             <button style={{marginRight:"0.4cm"}} onClick={()=>navigate("/Admin")} type="button" class="btn btn-outline-success">Go back</button>
 
-                                <button class="btn btn-outline-primary" onClick={() => { dispatch(logOUT()); navigate("/") }}>Logout</button>
+                                <button class="btn btn-outline-dark" onClick={() => { dispatch(logOUT()); navigate("/") }}>Logout</button>
                             </div>
                         </div>
                     </div>

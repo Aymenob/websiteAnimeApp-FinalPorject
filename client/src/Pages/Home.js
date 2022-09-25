@@ -1,7 +1,13 @@
 import React from 'react'
-
+import { Link,useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
+import { logOUT } from '../Redux/usersSlice'
 const Home = () => {
   const user = JSON.parse(localStorage.getItem('user'))
+  const authorized = useSelector(state => state.Users.authorized)
+  const dispatch=useDispatch()
+  const navigate=useNavigate()
   return (
     <div class="HomeBackground">
 
@@ -19,14 +25,12 @@ const Home = () => {
             <div class="Dropdown">
               <button class="link dropdown-toggle" type="button" >
                 <img class="rounded-circle " alt="" src={user?user.Image.path:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1zh3zLDwF4t9ZB-qKYUsiT3zbwrVMAOOewb2mqmIyif1qifJnxo7T-c_k2jsxYbWENqs&usqp=CAU"} />
-                {!user&&<span>Login</span>}<span class="caret"></span>
+                {!user&&   <span>Login</span>}<span class="caret"></span>
               </button>
               <div class="Dropdown-menu" role="menu" aria-labelledby="menu1">
-                <li><a role="menuitem" tabindex="-1" href="#">Menu item 1</a></li>
-                <li><a role="menuitem" tabindex="-1" href="#">Menu item 2</a></li>
-                <li><a role="menuitem" tabindex="-1" href="#">Menu item 3</a></li>
-                
-                <li><a role="menuitem" tabindex="-1" href="#">Menu item 4</a></li>
+               { authorized?<li><Link role="menuitem" to="/Admin">Account</Link></li>:<li><Link role="menuitem" to="/Login">Sign in</Link></li>}
+                {authorized&&<li><a onClick={() => { dispatch(logOUT()); navigate("/") }} role="menuitem" tabindex="-1" href="#">Sign out</a></li>}
+                {!authorized&&<li><a onClick={() => {  navigate("/Register") }} role="menuitem" tabindex="-1" href="#">Register</a></li>}
               </div>
             </div>
           </div>

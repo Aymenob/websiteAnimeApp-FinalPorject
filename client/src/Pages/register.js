@@ -18,11 +18,12 @@ function Register() {
     const errors=useSelector(state=>state.Users)
   ;console.log(newUser)
     useEffect(() => {
-        authorized?((Navigate("/Admin"))||(Dispatch(cleanLogin()))):Navigate("/Register")||(Dispatch(cleanLogin()))
+        authorized?((Navigate("/"))||(Dispatch(cleanLogin()))):Navigate("/Register")||(Dispatch(cleanLogin()))
        }, [authorized])
     return (
 
         <div class="bg-light" style={{height:"100vh"}}>
+                        <button class="btn btn-outline-primary" style={{position:"absolute",right:"40px",top:"20px"}} onClick={() => { Navigate("/") }}>Home</button>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     
@@ -94,7 +95,7 @@ function Register() {
                                 <div class="d-flex justify-content-between">
                                     <button type="submit" onClick={(e)=>{e.preventDefault();Dispatch(registerUser(data))}} class="btn btn-outline-primary">Save <i
                                         class="fa-solid fa-floppy-disk"></i></button>
-                                        <button class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();Navigate("/");Dispatch(cleanLogin())}}>Login</button>
+                                        <button class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();Navigate("/Login");Dispatch(cleanLogin())}}>Login</button>
                                     
                                 </div>
                             </form>

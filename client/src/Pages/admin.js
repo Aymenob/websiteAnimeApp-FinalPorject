@@ -6,9 +6,12 @@ import '../App.css';
 
 
 function Admin() {
+    const authorized = useSelector(state => state.Users.authorized)
+    useEffect(() => {
+        authorized ? ((navigate("/Admin")) || (dispatch(cleanLogin()))) : navigate("/")
+    }, [authorized])
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const authorized = useSelector(state => state.Users.authorized)
     const user = useSelector(state => state.Users.user)
     const Admin = useSelector(state => state.Users.user.Role)
     const [info, setinfo] = useState({ Email: user.Email }); console.log(info)
@@ -18,9 +21,7 @@ function Admin() {
     info.userName ? data.append('userName', info.userName) : console.log("nothing");
     data.append("Email", info.Email); data.append("Password", info.Password); data.append('Image', selectedFile)
     const [modify, setmodify] = useState(true)
-    useEffect(() => {
-        authorized ? ((navigate("/Admin")) || (dispatch(cleanLogin()))) : navigate("/")
-    }, [authorized])
+
 
     return (
 
@@ -38,8 +39,9 @@ function Admin() {
                         </ul>
                         <div class="d-flex">
                             <div class="mx-4">
+                            <button class="btn btn-outline-primary" style={{position:"absolute",right:"260px",top:"7px"}} onClick={() => { navigate("/") }}>Home</button>
                                 {Admin === "admin" ? <button style={{ marginRight: "0.4cm" }} onClick={() => navigate("/AdminOnly")} type="button" class="btn btn-outline-success">Admin Space</button> : null}
-                                <button class="btn btn-outline-primary" onClick={() => { dispatch(logOUT()); navigate("/") }}>Logout</button>
+                                <button class="btn btn-outline-dark" onClick={() => { dispatch(logOUT()); navigate("/") }}>Logout</button>
                             </div>
                         </div>
                     </div>
