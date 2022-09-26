@@ -126,18 +126,20 @@ margin-left:2cm;
   position: absolute;
   z-index:10;
   width:72%;height:100vh;
-  background-color: white;
+  background-color: white;border:black solid 4px;border-radius: 5px;
   left:200px;
 
 }
 .Home nav{
   display: grid;
-  border: solid 3px black;
+  background-color: rgb(124, 30, 30);
   height:2cm;
   grid-template-rows: 1cm;
   grid-template-columns:5cm 5cm 5cm 5cm 5cm 0cm 5cm;
   align-items: center;align-content: center;
   text-align: center;
+  margin-bottom: 0 ;
+  
  
 }
 .Home li{
@@ -147,7 +149,7 @@ margin-left:2cm;
   align-content: center;
 }
 .Home a{
-  font-size: large;color: green;
+  font-size: large;color: white;
   font-weight:500;
   text-decoration: none
 }
@@ -181,4 +183,11 @@ margin-left:2cm;
 }
 .Dropdown .link:focus + .Dropdown-menu{
   opacity: 1;
+}
+.HomeBackground{
+    
+  background-image: url('https://res.cloudinary.com/dotrkogsz/image/upload/v1664150399/WallpaperDog-6650_b6urqn.jpg');
+  min-height: 100vh;min-width:100vh;
+  
+  
 }

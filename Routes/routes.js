@@ -7,4 +7,4 @@ router.get("/getUsers",Authentified,getUsers)
 router.post("/loginUser",LoginValidation,loginUser)
 router.delete("/deleteUser:id",Authentified,deleteUser)
 router.put("/modifyUser:id",modifyValidation,modifyUsers)
-module.exports={router}
+module.exports=router
