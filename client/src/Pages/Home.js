@@ -3,11 +3,17 @@ import { Link,useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch} from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
+import { getTrailers } from '../Redux/animeSlice'
+import { useEffect } from 'react'
 const Home = () => {
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
   const dispatch=useDispatch()
   const navigate=useNavigate()
+  useEffect(() => {
+    dispatch(getTrailers())
+  }, [])
+  
   return (
     <div class="HomeBackground">
 

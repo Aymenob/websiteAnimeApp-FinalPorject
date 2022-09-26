@@ -60,10 +60,10 @@ const loginUser = async function (req, res) {
       }
       const match = await bcrypt.compare(Password, result.Password)
       if (!match) {
-         return res.status(400).json({msg:"wrong Password"})
+         return res.status(400).json({msg:"wrong password"})
       }
       const token = await jwt.sign({ id: result._id }, process.env.TOKEN_SECRET)
-      return res.json({result,token})
+      return res.status(200).json({result,token})
    } catch (err) {
      return  res.status(500).json({ msg: err })
    }

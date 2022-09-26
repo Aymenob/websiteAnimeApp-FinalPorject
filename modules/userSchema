@@ -7,11 +7,3 @@ const User=mongoose.Schema({
     Image:mongoose.Schema.Types.Mixed
 })
 module.exports=mongoose.model("Users",User)
-const Trailer=mongoose.Schema({
-    animeName:{ type: String},
-    animePicture:{ type: String},
-    season:{type:String},
-    TrailerLink:{type:String},
-   
-})
-module.exports=mongoose.model("Trailer",Trailer)

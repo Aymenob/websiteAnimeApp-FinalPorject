@@ -1,7 +1,7 @@
 const express=require("express")
 const router=express.Router()
-const {postTrailer}=require("../Controllers/animeController")
+const {postTrailer,getTrailers}=require("../Controllers/animeController")
 
 router.post("/postTrailer",postTrailer)
-
+router.get("/getTrailers",getTrailers)
 module.exports=router
