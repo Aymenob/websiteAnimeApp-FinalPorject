@@ -10,7 +10,7 @@ export const loginUser=createAsyncThunk("users/loginUser",async function (oldUse
   
 })
 
-export const RegisterUser=createAsyncThunk("users/registerUser",async function (newUser,{rejectWithValue}) {
+export const RegisterUser=createAsyncThunk("users/RegisterUser",async function (newUser,{rejectWithValue}) {
   try{
     const {data}=await axios.post("http://localhost:8081/postUser",newUser)
     return data
@@ -27,7 +27,7 @@ export const DeleteUser=createAsyncThunk("users/DeleteUser",async function (user
     return rejectWithValue(err.response.data.msg)
   }
 })
-export const ModifyUser=createAsyncThunk("users/registerUser",async function (userInfo,{rejectWithValue}) {
+export const ModifyUser=createAsyncThunk("users/ModifyUser",async function (userInfo,{rejectWithValue}) {
   try{
     const {data}=await axios.put("http://localhost:8081/modifyUser"+userInfo.userID,userInfo.data)
     return data
@@ -43,7 +43,7 @@ export const getUsers=createAsyncThunk("users/getUsers",async function (_,{rejec
     return rejectWithValue(err.response.data.msg)
   }
 })
-export const DeleteUserAdmin=createAsyncThunk("users/DeleteUser",async function (userID,{rejectWithValue,dispatch}) {
+export const DeleteUserAdmin=createAsyncThunk("users/DeleteUserAdmin",async function (userID,{rejectWithValue,dispatch}) {
   try {
     let reqInstance = axios.create({headers: {token : localStorage.getItem("token") }})
     const {data}=await reqInstance.delete("http://localhost:8081/deleteUser"+userID)
@@ -71,7 +71,7 @@ const initialState={
   
  }
   
-  export const usersSlice = createSlice({
+  export const userSlice = createSlice({
  
   name: 'users',
   initialState,
@@ -86,7 +86,6 @@ const initialState={
     logOUT:(state)=>{
       localStorage.clear()
       state.user={}
-      state.users=[]
       state.token=null
       state.authorized=false
       state.signedIn=null
@@ -118,7 +117,7 @@ const initialState={
     state.signedIn=payload.msg
     state.loading=false
     state.authorized=true
-    state.user=payload.result.result
+    state.user=payload.result
     state.token=payload.token
     localStorage.setItem("isAuthorized",true)
     localStorage.setItem("user",JSON.stringify(payload.result))
@@ -142,6 +141,7 @@ const initialState={
        [DeleteUser.pending]:(state)=>{ state.loading=true},
        [DeleteUser.fulfilled]:(state,{payload})=>{
         state.loading=false
+        localStorage.clear()
         state.deletedUser=payload
         state.authorized=false
       },
@@ -191,6 +191,6 @@ const initialState={
   }
 })
 
-  export const { cleanLogin, cleanPassword,cleanName,cleanEmail,cleanImage,logOUT,cleanUser,cleanSingedIn } = usersSlice.actions
+  export const { cleanLogin, cleanPassword,cleanName,cleanEmail,cleanImage,logOUT,cleanUser,cleanSingedIn } = userSlice.actions
   
-  export default usersSlice.reducer
+  export default userSlice.reducer

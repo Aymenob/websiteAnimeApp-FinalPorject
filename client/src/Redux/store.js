@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import usersSlice from './usersSlice'
+import userSlice from './usersSlice'
 import animeSlice from './animeSlice'
 
 export const store = configureStore({
   reducer: {
-    Users:usersSlice,
+    Users:userSlice,
     animes:animeSlice
   },
 })

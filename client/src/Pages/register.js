@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {  useNavigate } from 'react-router-dom';
-import { cleanLogin, cleanPassword, registerUser,cleanName,cleanEmail,cleanImage } from '../Redux/usersSlice'
+import { cleanLogin, cleanPassword, RegisterUser,cleanName,cleanEmail,cleanImage, logOUT } from '../Redux/usersSlice'
 import '../App.css';
 function Register() {
 
@@ -14,12 +14,19 @@ function Register() {
     data.append("Email",newUser.Email)
     data.append("Password",newUser.Password)
     data.append('Image', selectedFile);
-    const authorized=useSelector(state=>state.Users.authorized)
+    const user=useSelector(state=>state.Users.user)
     const errors=useSelector(state=>state.Users)
-  ;console.log(newUser)
-    useEffect(() => {
-        authorized?((Navigate("/"))||(Dispatch(cleanLogin()))):Navigate("/Register")||(Dispatch(cleanLogin()))
-       }, [authorized])
+    const signedIn=useSelector(state=>state.Users.user?.msg)
+
+   
+     
+       useEffect(() =>{
+            signedIn&&alert(`${signedIn}`)
+            if (signedIn) {
+               
+                Navigate("/Login")
+            }
+        }, [user])
     return (
 
         <div class="bg-light" style={{height:"100vh"}}>
@@ -93,9 +100,9 @@ function Register() {
                                     {errors.errorsImage?<p class="errors">{errors.errorsImage.msg||errors.errorsImage}</p>:null}
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" onClick={(e)=>{e.preventDefault();Dispatch(registerUser(data))}} class="btn btn-outline-primary">Save <i
+                                    <button type="submit" onClick={(e)=>{e.preventDefault();Dispatch(RegisterUser(data))}} class="btn btn-outline-primary">Save <i
                                         class="fa-solid fa-floppy-disk"></i></button>
-                                        <button class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();Navigate("/Login");Dispatch(cleanLogin())}}>Login</button>
+                                        <button class="btn btn-outline-danger" onClick={(e)=>{e.preventDefault();Navigate("/Login");Dispatch(logOUT())}}>Login</button>
                                     
                                 </div>
                             </form>

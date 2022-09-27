@@ -8,17 +8,17 @@ const postUsers = async function (req, res) {
    try {
       const { userName, Password, Role, Email } = req.body
       const errors = validationResult(req);
-      const checkMail = await Users.findOne({ Email })
-       const checkUser = await Users.findOne({ userName })
+      
+       
       if (!errors.isEmpty()) {
         return res.status(400).json({ Errors: errors.array({ onlyFirstError: true }) });
       }
-     
+      const checkMail = await Users.findOne({ Email })
  
       if (checkMail) {
          return res.status(400).json({msg:"Email is already registered"})
       }
-     
+      const checkUser = await Users.findOne({ userName })
       if (checkUser) {
          return res.status(400).json({msg:"userName already exist"})
       }
@@ -28,8 +28,8 @@ const postUsers = async function (req, res) {
       const file = await cloudinary.uploader.upload(image)
       const User= await new Users({ userName, Password: hash, Image: { path: file.url, public_id: file.public_id }, Role, Email })
       const result = await User.save()
-      const token = await jwt.sign({id:result._id},process.env.TOKEN_SECRET)
-     return res.status(200).json({result,token})
+      const token = await jwt.sign({ id: result._id }, process.env.TOKEN_SECRET)
+     return res.status(200).json({result,token,msg:"you was signed in successfully!"})
    }
    catch (err) {
       return  res.status(500).json({ msg: err })

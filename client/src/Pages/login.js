@@ -13,10 +13,13 @@ function Login() {
     const errorsUserName=useSelector(state=>state.Users.errorsUserName)
     
       
-   
+    useEffect(() => {
+        dispatch(logOUT())
+       }, [])
     useEffect(() => {
      authorized?((Navigate("/"))||(dispatch(cleanLogin()))):Navigate("/Login")||(dispatch(cleanLogin()))
     }, [authorized])
+  
     
     const dispatch=useDispatch()
    
