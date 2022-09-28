@@ -119,18 +119,24 @@ margin-left:2cm;
 .HomeBackground{
   position: relative;
   z-index: 0;
-  height:100vh;
-  background-color:rgb(30, 32, 30);
+  min-height:34.5cm;max-height:34.5cm;
+  background-color:rgba(var(--bs-light-rgb),var(--bs-bg-opacity))!important;--bs-bg-opacity: 1;
 }
+
 .Home{
   position: absolute;
   z-index:10;
-  width:72%;height:180vh;
+  min-width:29.5cm;min-height:34.5cm;max-height:34.5cm;max-width:29.5cm;
   background-color: white;border:black solid 4px;border-radius: 5px;
   left:200px;
 
 }
+.Background{
+  background-color:rgba(var(--bs-light-rgb),var(--bs-bg-opacity))!important;--bs-bg-opacity: 1;
+  
+  }
 .Home nav{
+  position:;
   display: grid;
   background-color: rgb(124, 30, 30);
   height:2cm;
@@ -187,28 +193,73 @@ margin-left:2cm;
 .HomeBackground{
     
   background-image: url('https://res.cloudinary.com/dotrkogsz/image/upload/v1664150399/WallpaperDog-6650_b6urqn.jpg');
-  min-height: 180vh;min-width:100vh;
-  
+ 
+  background-repeat: no-repeat;
   }
+  
   .firstSection{
     margin-left:0.4cm;
     margin-top: 0.1cm;
-  border: solid black 2px;
-  min-height:120vh;max-height:120vh;
+  border: solid yellow 2px;
+  min-height:23.7cm;max-height:23.7cm;
   display:grid;
   grid-template-columns: 20cm 7.8cm;
   }
-  .newEpisodes{
-   border:solid orange; 
-   margin-right:0.5cm;
-  }
+  /*-------------New Episodes Section*/
   .newAnimes{
-    border:solid orange 
+    border:solid black;max-width:7.8cm;min-width:7.8cm;
+    min-height:22.5cm;max-height:22.5cm;
   }
   .favorites{
     margin-left: 0.4cm;
     margin-top: 0.5cm;
     border: solid green;
-    min-height: 46vh;max-height: 46vh;
+    min-height: 8cm;max-height: 8cm;
     min-width:27.8cm;max-width:27.8cm;
   }
+  .subFirstSection{
+    display: grid;grid-template-rows:5% 95%;
+
+  }
+  .newEpisodesBar{
+    background-color:rgb(218, 124, 30);  
+    ;min-height:1.2cm;min-width:19.5cm
+    ;max-height:1.2cm;max-width:19.5cm
+  }
+  .newEpisodes{
+    border:solid black;max-width:19.5cm;min-width:19.5cm;
+    min-height:22.5cm;max-height:22.5cm;
+    margin-right:0.5cm;
+    display: grid;grid-template-columns:1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;justify-items: center;align-items: center;
+   }
+  .animePicture-btn{
+    height:5.5cm;width:4.5cm
+  }
+  .animePicture{ display: inline;
+    min-height:5.5cm;width:4.5cm;;margin-top:-0.08cm;margin-left:-0.21cm;
+  }
+  .newAnimeBar{
+    background-color:rgb(218, 124, 30);  
+    ;min-height:1.2cm;min-width:8.cm
+    ;max-height:1.2cm;max-width:8.cm
+  }
+  /*-------------New Animes Section*/
+  .New{
+   border:solid blue;border-radius:5px
+   ;width:98%;height:10%;margin:0.1cm;margin-top:0.2cm;
+   display: grid;grid-template-columns:1cm 2.2cm 4.2cm;
+   
+  }
+  .NewRate{
+   border: solid red ;
+   position: relative;
+  }
+  .NewPicture{
+    border: solid red ;
+    
+  } 
+  .NewInfo{
+    border: solid red ;text-overflow: hidden;
+  }
+  
