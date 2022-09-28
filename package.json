@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "back-end":"nodemon index.js",
-    "front-end":"cd client && npm start",
+    "back-end": "nodemon index.js",
+    "front-end": "cd client && npm start",
     "dev": "concurrently \"npm run back-end\" \"npm run front-end\""
   },
   "keywords": [],
@@ -26,6 +26,7 @@
     "i": "^0.3.7",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
-    "npm": "^8.19.2"
+    "npm": "^8.19.2",
+    "viewport": "^2.0.1"
   }
 }
