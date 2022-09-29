@@ -18,7 +18,7 @@ const postTrailer=async function (req,res) {
 
 const getTrailers=async function(req,res){
  try {
-     const trailers=await Trailer.find({})
+     const trailers=await Trailer.find({}).sort({ updatedAt:-1 }).limit(9)
      return  res.status(200).json(trailers)
  } catch (err) { return res.status(500).json({msg:err})}
 }
