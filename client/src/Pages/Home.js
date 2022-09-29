@@ -56,9 +56,9 @@ const Home = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers.map((e,i) => <NewAnimes Rate={i+1} animePicture={e.animePicture} animeName={e.animeName} Season={e.season}  />)}
-              {true && trailers.map((e,i) => <NewAnimes Rate={i+4} animePicture={e.animePicture} animeName={e.animeName} Season={e.season} />)}
-              {true && trailers.map((e,i)=> <NewAnimes Rate={i+7} animePicture={e.animePicture} animeName={e.animeName} Season={e.season} />)}
+              {true && trailers.map(e=>e.episodes.map((d,i) => <NewAnimes Rate={i+1} animePicture={e.animePicture} animeName={e.animeName} Season={e.season}  />))}
+              {false && trailers.map((e,i) => <NewAnimes Rate={i+4} animePicture={e.animePicture} animeName={e.animeName} Season={e.season} />)}
+              {false && trailers.map((e,i)=> <NewAnimes Rate={i+7} animePicture={e.animePicture} animeName={e.animeName} Season={e.season} />)}
             </div>
           </div>
         </section>
