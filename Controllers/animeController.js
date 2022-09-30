@@ -28,8 +28,8 @@ const getTrailers2=async function(req,res){
     } catch (err) { return res.status(500).json({msg:err})}
    }
 const getEpisode=async function(req,res){
-    const Id=req.params.id;console.log(Id)
-    const number=req.body;console.log(number)
+    const Id=req.params.id
+    const number=req.body
     try {
         const episode=await Trailer.findOne({"_id":Id})
         return  res.status(200).json(episode)
