@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NewAnimes = ({Rate,animePicture,animeName,Season}) => {
+const NewAnimes = ({Rate,animePicture,animeName,season}) => {
     return (
         <div class="New">
             <div class="NewRate"> 
@@ -12,7 +12,7 @@ const NewAnimes = ({Rate,animePicture,animeName,Season}) => {
             </button>
             </div>
             <div class="NewInfo">
-                <li>{animeName}</li><li>Season:{Season}</li>
+                <li>{animeName}</li><li>Season:{season}</li>
             </div>
         </div>
     )

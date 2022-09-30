@@ -18,15 +18,15 @@ const postTrailer=async function (req,res) {
 
 const getTrailers=async function(req,res){
  try {
-     const trailers=await Trailer.find({}).sort({ updatedAt:-1 }).limit(9)
+     const trailers=await Trailer.find({}).sort({ updatedAt:-1 }).limit(12)
      return  res.status(200).json(trailers)
  } catch (err) { return res.status(500).json({msg:err})}
 }
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
-    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body
+    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body;console.log(episodes)
     try {
-        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,episodes,favorites},{new:true})
+        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,episodes:episodes,favorites},{new:true})
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }

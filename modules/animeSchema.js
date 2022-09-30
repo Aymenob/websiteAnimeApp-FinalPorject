@@ -8,7 +8,7 @@ const Trailer=mongoose.Schema({
     animeDescription:{type:String},
     genre: {type: String},
     episodes:[mongoose.Schema.Types.Mixed],
-    favorites:{type:String},
+    
    
 
 }, {

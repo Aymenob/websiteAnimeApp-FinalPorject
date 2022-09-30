@@ -5,9 +5,8 @@ import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
 import { getTrailers } from '../Redux/animeSlice'
 import { useEffect } from 'react'
-import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
-const Home = () => {
+const Episode = () => {
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
   const trailers = useSelector(state => state.animes.trailers);
@@ -15,13 +14,13 @@ const Home = () => {
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(getTrailers())
-  }, [user])
+  }, [])
 
   return (
     <div class="HomeBackground">
       <div class="Home">
         <nav>
-          <li><a onClick={()=>navigate("/")} href="/">Home</a></li>
+          <li><a  onClick={()=>navigate("/")} href="">Home</a></li>
           <li><a href="#home">Anime List</a></li>
           <li><a href="#news">Random Anime</a></li>
           <li><a href="#contact">Genres</a></li>
@@ -44,9 +43,8 @@ const Home = () => {
         </nav>
         <section class="firstSection">
           <div class="subFirstSection">
-            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 ></div>
-            <div class="newEpisodes">
-            {true && trailers?.map(e=>e.episodes?.map((d,i) =>e.episodes.length - 1 === i? <NewEpisode Rate={i+1} number={JSON.parse(d).number} animePicture={e.animePicture} animeName={e.animeName} season={e.season}  />:null))}
+            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
+            <div >
 
 
             </div>
@@ -54,19 +52,19 @@ const Home = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-            {true && trailers?.map((e,i) => i<4?  <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
-            {true && trailers?.map((e,i) => i<2? <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
-            {true && trailers?.map((e,i) => i<3? <NewAnimes  Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
+            {true && trailers.map((e,i) => i<4?  <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
+            {true && trailers.map((e,i) => i<2? <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
+            {true && trailers.map((e,i) => i<3? <NewAnimes  Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
 
             </div>
           </div>
         </section>
         <section class="favorites">
-          favorites for the ones who have an Account
+         comment section
         </section>
       </div>
     </div>
   )
 }
 
-export default Home
+export default Episode
