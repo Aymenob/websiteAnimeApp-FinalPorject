@@ -3,18 +3,20 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers } from '../Redux/animeSlice'
+import { getTrailers,getTrailers2 } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 const Episode = () => {
-  const user = JSON.parse(localStorage.getItem('user'))
-  const authorized = useSelector(state => state.Users.authorized)
-  const trailers = useSelector(state => state.animes.trailers);
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  useEffect(() => {
-    dispatch(getTrailers())
-  }, [])
+    const user = JSON.parse(localStorage.getItem('user'))
+    const authorized = useSelector(state => state.Users.authorized)
+
+    const trailers2 = useSelector(state => state.animes.trailers2);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    useEffect(() => {
+     
+      dispatch(getTrailers2())
+    }, [trailers2])
 
   return (
     <div class="HomeBackground">
@@ -52,9 +54,9 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-            {true && trailers.map((e,i) => i<4?  <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
-            {true && trailers.map((e,i) => i<2? <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
-            {true && trailers.map((e,i) => i<3? <NewAnimes  Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
+            {true && trailers2.map((e,i) => i<5?  <NewAnimes Rate={9-i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null).reverse()}
+            {true && trailers2.map((e,i) => i<1? <NewAnimes Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
+            {true && trailers2.map((e,i) => i<3? <NewAnimes  Rate={i+1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} />:null)}
 
             </div>
           </div>

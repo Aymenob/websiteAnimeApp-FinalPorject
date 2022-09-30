@@ -22,6 +22,12 @@ const getTrailers=async function(req,res){
      return  res.status(200).json(trailers)
  } catch (err) { return res.status(500).json({msg:err})}
 }
+const getTrailers2=async function(req,res){
+    try {
+        const trailers=await Trailer.find({}).limit(9)
+        return  res.status(200).json(trailers)
+    } catch (err) { return res.status(500).json({msg:err})}
+   }
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
     const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body;console.log(episodes)
@@ -30,4 +36,4 @@ const updateTrailers=async function(req,res){
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }
-module.exports={postTrailer,getTrailers,updateTrailers}
+module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2}
