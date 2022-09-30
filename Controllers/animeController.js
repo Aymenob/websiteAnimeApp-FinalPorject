@@ -10,7 +10,6 @@ const postTrailer=async function (req,res) {
 ,animeDescription:animeDescription,genre:genre,favorites:favorites,episodes:episodes,
    
  })
- ;console.log(episodes)
        const result = await model.save()
        return res.status(200).json(result)
     } catch (err) { return res.status(500).json({msg:err})}
@@ -28,6 +27,14 @@ const getTrailers2=async function(req,res){
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }
+const getEpisode=async function(req,res){
+    const Id=req.params.id;console.log(Id)
+    const number=req.body;console.log(number)
+    try {
+        const episode=await Trailer.findOne({"_id":Id})
+        return  res.status(200).json(episode)
+    } catch (err) { return res.status(500).json({msg:err})}
+   }
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
     const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body;console.log(episodes)
@@ -36,4 +43,4 @@ const updateTrailers=async function(req,res){
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }
-module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2}
+module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode}

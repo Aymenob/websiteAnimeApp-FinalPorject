@@ -1,22 +1,30 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate,useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers,getTrailers2 } from '../Redux/animeSlice'
+import { getTrailers,getTrailers2,getEpisode } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
+import {useLocation} from 'react-router-dom';
+import Video from '../animeComponents/video'
+import NewEpisode from '../animeComponents/newEpisode'
+
 const Episode = () => {
+   const location = useLocation();//console.log(location)
+   let { id,number } = useParams();//console.log(number)
     const user = JSON.parse(localStorage.getItem('user'))
     const authorized = useSelector(state => state.Users.authorized)
 
     const trailers2 = useSelector(state => state.animes.trailers2);
+    const Episodes=useSelector(state => state.animes?.clickedEpisode?.episodes)
+   // const Episode=JSON.parse(Episodes[0]);console.log(Episode)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect(() => {
-     
       dispatch(getTrailers2())
-    }, [trailers2])
+      dispatch(getEpisode({id:id}))
+    }, [])
 
   return (
     <div class="HomeBackground">
@@ -47,8 +55,8 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
             <div >
-
-
+                 
+                 {Episodes?Episodes?.map(e=>JSON.parse(e).number==number?<Video url={JSON.parse(e)?.url}/>:null):null}
             </div>
           </div>
           <div class="subFirstSection">

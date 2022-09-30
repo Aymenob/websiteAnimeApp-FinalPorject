@@ -18,7 +18,7 @@ function App() {
       <Route path='/Admin' element={<Admin/>}  />
       <Route path="/AdminOnly" element={<PrivateRoute children={<AdminOnly/>}/>}/>
       <Route path="/" element={<Home/>}/>
-      <Route path="/watch" element={<Episode/>}/>
+      <Route path="/watch/:animeName/:season/:number/:id" element={<Episode/>}/>
 
     </Routes>
   );

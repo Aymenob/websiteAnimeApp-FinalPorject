@@ -6,7 +6,7 @@ export const getTrailers=createAsyncThunk("animes/getTrailers",async function (_
     const {data}=await axios.get("http://localhost:8081/getTrailers")
     return data
     } catch (err) {
-        return rejectWithValue(err.response.data.msg? err.response.data.msg :err.response.data.Errors)
+        return rejectWithValue(err.response.data.msg)//check it!
     }
 })
 export const getTrailers2=createAsyncThunk("animes/getTrailers2",async function (_,{rejectWithValue}) {
@@ -14,13 +14,24 @@ export const getTrailers2=createAsyncThunk("animes/getTrailers2",async function 
   const {data}=await axios.get("http://localhost:8081/getTrailers2")
   return data
   } catch (err) {
-      return rejectWithValue(err.response.data.msg? err.response.data.msg :err.response.data.Errors)
+      return rejectWithValue(err.response.data.msg )
+  }
+})
+
+export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpInfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.get("http://localhost:8081/getEpisode"+EpInfo.id)
+  return data
+  } catch (err) {
+      return rejectWithValue(err.response.data.msg)
   }
 })
 const initialState={
  
   loading:true,
   errors:null,
+  episodeErreur:null,
+  clickedEpisode:null,
   trailers:[],
   trailers2:[]
  }
@@ -49,6 +60,17 @@ const initialState={
     [getTrailers2.rejected]:(state,{payload})=>{
      state.errors=payload
    }
+   ,  [getTrailers.rejected]:(state,{payload})=>{
+    state.errors=payload
+  },
+   [getEpisode.pending]:(state)=>{ state.loading=true},
+   [getEpisode.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.clickedEpisode=payload
+  },
+   [getEpisode.rejected]:(state,{payload})=>{
+    state.episodeErreur=payload
+  }
   }
 })
 
