@@ -1,29 +1,35 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2 } from '../Redux/animeSlice'
+import { getTrailers2, getEpisode } from '../Redux/animeSlice'
 import { useEffect } from 'react'
-import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
-const Home = () => {
+import { useLocation } from 'react-router-dom';
+import Video from '../animeComponents/video'
+
+
+const Trailer = () => {
+ 
+  let { id, season,animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
-  const trailers = useSelector(state => state.animes.trailers)
+
   const trailers2 = useSelector(state => state.animes.trailers2);
+  const Trailer = useSelector(state => state.animes?.clickedEpisode)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    dispatch(getTrailers())
     dispatch(getTrailers2())
-  }, [user])
+    dispatch(getEpisode({ id: id,season:season,animeName:animeName }));console.log(season);console.log(animeName)
+  }, [])
 
   return (
-    <div class="HomeBackground">
-      <div class="Home">
+    <div class="homeBackground">
+      <div class="home">
         <nav>
-          <li><a onClick={() => navigate("/")} href="/">Home</a></li>
+          <li><a onClick={() => navigate("/")} href="">Home</a></li>
           <li><a href="#home">Anime List</a></li>
           <li><a href="#news">Random Anime</a></li>
           <li><a href="#contact">Genres</a></li>
@@ -46,29 +52,33 @@ const Home = () => {
         </nav>
         <section class="firstSection">
           <div class="subFirstSection">
-            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 ></div>
-            <div class="newEpisodes">
-              {true && trailers?.map(e => e.episodes?.map((d, i) => e.episodes.length - 1 === i ? <NewEpisode Rate={i - 1} number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
+            <div class="newEpisode" >
 
-
+              {Trailer?  (<Video url={Trailer.trailer} /> ) : null}
+              <div>
+               {Trailer?Trailer.animeDescription:null}
+              </div>
+              <div>
+                Episodes lists
+              </div>
             </div>
+
           </div>
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers2?.map((e, i) => i < 5 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
-              {true && trailers2?.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
-              {true && trailers2?.map((e, i) => i < 3 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
+              {true && trailers2.map((e, i) => i < 5 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id}  /> : null).reverse()}
+              {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
+              {true && trailers2.map((e, i) => i < 3 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id}  /> : null)}
 
             </div>
           </div>
         </section>
-        <section class="favorites">
-          favorites for the ones who have an Account
-        </section>
+
       </div>
     </div>
   )
 }
 
-export default Home
+export default Trailer

@@ -7,6 +7,7 @@ import Admin from './Pages/admin';
 import AdminOnly from './Pages/adminOnly';
 import Home from './Pages/Home.js';
 import Episode from './Pages/Episode';
+import Trailer from './Pages/EpisodeTrailer';
 import { PrivateRoute } from './PrivateRoute';
 import {Routes,Route} from "react-router-dom";
 function App() {
@@ -18,7 +19,8 @@ function App() {
       <Route path='/Admin' element={<Admin/>}  />
       <Route path="/AdminOnly" element={<PrivateRoute children={<AdminOnly/>}/>}/>
       <Route path="/" element={<Home/>}/>
-      <Route path="/watch/:animeName/:season/:number/:id" element={<Episode/>}/>
+      <Route path="/watch/:animeName/:season/:number" element={<Episode/>}/>
+      <Route path="/watch/:animeName/:season" element={<Trailer/>}/>
 
     </Routes>
   );

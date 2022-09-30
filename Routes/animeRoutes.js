@@ -5,6 +5,6 @@ const {postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode}=require("
 router.post("/postTrailer",postTrailer)
 router.get("/getTrailers",getTrailers)
 router.get("/getTrailers2",getTrailers2)
-router.get("/getEpisode:id",getEpisode)
+router.get("/getEpisode/:animeName/:season",getEpisode)
 router.post("/updateTrailer:id",updateTrailers)
 module.exports=router

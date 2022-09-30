@@ -20,7 +20,7 @@ export const getTrailers2=createAsyncThunk("animes/getTrailers2",async function 
 
 export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.get("http://localhost:8081/getEpisode"+EpInfo.id)
+  const {data}=await axios.get("http://localhost:8081/getEpisode/"+EpInfo.animeName+"/"+EpInfo.season)
   return data
   } catch (err) {
       return rejectWithValue(err.response.data.msg)
