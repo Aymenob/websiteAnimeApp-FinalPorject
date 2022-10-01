@@ -352,4 +352,13 @@ margin-left:2cm;
       display: grid;
       align-content: center;justify-content: center;
     }
-   
+   .newEpisode p{
+    text-align:left ;
+   }
+   .newEpisode{
+    display: grid;
+    grid-template-rows: ;
+   }
+   .episodesBtn{
+    
+   }

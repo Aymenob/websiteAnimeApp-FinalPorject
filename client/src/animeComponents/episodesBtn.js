@@ -1,14 +1,12 @@
 import React from 'react'
 
-export const episodesBtn = () => {
+const episodesBtn = ({number}) => {
   return (
-    <div>
-     <button type="button" class="btn btn-outline-primary">Primary</button>
-     <button type="button" class="btn btn-outline-primary">Primary</button>
-     <button type="button" class="btn btn-outline-primary">Primary</button>
-     <button type="button" class="btn btn-outline-primary">Primary</button>
-     <button type="button" class="btn btn-outline-primary">Primary</button>
-     <button type="button" class="btn btn-outline-primary">Primary</button>
+    <div class="episodesBtn">
+     <button type="button" class="btn btn-outline-primary">{number}</button>
+    
     </div>
   )
 }
+
+export default episodesBtn

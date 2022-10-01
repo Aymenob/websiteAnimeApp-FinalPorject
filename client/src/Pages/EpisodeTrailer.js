@@ -8,11 +8,11 @@ import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
 import Video from '../animeComponents/video'
-
+import EpisodesBtn from "../animeComponents/episodesBtn"
 
 const Trailer = () => {
- 
-  let { id, season,animeName } = useParams();//console.log(number)
+
+  let { id, season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
 
@@ -22,7 +22,7 @@ const Trailer = () => {
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(getTrailers2())
-    dispatch(getEpisode({ id: id,season:season,animeName:animeName }));console.log(season);console.log(animeName)
+    dispatch(getEpisode({ id: id, season: season, animeName: animeName })); console.log(season); console.log(animeName)
   }, [])
 
   return (
@@ -54,10 +54,12 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
             <div class="newEpisode" >
+           
 
-              {Trailer?  (<Video url={Trailer.trailer} /> ) : null}
-              <div>
-               {Trailer?Trailer.animeDescription:null}
+              {Trailer ? (<Video url={Trailer.trailer} />) : null}
+              <div calss="Description">
+              {Trailer? Trailer.episodes.map(e=><EpisodesBtn number={JSON.parse(e).number}/>):null}
+                {Trailer ? <p style={{marginLeft:"0.6cm"}}>{Trailer.animeDescription}</p> : null}
               </div>
               <div>
                 Episodes lists
@@ -68,9 +70,9 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers2.map((e, i) => i < 5 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id}  /> : null).reverse()}
+              {true && trailers2.map((e, i) => i < 7 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
               {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
-              {true && trailers2.map((e, i) => i < 3 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id}  /> : null)}
+              {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
 
             </div>
           </div>

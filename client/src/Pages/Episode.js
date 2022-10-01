@@ -18,7 +18,7 @@ const Episode = () => {
 
   const trailers2 = useSelector(state => state.animes.trailers2);
   const Episodes = useSelector(state => state.animes?.clickedEpisode?.episodes)
-  // const Episode=JSON.parse(Episodes[0]);console.log(Episode)
+  Episodes?console.log(Episodes[Episodes.length-1]):console.log("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
@@ -58,7 +58,12 @@ const Episode = () => {
               <div class="episodeVideo">
 
                 <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
-                <div class="nextPrevious"><button>previous episode</button><button>next episode</button></div>
+                <div class="nextPrevious">
+                  {Episodes?parseInt(number)>JSON.parse(Episodes[0]).number? <button  onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)-1}`);dispatch(getTrailers2())}}>previous episode</button>:null:null}
+                  {Episodes?parseInt(number)<JSON.parse(Episodes[Episodes.length-1]).number?<button  onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)+1}`);dispatch(getTrailers2());}}>next episode</button>:null:null}
+                    
+                  </div>
+                   if you can't watch the video please try to reload page
               </div>
               <div class="episodeComments">
                 comments section
@@ -69,9 +74,9 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers2.map((e, i) => i < 5 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
+              {true && trailers2.map((e, i) => i < 7 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
               {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
-              {true && trailers2.map((e, i) => i < 3 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
+              {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
 
             </div>
           </div>
