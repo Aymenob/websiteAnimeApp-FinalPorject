@@ -16,7 +16,7 @@ const Trailer = () => {
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
 
-  const trailers2 = useSelector(state => state.animes.trailers2);
+  const trailers2 = useSelector(state => state.animes?.trailers2);
   const Trailer = useSelector(state => state.animes?.clickedEpisode)
   const dispatch = useDispatch()
   const navigate = useNavigate()

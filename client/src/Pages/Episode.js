@@ -12,7 +12,7 @@ import NewEpisode from '../animeComponents/newEpisode'
 
 const Episode = () => {
   const location = useLocation();//console.log(location)
-  let { id, number,season,animeName } = useParams();//console.log(number)
+  let { id, number, season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
 
@@ -23,7 +23,7 @@ const Episode = () => {
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(getTrailers2())
-    dispatch(getEpisode({id:id,season:season,animeName:animeName }));console.log(season);console.log(animeName)
+    dispatch(getEpisode({ id: id, season: season, animeName: animeName })); console.log(season); console.log(animeName)
   }, [])
 
   return (
@@ -55,9 +55,12 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
             <div class="newEpisode" >
+              <div class="episodeVideo">
 
-              {Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}
-              <div>
+                <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
+                <div class="nextPrevious"><button>previous episode</button><button>next episode</button></div>
+              </div>
+              <div class="episodeComments">
                 comments section
               </div>
             </div>
