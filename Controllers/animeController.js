@@ -35,11 +35,14 @@ const getEpisode=async function(req,res){
         return  res.status(200).json(episode)
     } catch (err) { return res.status(500).json({msg:err})}
    }
+   //------------------------Update trailer
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
-    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body;console.log(episodes)
+    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites,New}=req.body;console.log(episodes)
     try {
-        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,episodes:episodes,favorites},{new:true})
+        // update date only if New value is set true 
+       
+        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,episodes:episodes,favorites},{ timestamps: New||false})
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }

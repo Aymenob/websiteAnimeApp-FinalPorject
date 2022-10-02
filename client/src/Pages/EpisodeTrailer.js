@@ -59,7 +59,7 @@ const Trailer = () => {
               {Trailer ? (<Video url={Trailer.trailer} />) : null}
               <p style={{}}>Episodes :</p>
               <div class="buttons">
-                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number} />) : null}
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn season={Trailer.season} animeName={Trailer.animeName} number={JSON.parse(e).number} />) : null}
                 {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+1} />) : null}
                 {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
                 {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
