@@ -11,7 +11,6 @@ import Video from '../animeComponents/video'
 import EpisodesBtn from "../animeComponents/episodesBtn"
 
 const Trailer = () => {
-
   let { id, season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
@@ -21,9 +20,10 @@ const Trailer = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
+    
     dispatch(getTrailers2())
     dispatch(getEpisode({ id: id, season: season, animeName: animeName })); console.log(season); console.log(animeName)
-  }, [])
+  }, [authorized])
 
   return (
     <div class="homeBackground">
@@ -52,18 +52,24 @@ const Trailer = () => {
         </nav>
         <section class="firstSection">
           <div class="subFirstSection">
-            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
-            <div class="newEpisode" >
-           
-
+            <div class="newEpisodesBar">
+              <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
+            </div>
+            <div class="newTrailer" >
               {Trailer ? (<Video url={Trailer.trailer} />) : null}
-              <div calss="Description">
-              {Trailer? Trailer.episodes.map(e=><EpisodesBtn number={JSON.parse(e).number}/>):null}
-                {Trailer ? <p style={{marginLeft:"0.6cm"}}>{Trailer.animeDescription}</p> : null}
+              <p style={{}}>Episodes :</p>
+              <div class="buttons">
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number} />) : null}
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+1} />) : null}
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
+                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
+
               </div>
-              <div>
-                Episodes lists
-              </div>
+              {Trailer ? <p style={{width:"93%",maxHeight:"2cm" }}>{Trailer.animeDescription}</p> : null}
+
+              
             </div>
 
           </div>

@@ -22,9 +22,10 @@ const Episode = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
+    authorized ? navigate() : navigate("/")
     dispatch(getTrailers2())
     dispatch(getEpisode({ id: id, season: season, animeName: animeName })); console.log(season); console.log(animeName)
-  }, [])
+  }, [authorized])
 
   return (
     <div class="homeBackground">

@@ -308,18 +308,19 @@ margin-left:2cm;
   .home{
     position: ;
     z-index:10;
-    min-width:29cm;min-height:100%;max-height:100%;max-width:29cm;
+    min-width:29cm;min-height:100%;max-height:110%;max-width:29cm;
     background-color: white;border:black solid 4px;border-radius: 5px;
     left:200px;
   
   }
-  .newEpisode{
-    border:solid black;max-width:19.5cm;min-width:19.5cm;
+  .newTrailer{
+    border:solid black;
+    max-width:19.5cm;min-width:19.5cm;
     min-height:22.5cm;max-height:22.5cm;
     margin-right:0.5cm;
     display: grid;grid-template-columns: 1fr  ;
-    grid-template-rows: 1.2fr 1fr   ;
-    justify-items: center;
+    grid-template-rows:10.7cm 1.4cm 3cm 2cm ;
+    justify-items: center;justify-content: center;
    }
   
    .episodeComments{
@@ -352,13 +353,23 @@ margin-left:2cm;
       display: grid;
       align-content: center;justify-content: center;
     }
-   .newEpisode p{
-    text-align:left ;
+   .newTrailer p{
+   margin-top: 0.3cm;
+   text-align: center;color:rgb(91, 91, 94);font-size:larger;
    }
-   .newEpisode{
-    display: grid;
-    grid-template-rows: ;
+   .newTrailer p~p{
+    margin-top: cm;min-height:5.5cm;
+    text-align: center;border: yellow;color:black;
+    overflow-x:hidden;  overflow-y:auto;font-size:medium;
+    }
+   .buttons{
+    border :red 
+    ;width:18cm;display: flex;height:0.2cm;text-align:center;
+    justify-content: center;flex-wrap: wrap;}
+  
+   .buttons button{
+    margin-left:0.3cm;font-size:15px;padding:0.2;
+    margin-top:0.1cm;
    }
-   .episodesBtn{
-    
-   }
+   
+   

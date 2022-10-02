@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 const NewAnimes = ({animeName,animePicture,season,url,Id,Rate}) => {
     const Navigate=useNavigate()
+    
     return (
         <div class="New">
             <div class="NewRate"> 
