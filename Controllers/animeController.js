@@ -38,12 +38,26 @@ const getEpisode=async function(req,res){
    //------------------------Update trailer
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
-    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites,New}=req.body;console.log(episodes)
+    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites,New}=req.body;
     try {
+        if (episodes) {
+            await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
+               }
+
         // update date only if New value is set true 
        
-        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,episodes:episodes,favorites},{ timestamps: New||false})
+        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,favorites, $push: { "episodes": episodes   }},{ timestamps: New||false})
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }
-module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode}
+   //------------------------------delete User
+const deleteEpisode=async function (req,res) {
+    try {
+        const trailerId=req.params.id
+      const {episodes,New}=req.body
+
+      const Episode=await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
+      return  res.status(200).json(Episode)
+    } catch (err) { return res.status(500).json({msg:err})}
+}
+module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode,deleteEpisode}
