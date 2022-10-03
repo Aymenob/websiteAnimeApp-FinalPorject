@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
@@ -8,7 +8,8 @@ import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
 import Video from '../animeComponents/video'
-import NewEpisode from '../animeComponents/newEpisode'
+import swil from "sweetalert2"
+import Swal from 'sweetalert2'
 
 const Episode = () => {
   const location = useLocation();//console.log(location)
@@ -21,6 +22,7 @@ const Episode = () => {
   Episodes?console.log(Episodes[Episodes.length-1]):console.log("")
   const dispatch = useDispatch()
   const navigate = useNavigate()
+   const [url, seturl] = useState(null);console.log(url)
   useEffect(() => {
     authorized ? navigate() : navigate("/")
     dispatch(getTrailers2())
@@ -54,14 +56,19 @@ const Episode = () => {
         </nav>
         <section class="firstSection">
           <div class="subFirstSection">
-            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 ></div>
+            <div class="newEpisodesBar">
+              <h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 >
+              <button style={{marginLeft:"5cm"}} type="button" class="btn btn-danger" 
+              onClick={()=>Swal.fire({text:"Url :",input: 'text',didOpen: () => {Swal.getInput().addEventListener('change', (event) => {seturl(event.target.value)})}}).then(result=>{})} >Add/Modify</button>
+              <button type="button" class="btn btn-danger" onClick={()=>{alert("it's working")}} >Delete</button>
+              </div>
             <div class="newEpisode" >
               <div class="episodeVideo">
 
                 <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
                 <div class="nextPrevious">
-                  {Episodes?parseInt(number)>JSON.parse(Episodes[0]).number? <button   onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)-1}`);dispatch(getTrailers2())}} > &lt;&lt; previous episode</button>:null:null}
-                  {Episodes?parseInt(number)<JSON.parse(Episodes[Episodes.length-1]).number?<button  onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)+1}`);dispatch(getTrailers2());}}>&nbsp;&nbsp;next episode&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;</button>:null:null}
+                  {Episodes?parseInt(number)>Math.min(...Episodes.map(e=>JSON.parse(e).number))? <button onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)-1}`);dispatch(getTrailers2())}} > &lt;&lt; previous episode</button>:null:null}
+                  {Episodes?parseInt(number)<Math.max(...Episodes.map(e=>JSON.parse(e).number))? <button onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)+1}`);dispatch(getTrailers2());}}>&nbsp;&nbsp;next episode&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;</button>:null:null}
                     
                   </div>
                    if you can't watch the video please try to reload page

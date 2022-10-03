@@ -227,6 +227,21 @@ margin-left:2cm;
     background-color:rgb(218, 124, 30);  
     ;min-height:1.2cm;min-width:19.5cm
     ;max-height:1.2cm;max-width:19.5cm
+    ;display:flex;justify-content:flex-start;align-items: center;
+  }
+  .newEpisodesBar button{
+   
+    all: unset;
+    cursor: pointer;margin-left:0.5cm;
+  }
+  
+  .newEpisodesBar button:focus{
+   
+    all: unset;list-style: none;border:none;
+    cursor: pointer;margin-left:0.5cm;
+  }
+  .newEpisodesBar button:hover{
+    height:0.9cm;border-radius: 6px;padding:0.1cm;
   }
   .newEpisodes{
     border:solid black;max-width:19.5cm;min-width:19.5cm;
@@ -330,7 +345,10 @@ margin-left:2cm;
    .episodeVideo{
     border:  2px ;
     width: 100%;display:grid;
-    align-content: center;justify-items: center;
+    align-content: center;
+    justify-items: center;
+    justify-content:start;
+    margin-left:0.09cm;
    }
    .nextPrevious{
     display: flex;justify-content:space-between;
@@ -375,4 +393,14 @@ margin-left:2cm;
    .swal-height {
     height: 8cm;
   }
-   
+  .modifyForm{
+    border:   red 2px;height: 3cm;width:12cm;
+    display: flex; justify-content: center;align-items: center;
+  }
+  .modifyForm li{
+   list-style-type: none;
+  }
+ 
+  .swal2-input2{
+    margin-left:0.5cm;width:10cm
+  } 
