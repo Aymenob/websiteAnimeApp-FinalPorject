@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {  useNavigate } from 'react-router-dom';
 import { cleanLogin, cleanPassword, RegisterUser,cleanName,cleanEmail,cleanImage, logOUT } from '../Redux/usersSlice'
 import '../App.css';
+import swal from "sweetalert2"
+import { nothing } from 'immer';
 function Register() {
 
      const Dispatch=useDispatch()
@@ -21,7 +23,8 @@ function Register() {
    
      
        useEffect(() =>{
-            signedIn&&alert(`${signedIn}`)
+            signedIn&&swal.fire({ title: "Your account was created successfully", icon: "success", showCloseButton: false,showConfirmButton:false,timer:3000,customClass: 'swal-height' })
+
             if (signedIn) {
                
                 Navigate("/Login")

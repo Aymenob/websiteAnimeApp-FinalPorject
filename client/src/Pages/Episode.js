@@ -60,8 +60,8 @@ const Episode = () => {
 
                 <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
                 <div class="nextPrevious">
-                  {Episodes?parseInt(number)>JSON.parse(Episodes[0]).number? <button  onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)-1}`);dispatch(getTrailers2())}}>previous episode</button>:null:null}
-                  {Episodes?parseInt(number)<JSON.parse(Episodes[Episodes.length-1]).number?<button  onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)+1}`);dispatch(getTrailers2());}}>next episode</button>:null:null}
+                  {Episodes?parseInt(number)>JSON.parse(Episodes[0]).number? <button   onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)-1}`);dispatch(getTrailers2())}} > &lt;&lt; previous episode</button>:null:null}
+                  {Episodes?parseInt(number)<JSON.parse(Episodes[Episodes.length-1]).number?<button  onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)+1}`);dispatch(getTrailers2());}}>&nbsp;&nbsp;next episode&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;</button>:null:null}
                     
                   </div>
                    if you can't watch the video please try to reload page

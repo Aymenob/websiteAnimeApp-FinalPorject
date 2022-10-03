@@ -60,4 +60,15 @@ const deleteEpisode=async function (req,res) {
       return  res.status(200).json(Episode)
     } catch (err) { return res.status(500).json({msg:err})}
 }
-module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode,deleteEpisode}
+   //------------------------------delete Trailer
+
+const deleteTrailer=async function(req,res) {
+    const trailerId=req.params.id
+    try {
+        const deletedTrailer=await Trailer.findOneAndDelete({_id:trailerId})
+        return res.status(200).json(deletedTrailer)
+    } catch (err) {
+         return res.status(500).json({msg:err})
+    }
+}
+module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode,deleteEpisode,deleteTrailer}
