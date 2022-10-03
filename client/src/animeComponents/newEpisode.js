@@ -10,7 +10,7 @@ const NewEpisode = ({ animeName, animePicture, season, number, url, Id }) => {
             <div>
                 <button class="animePicture-btn" onClick={() => {
                     authorized ? Navigate(`/watch/${animeName}/${season || 0}/${number}`) :
-                        swal.fire({ text: "Please Sing up to watch This Episode", icon: "warning", confirmButtonColor: "orange", confirmButtonText: "Sign Up", showCloseButton: "true", })
+                        swal.fire({ text: "Please Sing up to watch Episodes", icon: "warning", confirmButtonColor: "orange", confirmButtonText: "Sign Up", showCloseButton: "true", })
                             .then(result => { result.isConfirmed ? Navigate("/Login") : Navigate() })
                 }} type="button" >
                     <img style={{ marginLeft: "-0.2cm", marginTop: "-0.1cm", position: "relative", minWidth: "4.5cm", maxWidth: '4.5cm', minHeight: "5.5cm", maxHeight: '5.5cm', width: "2.1cm" }} alt="" src={animePicture} />
