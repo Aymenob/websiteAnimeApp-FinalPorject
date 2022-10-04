@@ -233,6 +233,8 @@ margin-left:2cm;
    
     all: unset;
     cursor: pointer;margin-left:0.5cm;
+    color:;
+    font-size:larger;font-weight: 700;
   }
   
   .newEpisodesBar button:focus{

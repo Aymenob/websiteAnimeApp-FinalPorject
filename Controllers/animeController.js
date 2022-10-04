@@ -38,7 +38,7 @@ const getEpisode=async function(req,res){
    //------------------------Update trailer
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
-    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites,New}=req.body;
+    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body;
     try {
         if (episodes) {
             await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
@@ -46,7 +46,7 @@ const updateTrailers=async function(req,res){
 
         // update date only if New value is set true 
        
-        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,favorites, $push: { "episodes": episodes   }},{ timestamps: New||false})
+        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,favorites, $push: { "episodes": newEpisodes   }},{ timestamps: New||false})
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }
