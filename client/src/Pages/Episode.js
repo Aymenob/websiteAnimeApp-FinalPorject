@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2, getEpisode,modifyEpisode } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2, getEpisode, modifyEpisode } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
@@ -13,27 +13,31 @@ import Swal from 'sweetalert2'
 
 const Episode = () => {
   const location = useLocation();//console.log(location)
-  let {  number, season, animeName } = useParams();//console.log(number)
+  let { number, season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
 
   const trailers2 = useSelector(state => state.animes.trailers2);
   const Episodes = useSelector(state => state.animes?.clickedEpisode?.episodes)
-  const Id=useSelector(state => state.animes?.clickedEpisode?._id);console.log(Id)
-  //Episodes?console.log(Episodes[Episodes.length-1]):console.log("")
+  const Id = useSelector(state => state.animes?.clickedEpisode?._id); console.log(Id)
+
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
-   const [url, seturl] = useState({number:number});console.log(url)
-   const [oldUrl, setOldUrl] = useState({number:"",url:""});console.log(oldUrl)
-   const data = new FormData();
-   data.append('number',url.number);
-   data.append('url', url.url);
+  const [oldUrl, setOldUrl] = useState({}); console.log(oldUrl)
+  const [url, seturl] = useState(null); console.log(url)
+  const data = new FormData(); data.append('episodes', JSON.stringify(oldUrl));
+  url ? data.append('newEpisodes', JSON.stringify(url)) : console.log("not yet");
+  for (var pair of data.entries()) {
+    console.log(pair[0] + ', ' + pair[1]);
+  }
   useEffect(() => {
 
     authorized ? navigate() : navigate("/")
     dispatch(getTrailers2())
-    dispatch(getEpisode({ season: season, animeName: animeName }));//console.log(season); console.log(animeName)
-    Episodes?.map(e => JSON.parse(e).number == number ?  setOldUrl({...oldUrl,number:number,url:JSON.parse(e).url}) : null) 
+    dispatch(getEpisode({ season: season, animeName: animeName })).then(result => result.payload.episodes?.map(e => JSON.parse(e).number == number ? setOldUrl({ ...oldUrl, number: number, url: JSON.parse(e).url }) : null)
+    );//console.log(season); console.log(animeName)
+    Episodes?.map(e => JSON.parse(e).number == number ? setOldUrl({ ...oldUrl, number: number, url: JSON.parse(e).url }) : null)
   }, [number])
 
   return (
@@ -65,19 +69,29 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 >
-              <button style={{marginLeft:"5cm"}} type="button" class="btn btn-danger" 
-              onClick={()=>Swal.fire({text:"Url :",input: 'text'}).then(result=>result.isConfirmed?seturl({number:number,url:result.value}):null)} >Add/Modify</button>
-              <button type="button" class="btn btn-danger" onClick={()=>{alert("it's working")}} >Delete</button>
-              </div>
+              <button style={{ marginLeft: "5cm" }} type="button" class="btn btn-danger"
+                onClick={() => {
+                  Swal.fire({
+                    text: "Url :", input: 'text',
+
+                    didOpen: () => {
+                      Swal.getInput().addEventListener('change', (event) => {
+                        seturl({ number:number, url:event.target.value })
+                      })
+                    }
+                  }).then(result => result.isConfirmed ? dispatch(modifyEpisode({ id: Id, Data: data })) : null)
+                }} >Add/Modify</button>
+              <button type="button" class="btn btn-danger" onClick={() => { alert("it's working") }} >Delete</button>
+            </div>
             <div class="newEpisode" >
               <div class="episodeVideo">
-                <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} />  : null) : null}</div>
+                <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
                 <div class="nextPrevious">
-                  {Episodes?parseInt(number)>Math.min(...Episodes.map(e=>JSON.parse(e).number))? <button onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)-1}`);dispatch(getTrailers2())}} > &lt;&lt; previous episode</button>:null:null}
-                  {Episodes?parseInt(number)<Math.max(...Episodes.map(e=>JSON.parse(e).number))? <button onClick={()=>{navigate(`/watch/${animeName}/${season||0}/${parseInt(number)+1}`);dispatch(getTrailers2());}}>&nbsp;&nbsp;next episode&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;</button>:null:null}
-                    
-                  </div>
-                   if you can't watch the video please try to reload page
+                  {Episodes ? parseInt(number) > Math.min(...Episodes.map(e => JSON.parse(e).number)) ? <button onClick={() => { navigate(`/watch/${animeName}/${season || 0}/${parseInt(number) - 1}`); dispatch(getTrailers2()) }} > &lt;&lt; previous episode</button> : null : null}
+                  {Episodes ? parseInt(number) < Math.max(...Episodes.map(e => JSON.parse(e).number)) ? <button onClick={() => { navigate(`/watch/${animeName}/${season || 0}/${parseInt(number) + 1}`); dispatch(getTrailers2()); }}>&nbsp;&nbsp;next episode&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;</button> : null : null}
+
+                </div>
+                if you can't watch the video please try to reload page
               </div>
               <div class="episodeComments">
                 comments section
