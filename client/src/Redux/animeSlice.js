@@ -35,12 +35,21 @@ export const modifyEpisode=createAsyncThunk("animes/modifyEpsiode",async functio
       return rejectWithValue(err?.response?.data?.msg)
   }
 })
+export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async function (EpInfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.delete("http://localhost:8081/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response?.data?.msg)
+  }
+})
 const initialState={
  
   loading:true,
   errors:null,
   episodeErreur:null,
   modifiedEpisode:null,
+  deletedEpisode:null,
   clickedEpisode:null,
   trailers:[],
   trailers2:[]
@@ -87,6 +96,14 @@ const initialState={
     state.modifiedEpisode=payload
   },
    [modifyEpisode.rejected]:(state,{payload})=>{
+    state.episodeErreur=payload
+  },
+  [deleteEpisode.pending]:(state)=>{ state.loading=true},
+   [deleteEpisode.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.deletedEpisode=payload
+  },
+   [deleteEpisode.rejected]:(state,{payload})=>{
     state.episodeErreur=payload
   }
   }

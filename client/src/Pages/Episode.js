@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2, getEpisode, modifyEpisode } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2, getEpisode, modifyEpisode,deleteEpisode } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
@@ -16,7 +16,7 @@ const Episode = () => {
   let { number, season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
-
+  const admin=useSelector(state=>state.Users.user?.Role)
   const trailers2 = useSelector(state => state.animes.trailers2);
   const Episodes = useSelector(state => state.animes?.clickedEpisode?.episodes)
   const Id = useSelector(state => state.animes?.clickedEpisode?._id); console.log(Id)
@@ -24,11 +24,12 @@ const Episode = () => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const [oldUrl, setOldUrl] = useState({}); console.log(oldUrl)
-  const [url, seturl] = useState(null); console.log(url)
-  const data = new FormData(); data.append('episodes', JSON.stringify(oldUrl));
-  url ? data.append('newEpisodes', JSON.stringify(url)) : console.log("not yet");
-  for (var pair of data.entries()) {
+  const [oldUrl, setOldUrl] = useState({number:number}); console.log(oldUrl)
+  const [url, seturl] = useState(null);// console.log(url)
+   const data = new FormData();const data2=new FormData()
+   data.append('episodes', JSON.stringify(oldUrl));data2.append('episodes', JSON.stringify(oldUrl))
+   data.append('newEpisodes', JSON.stringify(url))
+  for (var pair of data2.entries()) {
     console.log(pair[0] + ', ' + pair[1]);
   }
   useEffect(() => {
@@ -37,7 +38,6 @@ const Episode = () => {
     dispatch(getTrailers2())
     dispatch(getEpisode({ season: season, animeName: animeName })).then(result => result.payload.episodes?.map(e => JSON.parse(e).number == number ? setOldUrl({ ...oldUrl, number: number, url: JSON.parse(e).url }) : null)
     );//console.log(season); console.log(animeName)
-    Episodes?.map(e => JSON.parse(e).number == number ? setOldUrl({ ...oldUrl, number: number, url: JSON.parse(e).url }) : null)
   }, [number])
 
   return (
@@ -69,19 +69,10 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 >
-              <button style={{ marginLeft: "5cm" }} type="button" class="btn btn-danger"
-                onClick={() => {
-                  Swal.fire({
-                    text: "Url :", input: 'text',
+              {admin==="admin"?<button style={{ marginLeft: "5cm" }} type="button" class="btn btn-danger"onClick={() => {Swal.fire({text: "Url :", input: 'text',}).then( result => result.isConfirmed? seturl({number:number,url:result.value}):null)}} >Modify</button>:null}
+              {admin==="admin"?<button type="button" class="btn btn-danger" onClick={() => { url?Swal.fire({text: "are you sure you want to save changes?",confirmButtonText:"yes"}).then( result =>  result.isConfirmed ?  dispatch(modifyEpisode({ id: Id, Data: data }))&&window.location.reload()||dispatch(deleteEpisode({id:Id,Data:data})) : null):Swal.fire({icon:'warning',text: "you didn't apply any changes",showCloseButton:true,showConfirmButton: false})}} >Save</button>:null}
+              {admin==="admin"?<button type="button" class="btn btn-danger" onClick={() => {Swal.fire({text: "are you sure you want to delete The episode",showCloseButton:true,showConfirmButton: true}).then(result=>result.isConfirmed?oldUrl&&dispatch(deleteEpisode({id:Id,Data:data2})):null)}} >Delete</button>:null}
 
-                    didOpen: () => {
-                      Swal.getInput().addEventListener('change', (event) => {
-                        seturl({ number:number, url:event.target.value })
-                      })
-                    }
-                  }).then(result => result.isConfirmed ? dispatch(modifyEpisode({ id: Id, Data: data })) : null)
-                }} >Add/Modify</button>
-              <button type="button" class="btn btn-danger" onClick={() => { alert("it's working") }} >Delete</button>
             </div>
             <div class="newEpisode" >
               <div class="episodeVideo">

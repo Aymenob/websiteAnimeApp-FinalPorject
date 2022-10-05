@@ -40,7 +40,7 @@ const updateTrailers=async function(req,res){
     const trailerId=req.params.id
     const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body;
     try {
-        if (episodes) {
+        if (newEpisodes) {
             await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
                }
 
