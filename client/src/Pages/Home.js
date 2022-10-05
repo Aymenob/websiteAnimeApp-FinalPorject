@@ -48,7 +48,7 @@ const Home = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 ></div>
             <div class="newEpisodes">
-              {true && trailers?.map(e => e.episodes?.map((d, i) => e.episodes.length - 1 === i ? <NewEpisode Rate={i - 1} number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+              {true && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? <NewEpisode Rate={i - 1} number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
 
 
             </div>
