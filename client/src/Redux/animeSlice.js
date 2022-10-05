@@ -28,7 +28,7 @@ export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpI
   }
 })
 export const modifyEpisode=createAsyncThunk("animes/modifyEpsiode",async function (EpInfo,{rejectWithValue}) {
-  try {
+  try {console.log(EpInfo)
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
@@ -36,8 +36,8 @@ export const modifyEpisode=createAsyncThunk("animes/modifyEpsiode",async functio
   }
 })
 export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async function (EpInfo,{rejectWithValue}) {
-  try {
-  const {data}=await axios.delete("http://localhost:8081/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
+  try {console.log(EpInfo)
+  const {data}=await axios.put("http://localhost:8081/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response?.data?.msg)
@@ -109,6 +109,6 @@ const initialState={
   }
 })
 
-  export const {  } = animeSlice.actions
+  
   
   export default animeSlice.reducer

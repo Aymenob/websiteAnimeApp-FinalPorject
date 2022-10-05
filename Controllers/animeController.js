@@ -38,7 +38,7 @@ const getEpisode=async function(req,res){
    //------------------------Update trailer
 const updateTrailers=async function(req,res){
     const trailerId=req.params.id
-    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body;
+    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body;console.log(req.body)
     try {
         if (newEpisodes) {
             await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
@@ -52,10 +52,11 @@ const updateTrailers=async function(req,res){
    }
    //------------------------------delete User
 const deleteEpisode=async function (req,res) {
+    const trailerId=req.params.id
+      const {episodes,New}=req.body;console.log(req.body)
     try {
-        const trailerId=req.params.id
-      const {episodes,New}=req.body
-
+        
+      
       const Episode=await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
       return  res.status(200).json(Episode)
     } catch (err) { return res.status(500).json({msg:err})}
