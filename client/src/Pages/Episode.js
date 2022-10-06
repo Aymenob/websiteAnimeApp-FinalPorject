@@ -11,6 +11,7 @@ import Video from '../animeComponents/video'
 import swil from "sweetalert2"
 import Swal from 'sweetalert2'
 
+
 const Episode = () => {
   const location = useLocation();//console.log(location)
   let { number, season, animeName } = useParams();//console.log(number)
@@ -37,7 +38,7 @@ const Episode = () => {
     authorized ? navigate() : navigate("/")
     dispatch(getTrailers2())
     dispatch(getEpisode({ season: season, animeName: animeName })).then(result => result.payload.episodes?.map(e => JSON.parse(e).number == number ? setOldUrl({ ...oldUrl, number: number, url: JSON.parse(e).url }) : null)
-    );//console.log(season); console.log(animeName)
+);//console.log(season); console.log(animeName)
   }, [number])
 
   return (
@@ -69,14 +70,14 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 >
-              {admin==="admin"?<button style={{ marginLeft: "5cm" }} type="button" class="btn btn-danger"onClick={() => {Swal.fire({text: "Url :", input: 'text',}).then( result => result.isConfirmed? seturl({number:number,url:result.value}):null)}} >Modify</button>:null}
-              {admin==="admin"?<button type="button" class="btn btn-danger" onClick={() => { url?Swal.fire({text: "are you sure you want to save changes?",confirmButtonText:"yes"}).then( result =>  result.isConfirmed ?  dispatch(modifyEpisode({ id: Id, Data: data }))&&window.location.reload() : null):Swal.fire({icon:'warning',text: "you didn't apply any changes",showCloseButton:true,showConfirmButton: false})}} >Save</button>:null}
-              {admin==="admin"?<button type="button" class="btn btn-danger" onClick={() => {;Swal.fire({text: "are you sure you want to delete The episode",showCloseButton:true,showConfirmButton: true}).then(result=>result.isConfirmed?dispatch(deleteEpisode({id:Id,data:data})):null)}} >Delete</button>:null}
+              {admin==="admin"?<button style={{ marginLeft: "4cm",color:"black" }} type="button" class="btn btn-primary"onClick={() => {Swal.fire({text: "Url :", input: 'text',}).then( result => result.isConfirmed? seturl({number:number,url:result.value}):null)}} >Modify</button>:null}
+              {admin==="admin"?<button  style={{color:"black"}} type="button" class="btn btn-success" onClick={() => { url?Swal.fire({text: "are you sure you want to save changes?",confirmButtonText:"yes",confirmButtonColor:"green"}).then( result =>  result.isConfirmed ?  dispatch(modifyEpisode({ id: Id, Data: data }))&&window.location.reload() : null):Swal.fire({icon:'warning',text: "you didn't apply any changes",showCloseButton:true,showConfirmButton: false})}} >Save</button>:null}
+              {admin==="admin"?<button  style={{color:"black"}} type="button" class="btn btn-danger" onClick={() => {;Swal.fire({text: "are you sure you want to delete The episode",showCloseButton:true,showConfirmButton: true,confirmButtonText:"yes",confirmButtonColor:"red"}).then(result=>result.isConfirmed?dispatch(deleteEpisode({id:Id,data:data}))&&oldUrl&&window.location.reload():null)}} >Delete</button>:null}
 
             </div>
             <div class="newEpisode" >
               <div class="episodeVideo">
-                <div class="videoSpace">{Episodes ? Episodes?.map(e => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
+                <div class="videoSpace">{Episodes ? Episodes?.map((e,i) => JSON.parse(e).number == number ? <Video url={JSON.parse(e)?.url} /> : null) : null}</div>
                 <div class="nextPrevious">
                   {Episodes ? parseInt(number) > Math.min(...Episodes.map(e => JSON.parse(e).number)) ? <button onClick={() => { navigate(`/watch/${animeName}/${season || 0}/${parseInt(number) - 1}`); dispatch(getTrailers2()) }} > &lt;&lt; previous episode</button> : null : null}
                   {Episodes ? parseInt(number) < Math.max(...Episodes.map(e => JSON.parse(e).number)) ? <button onClick={() => { navigate(`/watch/${animeName}/${season || 0}/${parseInt(number) + 1}`); dispatch(getTrailers2()); }}>&nbsp;&nbsp;next episode&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;</button> : null : null}
@@ -93,8 +94,7 @@ const Episode = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers2.map((e, i) => i < 8 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
-              {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
+              {true && trailers2.map((e, i) => i < 9 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
 
             </div>
           </div>

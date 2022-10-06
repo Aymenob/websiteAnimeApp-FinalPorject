@@ -3,28 +3,33 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers2, getEpisode } from '../Redux/animeSlice'
+import { getTrailers2, getEpisode,addEpisode } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react'
 import Video from '../animeComponents/video'
 import EpisodesBtn from "../animeComponents/episodesBtn"
+import ModalAddEp from '../animeComponents/modalAddEp'
 
 const Trailer = () => {
-  let { id, season, animeName } = useParams();//console.log(number)
+  let {  season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
-
+  const admin=useSelector(state=>state.Users.user?.Role)
   const trailers2 = useSelector(state => state.animes?.trailers2);
-  const Trailer = useSelector(state => state.animes?.clickedEpisode)
+  const Trailer = useSelector(state => state.animes?.clickedEpisode);
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    
-    dispatch(getTrailers2())
-    dispatch(getEpisode({ id: id, season: season, animeName: animeName })); console.log(season); console.log(animeName)
+    dispatch(getTrailers2());dispatch(getEpisode({  season: season, animeName: animeName }));// console.log(season); console.log(animeName)
   }, [authorized])
-
+  const [EpInfo, setEpInfo] = useState({number:0,url:""});console.log(EpInfo);const [checked, setchecked] = useState(false)
+  /*add Episode modal handles*/const handleClose = () => {setShow(false);setEpInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
+  const data=new FormData();
+  data.append("newEpisodes",JSON.stringify(EpInfo));data.append("New",checked);console.log(data.get("newEpisodes"));console.log(data.get("New"))
+  const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""?alert("please verify your information"):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setShow(false);setEpInfo({});dispatch(getEpisode({  season: season, animeName: animeName }))})}
+  const handleNew=(e)=>{setchecked(e.target.checked)};
   return (
     <div class="homeBackground">
       <div class="home">
@@ -54,16 +59,14 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
+              {admin==="admin"?<ModalAddEp handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
             </div>
             <div class="newTrailer" >
               {Trailer ? (<Video url={Trailer.trailer} />) : null}
               <p style={{}}>Episodes :</p>
               <div class="buttons">
-                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn season={Trailer.season} animeName={Trailer.animeName} number={JSON.parse(e).number} />) : null}
-                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+1} />) : null}
-                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
-                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
-                {Trailer ? Trailer.episodes.map(e => <EpisodesBtn number={JSON.parse(e).number+2} />) : null}
+                {Trailer ? Trailer.episodes.map((e,i) => <EpisodesBtn season={Trailer.season} animeName={Trailer.animeName} number={JSON.parse(e).number} />): null}
+               
                 
 
               </div>
@@ -76,8 +79,7 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers2.map((e, i) => i < 8 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
-              {true && trailers2.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
+              {true && trailers2.map((e, i) => i < 9? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
 
             </div>
           </div>

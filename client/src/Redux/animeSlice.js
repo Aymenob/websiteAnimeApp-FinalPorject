@@ -43,6 +43,14 @@ export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async functio
       return rejectWithValue(err?.response?.data?.msg)
   }
 })
+export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpInfo,{rejectWithValue}) {
+  try {console.log(EpInfo)
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response?.data?.msg)
+  }
+})
 const initialState={
  
   loading:true,
@@ -51,6 +59,7 @@ const initialState={
   modifiedEpisode:null,
   deletedEpisode:null,
   clickedEpisode:null,
+  addedEpisode:null,
   trailers:[],
   trailers2:[]
  }
@@ -104,6 +113,14 @@ const initialState={
     state.deletedEpisode=payload
   },
    [deleteEpisode.rejected]:(state,{payload})=>{
+    state.episodeErreur=payload
+  },
+  [addEpisode.pending]:(state)=>{ state.loading=true},
+   [addEpisode.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.addedEpisode=payload
+  },
+   [addEpisode.rejected]:(state,{payload})=>{
     state.episodeErreur=payload
   }
   }

@@ -7,7 +7,9 @@ import { getTrailers, getTrailers2 } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
+import Modals from '../animeComponents/modal'
 const Home = () => {
+  const admin=useSelector(state=>state.Users.user?.Role)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
   const trailers = useSelector(state => state.animes.trailers)
@@ -46,7 +48,10 @@ const Home = () => {
         </nav>
         <section class="firstSection">
           <div class="subFirstSection">
-            <div class="newEpisodesBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 ></div>
+            <div class="newEpisodesBar">
+              <h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 >
+              {admin==="admin"?<Modals/>:null}
+              </div>
             <div class="newEpisodes">
               {true && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? <NewEpisode Rate={i - 1} number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
 
@@ -54,16 +59,20 @@ const Home = () => {
             </div>
           </div>
           <div class="subFirstSection">
-            <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
+            <div class="newAnimeBar">
+              <h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 >
+             
+
+            </div>
             <div class="newAnimes">
-              {true && trailers2?.map((e, i) => i < 8 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
-              {true && trailers2?.map((e, i) => i < 1 ? <NewAnimes Rate={i + 1} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
+              {true && trailers2?.map((e, i) => i < 9 ? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
 
             </div>
           </div>
         </section>
         <section class="favorites">
           favorites for the ones who have an Account
+          
         </section>
       </div>
     </div>
