@@ -59,6 +59,14 @@ export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRI
       return rejectWithValue(err?.response?.data?.msg)
   }
 })
+export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async function (TRinfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.delete("http://localhost:8081/deleteTrailer"+TRinfo)//send id ana data in the same object  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response?.data?.msg)
+  }
+})
 const initialState={
  
   loading:true,
@@ -70,6 +78,7 @@ const initialState={
   clickedEpisode:null,
   addedEpisode:null,
   addedTrailer:null,
+  deleteTrailer:null,
   trailers:[],
   trailers2:[]
  }
@@ -147,6 +156,15 @@ const initialState={
     state.addedTrailer=payload
   },
    [addTrailer.rejected]:(state,{payload})=>{
+    state.loading=false
+    state.trailerErreurs=payload
+  },
+  [deleteTrailer.pending]:(state)=>{ state.loading=true},
+   [deleteTrailer.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.deleteTrailer=payload
+  },
+   [deleteTrailer.rejected]:(state,{payload})=>{
     state.loading=false
     state.trailerErreurs=payload
   }

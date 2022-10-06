@@ -24,7 +24,7 @@ const Home = () => {
   const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
   /*add Episode modal handles*/const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
   const data=new FormData();
-  const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>setShow(false))}
+  const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{setShow(false);dispatch(getTrailers2())})}
 
   return (
     <div class="HomeBackground">

@@ -16,7 +16,7 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
             <Modal.Title>Add Trailer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
+            <Form style={{minWidth:"8cm"}}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>anime Name</Form.Label>
                     <Form.Control

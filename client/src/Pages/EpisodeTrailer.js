@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers2, getEpisode,addEpisode } from '../Redux/animeSlice'
+import { getTrailers2, getEpisode,addEpisode,deleteTrailer } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
@@ -12,7 +12,7 @@ import Video from '../animeComponents/video'
 import EpisodesBtn from "../animeComponents/episodesBtn"
 import ModalAddEp from '../animeComponents/modalAddEp'
 import { useRef } from 'react'
-
+import Swal from "sweetalert2"
 const Trailer = () => {
   let {  season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
@@ -65,7 +65,7 @@ const Trailer = () => {
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
               {admin==="admin"?<ModalAddEp formRef={formRef} handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
-              {admin==="admin"?<button onClick={()=>alert("are you sure you want to delete this trailer")}>Delete </button>:null}
+              {admin==="admin"?<button onClick={()=>{Swal.fire({text: "Are you sure you want to delete This Trailer?",showCloseButton:true,showConfirmButton: true,confirmButtonText:"yes",confirmButtonColor:"red"}).then(result=>result.isConfirmed?dispatch(deleteTrailer(Trailer._id)).then(navigate("/")):null)}}>Delete </button>:null}
 
             </div>
             <div class="newTrailer" >

@@ -431,3 +431,10 @@ margin-left:2cm;
   input[type=checkbox] {
    transform: scale(2);
 }
+.modal-content{
+  width: 14cm;
+  margin: auto;
+}
+.mb-3{
+  margin-left:1cm;margin-right: 1cm;
+}

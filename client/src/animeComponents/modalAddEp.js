@@ -8,7 +8,7 @@ const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,
   return (
     
     <>
-    <Button style={{marginLeft:"4cm"}} variant="primary" onClick={handleShow}>
+    <Button style={{marginLeft:"3.5cm"}} variant="primary" onClick={handleShow}>
         Add Episode
     </Button>
 
@@ -17,7 +17,7 @@ const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,
             <Modal.Title>Add Episodes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form ref={formRef}>
+            <Form  ref={formRef}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>Episode number</Form.Label>
                     <Form.Control
