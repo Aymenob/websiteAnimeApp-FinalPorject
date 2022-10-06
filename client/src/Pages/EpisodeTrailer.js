@@ -11,6 +11,7 @@ import { useState } from 'react'
 import Video from '../animeComponents/video'
 import EpisodesBtn from "../animeComponents/episodesBtn"
 import ModalAddEp from '../animeComponents/modalAddEp'
+import { useRef } from 'react'
 
 const Trailer = () => {
   let {  season, animeName } = useParams();//console.log(number)
@@ -24,11 +25,15 @@ const Trailer = () => {
   useEffect(() => {
     dispatch(getTrailers2());dispatch(getEpisode({  season: season, animeName: animeName }));// console.log(season); console.log(animeName)
   }, [authorized])
+  const formRef = useRef();
+  const handleClick = () => { 
+    formRef.current.reset();
+  }
   const [EpInfo, setEpInfo] = useState({number:0,url:""});console.log(EpInfo);const [checked, setchecked] = useState(false)
   /*add Episode modal handles*/const handleClose = () => {setShow(false);setEpInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
   const data=new FormData();
   data.append("newEpisodes",JSON.stringify(EpInfo));data.append("New",checked);console.log(data.get("newEpisodes"));console.log(data.get("New"))
-  const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""?alert("please verify your information"):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setShow(false);setEpInfo({});dispatch(getEpisode({  season: season, animeName: animeName }))})}
+  const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""||EpInfo.number===""?alert("please verify your information"):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setEpInfo({number:0,url:""});dispatch(getEpisode({  season: season, animeName: animeName }));handleClick()})}
   const handleNew=(e)=>{setchecked(e.target.checked)};
   return (
     <div class="homeBackground">
@@ -59,7 +64,9 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
-              {admin==="admin"?<ModalAddEp handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
+              {admin==="admin"?<ModalAddEp formRef={formRef} handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
+              {admin==="admin"?<button onClick={()=>alert("are you sure you want to delete this trailer")}>Delete </button>:null}
+
             </div>
             <div class="newTrailer" >
               {Trailer ? (<Video url={Trailer.trailer} />) : null}

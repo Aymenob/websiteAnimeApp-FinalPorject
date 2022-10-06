@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show,handleNew}) => {
-     
+
+const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show,handleNew,formRef}) => {
+   
   return (
     
     <>
@@ -11,12 +12,12 @@ const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,
         Add Episode
     </Button>
 
-    <Modal show={show} onHide={handleClose}>
+    <Modal  show={show} onHide={handleClose}>
         <Modal.Header closeButton>
             <Modal.Title>Add Episodes</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form>
+            <Form ref={formRef}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>Episode number</Form.Label>
                     <Form.Control

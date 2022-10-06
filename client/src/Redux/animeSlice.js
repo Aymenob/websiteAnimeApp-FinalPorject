@@ -28,7 +28,7 @@ export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpI
   }
 })
 export const modifyEpisode=createAsyncThunk("animes/modifyEpsiode",async function (EpInfo,{rejectWithValue}) {
-  try {console.log(EpInfo)
+  try {
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
@@ -36,7 +36,7 @@ export const modifyEpisode=createAsyncThunk("animes/modifyEpsiode",async functio
   }
 })
 export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async function (EpInfo,{rejectWithValue}) {
-  try {console.log(EpInfo)
+  try {
   const {data}=await axios.put("http://localhost:8081/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
   return data
   } catch (err) {
@@ -44,7 +44,7 @@ export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async functio
   }
 })
 export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpInfo,{rejectWithValue}) {
-  try {console.log(EpInfo)
+  try {
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
@@ -52,7 +52,7 @@ export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpI
   }
 })
 export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRInfo,{rejectWithValue}) {
-  try {console.log(TRInfo)
+  try {
   const {data}=await axios.post("http://localhost:8081/postTrailer",TRInfo)//send id ana data in the same object  
   return data
   } catch (err) {
