@@ -3,7 +3,7 @@ const Trailer=require("../modules/animeSchema")
 
 
 const postTrailer=async function (req,res) {
-    try {
+    try {console.log(req.body)
       const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body
       const model= await new Trailer
 ({ animeName:animeName,animePicture: animePicture,season:season,trailer:trailer

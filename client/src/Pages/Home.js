@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2 } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2,addTrailer } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
@@ -24,7 +24,7 @@ const Home = () => {
   const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
   /*add Episode modal handles*/const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
   const data=new FormData();
-  const handleSubmit = () => {{setShow(false)}}
+  const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>setShow(false))}
 
   return (
     <div class="HomeBackground">
@@ -58,7 +58,7 @@ const Home = () => {
               {admin==="admin"?<Modals handleSubmit={handleSubmit} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
               </div>
             <div class="newEpisodes">
-              {true && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? <NewEpisode Rate={i - 1} number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+              {true && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? <NewEpisode  number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
 
 
             </div>

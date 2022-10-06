@@ -51,15 +51,25 @@ export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpI
       return rejectWithValue(err?.response?.data?.msg)
   }
 })
+export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRInfo,{rejectWithValue}) {
+  try {console.log(TRInfo)
+  const {data}=await axios.post("http://localhost:8081/postTrailer",TRInfo)//send id ana data in the same object  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response?.data?.msg)
+  }
+})
 const initialState={
  
   loading:true,
   errors:null,
+  trailerErreurs:null,
   episodeErreur:null,
   modifiedEpisode:null,
   deletedEpisode:null,
   clickedEpisode:null,
   addedEpisode:null,
+  addedTrailer:null,
   trailers:[],
   trailers2:[]
  }
@@ -79,6 +89,8 @@ const initialState={
    },
     [getTrailers.rejected]:(state,{payload})=>{
      state.errors=payload
+     state.loading=false
+     
    },
    [getTrailers2.pending]:(state)=>{ state.loading=true},
     [getTrailers2.fulfilled]:(state,{payload})=>{
@@ -87,9 +99,11 @@ const initialState={
    },
     [getTrailers2.rejected]:(state,{payload})=>{
      state.errors=payload
+     state.loading=false
    }
    ,  [getTrailers.rejected]:(state,{payload})=>{
     state.errors=payload
+    state.loading=false
   },
    [getEpisode.pending]:(state)=>{ state.loading=true},
    [getEpisode.fulfilled]:(state,{payload})=>{
@@ -98,6 +112,7 @@ const initialState={
   },
    [getEpisode.rejected]:(state,{payload})=>{
     state.episodeErreur=payload
+    state.loading=false
   },
   [modifyEpisode.pending]:(state)=>{ state.loading=true},
    [modifyEpisode.fulfilled]:(state,{payload})=>{
@@ -106,6 +121,7 @@ const initialState={
   },
    [modifyEpisode.rejected]:(state,{payload})=>{
     state.episodeErreur=payload
+    state.loading=false
   },
   [deleteEpisode.pending]:(state)=>{ state.loading=true},
    [deleteEpisode.fulfilled]:(state,{payload})=>{
@@ -114,6 +130,7 @@ const initialState={
   },
    [deleteEpisode.rejected]:(state,{payload})=>{
     state.episodeErreur=payload
+    state.loading=false
   },
   [addEpisode.pending]:(state)=>{ state.loading=true},
    [addEpisode.fulfilled]:(state,{payload})=>{
@@ -122,6 +139,16 @@ const initialState={
   },
    [addEpisode.rejected]:(state,{payload})=>{
     state.episodeErreur=payload
+    state.loading=false
+  },
+  [addTrailer.pending]:(state)=>{ state.loading=true},
+   [addTrailer.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.addedTrailer=payload
+  },
+   [addTrailer.rejected]:(state,{payload})=>{
+    state.loading=false
+    state.trailerErreurs=payload
   }
   }
 })
