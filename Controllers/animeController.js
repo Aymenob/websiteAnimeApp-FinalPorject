@@ -23,7 +23,7 @@ const getTrailers=async function(req,res){
 }
 const getTrailers2=async function(req,res){
     try {
-        const trailers=await Trailer.find({}).limit(9)
+        const trailers=await Trailer.find({}).sort({ createdAt:-1 }).limit(9)
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }
