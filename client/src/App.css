@@ -135,7 +135,7 @@ margin-left:2cm;
 
 }
 
-.Home nav{ overflow: hidden;
+.Home nav{ 
   position:;
   display: grid;
   background-color: rgb(124, 30, 30);
@@ -417,8 +417,9 @@ margin-left:2cm;
     margin-left:0.5cm;width:10cm
   } 
   .Dropdown-menu a{
-    color: black;
+    color: black
   }
+ 
   input[type=checkbox] {
    transform: scale(2);
 }
