@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
 import Modals from '../animeComponents/modal'
+import { useState } from 'react'
 const Home = () => {
   const admin=useSelector(state=>state.Users.user?.Role)
   const user = JSON.parse(localStorage.getItem('user'))
@@ -19,7 +20,11 @@ const Home = () => {
   useEffect(() => {
     dispatch(getTrailers())
     dispatch(getTrailers2())
-  }, [user])
+  }, [])
+  const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
+  /*add Episode modal handles*/const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
+  const data=new FormData();
+  const handleSubmit = () => {{setShow(false)}}
 
   return (
     <div class="HomeBackground">
@@ -50,7 +55,7 @@ const Home = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 >
-              {admin==="admin"?<Modals/>:null}
+              {admin==="admin"?<Modals handleSubmit={handleSubmit} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
               </div>
             <div class="newEpisodes">
               {true && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? <NewEpisode Rate={i - 1} number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
