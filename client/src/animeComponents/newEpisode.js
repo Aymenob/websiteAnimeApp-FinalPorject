@@ -17,8 +17,8 @@ const NewEpisode = ({ animeName, animePicture, season, number, url, Id }) => {
 
                 </button>
             </div>
-            <div>{animeName}</div>
-            <div>Season:{season}  | Episode:{`${number}`}</div>
+            <div class="animeTitle">{animeName}</div>
+            <div class="animeSubTitle">Season:{season}  | Episode:{`${number}`}</div>
         </div>
     )
 }
