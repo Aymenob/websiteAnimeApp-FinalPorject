@@ -15,7 +15,7 @@ export const getTrailers2=createAsyncThunk("animes/getTrailers2",async function 
   const {data}=await axios.get("http://localhost:8081/getTrailers2")
   return data
   } catch (err) {
-      return rejectWithValue(err.response.data.msg )
+      return rejectWithValue(err?.response.data.msg )
   }
 })
 
@@ -24,7 +24,7 @@ export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpI
   const {data}=await axios.get("http://localhost:8081/getEpisode/"+EpInfo.animeName+"/"+EpInfo.season)
   return data
   } catch (err) {
-      return rejectWithValue(err.response.data.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
 })
 export const modifyEpisode=createAsyncThunk("animes/modifyEpisode",async function (EpInfo,{rejectWithValue}) {
@@ -32,7 +32,7 @@ export const modifyEpisode=createAsyncThunk("animes/modifyEpisode",async functio
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
-      return rejectWithValue(err?.response?.data?.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
 })
 export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async function (EpInfo,{rejectWithValue}) {
@@ -40,7 +40,7 @@ export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async functio
   const {data}=await axios.put("http://localhost:8081/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
   return data
   } catch (err) {
-      return rejectWithValue(err?.response?.data?.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
 })
 export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpInfo,{rejectWithValue}) {
@@ -48,7 +48,7 @@ export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpI
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
-      return rejectWithValue(err?.response?.data?.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
 })
 export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRInfo,{rejectWithValue}) {
@@ -56,7 +56,7 @@ export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRI
   const {data}=await axios.post("http://localhost:8081/postTrailer",TRInfo)//send id ana data in the same object  
   return data
   } catch (err) {
-      return rejectWithValue(err?.response?.data?.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
 })
 export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async function (TRinfo,{rejectWithValue}) {
@@ -64,7 +64,7 @@ export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async functio
   const {data}=await axios.delete("http://localhost:8081/deleteTrailer"+TRinfo)//send id ana data in the same object  
   return data
   } catch (err) {
-      return rejectWithValue(err?.response?.data?.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
 })
 export const modifyTrailer=createAsyncThunk("animes/modifyEpsiode",async function (EpInfo,{rejectWithValue}) {
@@ -72,8 +72,14 @@ export const modifyTrailer=createAsyncThunk("animes/modifyEpsiode",async functio
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
-      return rejectWithValue(err?.response?.data?.msg)
+      return rejectWithValue(err?.response.data.msg)
   }
+})
+export const searchTrailer=createAsyncThunk("animes/searchTrailer",async function(TRInfo,{rejectWithValue}){
+    try {
+      const {data}=await axios.get("http://localhost:8081/searchTrailer/"+TRInfo.animeName+"/"+TRInfo.genre)
+      return data
+    } catch (err) { return rejectWithValue(err?.response.data.msg)}
 })
 const initialState={
  
@@ -89,7 +95,8 @@ const initialState={
   deleteTrailer:null,
   modifiedTrailer:null,
   trailers:[],
-  trailers2:[]
+  trailers2:[],
+  searchedTrailers:[]
  }
   
   export const animeSlice = createSlice({
@@ -185,7 +192,17 @@ const initialState={
    [modifyTrailer.rejected]:(state,{payload})=>{
     state.loading=false
     state.trailerErreurs=payload
-  }
+  },
+  [searchTrailer.pending]:(state)=>{ state.loading=true},
+    [searchTrailer.fulfilled]:(state,{payload})=>{
+     state.loading=false
+     state.searchedTrailers=payload
+   },
+    [searchTrailer.rejected]:(state,{payload})=>{
+     state.errors=payload
+     state.loading=false
+     
+   }
   }
 })
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs,searchTrailer } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
@@ -22,10 +22,10 @@ const Home = () => {
     dispatch(getTrailers())
     dispatch(getTrailers2())
   }, [])
-  const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
+  const [TRInfo, setTRInfo] = useState({});//console.log(TRInfo)
   const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true);dispatch(cleanTrailerErreurs())};
   const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{result.payload._message==="Trailer validation failed"?Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true}):dispatch(getTrailers2())})}
-
+  const [search, setsearch] = useState("");console.log(search)
   return (
     <div class="HomeBackground">
       <div class="Home">
@@ -34,7 +34,7 @@ const Home = () => {
           <li><a href="#home">Anime List</a></li>
           <li><a href="#news">Random Anime</a></li>
           <li><a href="#contact">Genres</a></li>
-          <input type="search"></input><svg style={{ marginLeft: "0.3cm" }} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <input onChange={(e)=>{setsearch(e.target.value);dispatch(searchTrailer({animeName:e.target.value}))}} type="search"></input><svg style={{ marginLeft: "0.3cm" }}  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
           </svg>
           <div class="container">

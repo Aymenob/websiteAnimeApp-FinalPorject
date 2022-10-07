@@ -3,7 +3,7 @@ const { validationResult } = require('express-validator');
 
 
 const postTrailer=async function (req,res) {
-    try {console.log(req.body)
+    try {
       const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,favorites}=req.body
       const model= await new Trailer
 ({ animeName:animeName,animePicture: animePicture,season:season,trailer:trailer
@@ -39,7 +39,7 @@ const getEpisode=async function(req,res){
 const updateTrailers=async function(req,res){
     const errors = validationResult(req);
     const trailerId=req.params.id
-    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body;console.log(req.body)
+    const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body
     try {
         
         if (newEpisodes) {
@@ -55,7 +55,7 @@ const updateTrailers=async function(req,res){
    //------------------------------delete User
 const deleteEpisode=async function (req,res) {
     const trailerId=req.params.id
-      const {episodes,New}=req.body;console.log(req.body)
+      const {episodes,New}=req.body
     try {
         
       
@@ -74,4 +74,18 @@ const deleteTrailer=async function(req,res) {
          return res.status(500).json({msg:err})
     }
 }
-module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode,deleteEpisode,deleteTrailer}
+const searchTrailer=async function(req,res){
+    const {animeName,genre}=req.params;console.log(req.params)
+    try {
+        if (genre==='undefined') {
+        const search1= await Trailer.find({ animeName:{ "$regex":animeName,"$options": "i" }})
+        return res.status(200).json(search1)}
+        if (animeName==='undefined') {
+            const search1= await Trailer.find({ genre:{ "$regex":genre,"$options": "i" }})
+            return res.status(200).json(search1)}
+    
+        const search= await Trailer.find({ $and:[{animeName:{ "$regex":animeName,"$options": "i" }},{genre:{ "$regex":genre,"$options": "i" }}]})
+       return  res.status(200).json(search)
+    } catch (err) { return res.status(500).json({msg:err})}
+}
+module.exports={postTrailer,getTrailers,updateTrailers,getTrailers2,getEpisode,deleteEpisode,deleteTrailer,searchTrailer}
