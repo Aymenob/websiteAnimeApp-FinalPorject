@@ -3,18 +3,19 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2,addTrailer } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
 import Modals from '../animeComponents/modal'
 import { useState } from 'react'
+import Swal from 'sweetalert2'
 const Home = () => {
   const admin=useSelector(state=>state.Users.user?.Role)
   const user = JSON.parse(localStorage.getItem('user'))
   const authorized = useSelector(state => state.Users.authorized)
-  const trailers = useSelector(state => state.animes.trailers)
-  const trailers2 = useSelector(state => state.animes.trailers2);
+  const trailers = useSelector(state => state.animes?.trailers)
+  const trailers2 = useSelector(state => state.animes?.trailers2);
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
@@ -22,8 +23,8 @@ const Home = () => {
     dispatch(getTrailers2())
   }, [])
   const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
-  const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
-  const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{setShow(false);dispatch(getTrailers2())})}
+  const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true);dispatch(cleanTrailerErreurs())};
+  const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{result.payload._message==="Trailer validation failed"?Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true}):dispatch(getTrailers2())})}
 
   return (
     <div class="HomeBackground">

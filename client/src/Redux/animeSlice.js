@@ -97,7 +97,7 @@ const initialState={
   name: 'animes',
   initialState,
   reducers: {
-    
+    cleanTrailerErreurs:(state)=>{state.trailerErreurs=null}
   },
   extraReducers:{
     [getTrailers.pending]:(state)=>{ state.loading=true},
@@ -189,6 +189,6 @@ const initialState={
   }
 })
 
-  
+  export const {cleanTrailerErreurs}=animeSlice.actions
   
   export default animeSlice.reducer

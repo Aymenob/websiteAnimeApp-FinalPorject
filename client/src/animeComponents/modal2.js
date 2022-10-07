@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-const Modals2= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show,Trailer}) => {
+const Modals2= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show,Trailer,formRef}) => {
      
   return (
     
@@ -16,7 +16,7 @@ const Modals2= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show
             <Modal.Title>Modify Trailer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Form style={{minWidth:"8cm"}}>
+            <Form   ref={formRef} style={{minWidth:"8cm"}}>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
                     <Form.Label>anime Name</Form.Label>
                     <Form.Control

@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers2, getEpisode,addEpisode,deleteTrailer,modifyTrailer } from '../Redux/animeSlice'
+import { getTrailers2, getEpisode,addEpisode,deleteTrailer,modifyTrailer,cleanTrailerErreurs } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
@@ -33,14 +33,14 @@ const Trailer = () => {
     formRef.current.reset();
   }
   const [EpInfo, setEpInfo] = useState({number:0,url:""});console.log(EpInfo);const [checked, setchecked] = useState(false)
-  /*add Episode modal handles*/const handleClose = () => {setShow(false);setEpInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
+  /*add Episode modal handles*/const handleClose = () => {setShow(false);setEpInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true)}
   const data=new FormData();
   data.append("newEpisodes",JSON.stringify(EpInfo));data.append("New",checked);console.log(data.get("newEpisodes"));console.log(data.get("New"))
   const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""||EpInfo.number===""?alert("please verify your information"):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setEpInfo({number:0,url:""});dispatch(getEpisode({  season: season, animeName: animeName }));handleClick()})}
   const handleNew=(e)=>{setchecked(e.target.checked)};
    const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
-  const handleClose2 = () => {setShow2(false);setTRInfo({})};const [show2, setShow2] = useState(false);const handleShow2 = () => setShow2(true);
-  const handleSubmit2 = () => {dispatch(modifyTrailer({id:Trailer._id,Data:TRInfo})).then(result=>{setShow2(false);result.payload.animeName!==Trailer?.animeName||result.payload.season!==Trailer.season?navigate("/"):dispatch(getEpisode({  season: season, animeName: animeName }))})}
+  const handleClose2 = () => {setShow2(false);setTRInfo({})};const [show2, setShow2] = useState(false);const handleShow2 = () => {setShow2(true);dispatch(cleanTrailerErreurs())};
+  const handleSubmit2 = () => {dispatch(modifyTrailer({id:Trailer._id,Data:TRInfo})).then(result=>{result.payload!=="your input is empty"?setShow2(false):Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true})&& handleClick() ;setTRInfo({});result.payload.animeName&&result.payload.animeName!==Trailer?.animeName||result.payload.season&&result.payload.season!==Trailer.season?navigate("/"):dispatch(getEpisode({  season: season, animeName: animeName }))&&dispatch(getTrailers2());})}
   return (
     <div class="homeBackground">
       <div class="home">
@@ -70,7 +70,7 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
-              {admin==="admin"?<Modals2 Trailer={Trailer} handleSubmit={handleSubmit2} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose2} handleShow={handleShow2} show={show2}/>:null}
+              {admin==="admin"?<Modals2 formRef={formRef} Trailer={Trailer} handleSubmit={handleSubmit2} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose2} handleShow={handleShow2} show={show2}/>:null}
               {admin==="admin"?<ModalAddEp formRef={formRef} handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
               {admin==="admin"?<button onClick={()=>{Swal.fire({text: "Are you sure you want to delete This Trailer?",showCloseButton:true,showConfirmButton: true,confirmButtonText:"yes",confirmButtonColor:"red"}).then(result=>result.isConfirmed?dispatch(deleteTrailer(Trailer._id)).then(navigate("/")):null)}}>Delete Trailer</button>:null}
 

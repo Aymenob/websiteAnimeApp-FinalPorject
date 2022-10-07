@@ -1,5 +1,5 @@
 const Trailer=require("../modules/animeSchema")
-
+const { validationResult } = require('express-validator');
 
 
 const postTrailer=async function (req,res) {
@@ -37,9 +37,11 @@ const getEpisode=async function(req,res){
    }
    //------------------------Update trailer
 const updateTrailers=async function(req,res){
+    const errors = validationResult(req);
     const trailerId=req.params.id
     const {animeName,animePicture,season,trailer,animeDescription,genre,episodes,newEpisodes,favorites,New}=req.body;console.log(req.body)
     try {
+        
         if (newEpisodes) {
             await Trailer.findOneAndUpdate({_id:trailerId},{ $pull: { "episodes": episodes   }},{ timestamps: New||false})
                }
