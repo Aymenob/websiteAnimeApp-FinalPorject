@@ -8,7 +8,7 @@ const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,
   return (
     
     <>
-    <Button style={{marginLeft:"3.5cm"}} variant="primary" onClick={handleShow}>
+    <Button style={{marginLeft:"0cm",}} variant="primary" onClick={handleShow}>
         Add Episode
     </Button>
 
@@ -34,7 +34,7 @@ const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,
                     <Form.Control
                         type="url"
                         placeholder=""
-                        autoFocus
+                        
                         onChange={handleUrl}
                         name="url"
                     /> 
@@ -44,7 +44,7 @@ const ModalAddEp = ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,
                     <input style={{marginLeft:"0.5cm"}}
                         type="checkbox"
                        
-                        autoFocus
+                        
                         onChange={handleNew}
                         name="New"
                     /> 

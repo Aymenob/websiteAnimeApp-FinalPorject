@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}) => {
+const Modals2= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show,Trailer}) => {
      
   return (
     
     <>
-    <Button style={{marginLeft:"4cm"}} variant="primary" onClick={handleShow}>
-        Add Trailer
+    <Button style={{marginLeft:"1.5cm",marginRight:'0.5cm'}} variant="primary" onClick={handleShow}>
+       Modify Trailer
     </Button>
 
     <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-            <Modal.Title>Add Trailer</Modal.Title>
+            <Modal.Title>Modify Trailer</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <Form style={{minWidth:"8cm"}}>
@@ -25,7 +25,7 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
                         autoFocus
                         onChange={handleNumber}
                         name="animeName"
-                        
+                        defaultValue={Trailer?.animeName}
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -33,9 +33,10 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
                     <Form.Control
                         type="url"
                         placeholder=""
-                       
+                        
                         onChange={handleUrl}
                         name="animePicture"
+                        defaultValue={Trailer?.animePicture}
                     /> 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -47,6 +48,7 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
                         onChange={handleUrl}
                         name="season"
                         min="1"
+                        defaultValue={Trailer?.season}
                     /> 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -54,9 +56,10 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
                     <Form.Control
                         type="url"
                         placeholder=""
-                        
+                       
                         onChange={handleUrl}
                         name="trailer"
+                        defaultValue={Trailer?.trailer}
                     /> 
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -64,10 +67,10 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
                     <Form.Control
                         type="text"
                         placeholder=""
-                        
+                       
                         onChange={handleNumber}
                         name="animeDescription"
-                        
+                        defaultValue={Trailer?.animeDescription}
                     />
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -78,7 +81,7 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
                         
                         onChange={handleNumber}
                         name="genre"
-                        
+                        defaultValue={Trailer?.genre}
                     />
                 </Form.Group>
                 
@@ -97,4 +100,4 @@ const Modals= ({handleSubmit,handleNumber,handleUrl,handleClose,handleShow,show}
   )
 }
 
-export default Modals
+export default Modals2

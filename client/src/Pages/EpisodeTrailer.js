@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers2, getEpisode,addEpisode,deleteTrailer } from '../Redux/animeSlice'
+import { getTrailers2, getEpisode,addEpisode,deleteTrailer,modifyTrailer } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
 import { useLocation } from 'react-router-dom';
@@ -13,6 +13,9 @@ import EpisodesBtn from "../animeComponents/episodesBtn"
 import ModalAddEp from '../animeComponents/modalAddEp'
 import { useRef } from 'react'
 import Swal from "sweetalert2"
+import Modals2 from '../animeComponents/modal2'
+
+
 const Trailer = () => {
   let {  season, animeName } = useParams();//console.log(number)
   const user = JSON.parse(localStorage.getItem('user'))
@@ -35,6 +38,9 @@ const Trailer = () => {
   data.append("newEpisodes",JSON.stringify(EpInfo));data.append("New",checked);console.log(data.get("newEpisodes"));console.log(data.get("New"))
   const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""||EpInfo.number===""?alert("please verify your information"):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setEpInfo({number:0,url:""});dispatch(getEpisode({  season: season, animeName: animeName }));handleClick()})}
   const handleNew=(e)=>{setchecked(e.target.checked)};
+   const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
+  const handleClose2 = () => {setShow2(false);setTRInfo({})};const [show2, setShow2] = useState(false);const handleShow2 = () => setShow2(true);
+  const handleSubmit2 = () => {dispatch(modifyTrailer({id:Trailer._id,Data:TRInfo})).then(result=>{setShow2(false);result.payload.animeName!==Trailer?.animeName||result.payload.season!==Trailer.season?navigate("/"):dispatch(getEpisode({  season: season, animeName: animeName }))})}
   return (
     <div class="homeBackground">
       <div class="home">
@@ -64,8 +70,9 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
+              {admin==="admin"?<Modals2 Trailer={Trailer} handleSubmit={handleSubmit2} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose2} handleShow={handleShow2} show={show2}/>:null}
               {admin==="admin"?<ModalAddEp formRef={formRef} handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setEpInfo({...EpInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
-              {admin==="admin"?<button onClick={()=>{Swal.fire({text: "Are you sure you want to delete This Trailer?",showCloseButton:true,showConfirmButton: true,confirmButtonText:"yes",confirmButtonColor:"red"}).then(result=>result.isConfirmed?dispatch(deleteTrailer(Trailer._id)).then(navigate("/")):null)}}>Delete </button>:null}
+              {admin==="admin"?<button onClick={()=>{Swal.fire({text: "Are you sure you want to delete This Trailer?",showCloseButton:true,showConfirmButton: true,confirmButtonText:"yes",confirmButtonColor:"red"}).then(result=>result.isConfirmed?dispatch(deleteTrailer(Trailer._id)).then(navigate("/")):null)}}>Delete Trailer</button>:null}
 
             </div>
             <div class="newTrailer" >
@@ -86,7 +93,7 @@ const Trailer = () => {
           <div class="subFirstSection">
             <div class="newAnimeBar"><h4 style={{ marginLeft: "1cm", color: "white" }}>New Animes</h4 ></div>
             <div class="newAnimes">
-              {true && trailers2.map((e, i) => i < 9? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null).reverse()}
+              {true && trailers2.map((e, i) => i < 9? <NewAnimes Rate={9 - i} animeName={e.animeName} animePicture={e.animePicture} season={e.season} Id={e._id} /> : null)}
 
             </div>
           </div>

@@ -27,7 +27,7 @@ export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpI
       return rejectWithValue(err.response.data.msg)
   }
 })
-export const modifyEpisode=createAsyncThunk("animes/modifyEpsiode",async function (EpInfo,{rejectWithValue}) {
+export const modifyEpisode=createAsyncThunk("animes/modifyEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
   const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
   return data
@@ -67,6 +67,14 @@ export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async functio
       return rejectWithValue(err?.response?.data?.msg)
   }
 })
+export const modifyTrailer=createAsyncThunk("animes/modifyEpsiode",async function (EpInfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response?.data?.msg)
+  }
+})
 const initialState={
  
   loading:true,
@@ -79,6 +87,7 @@ const initialState={
   addedEpisode:null,
   addedTrailer:null,
   deleteTrailer:null,
+  modifiedTrailer:null,
   trailers:[],
   trailers2:[]
  }
@@ -165,6 +174,15 @@ const initialState={
     state.deleteTrailer=payload
   },
    [deleteTrailer.rejected]:(state,{payload})=>{
+    state.loading=false
+    state.trailerErreurs=payload
+  },
+  [modifyTrailer.pending]:(state)=>{ state.loading=true},
+   [modifyTrailer.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.modifiedTrailer=payload
+  },
+   [modifyTrailer.rejected]:(state,{payload})=>{
     state.loading=false
     state.trailerErreurs=payload
   }

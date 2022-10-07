@@ -22,8 +22,7 @@ const Home = () => {
     dispatch(getTrailers2())
   }, [])
   const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
-  /*add Episode modal handles*/const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
-  const data=new FormData();
+  const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => setShow(true);
   const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{setShow(false);dispatch(getTrailers2())})}
 
   return (

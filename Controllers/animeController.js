@@ -46,7 +46,7 @@ const updateTrailers=async function(req,res){
 
         // update date only if New value is set true 
        
-        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,favorites, $push: { "episodes": newEpisodes   }},{ timestamps: New||false})
+        const trailers=await Trailer.findOneAndUpdate({_id:trailerId},{animePicture,genre,animeName,season,trailer,animeDescription,favorites, $push: { "episodes": newEpisodes   }},{ timestamps: New||false,returnDocument:'after'})
         return  res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({msg:err})}
    }

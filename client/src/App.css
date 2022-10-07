@@ -252,7 +252,7 @@ margin-left:2cm;
     cursor: pointer;margin-left:0.5cm;
   }
   .newEpisodesBar button:hover{
-    height:0.9cm;border-radius: 6px;padding:0.1cm;
+    height:0.9cm;border-radius: 6px;background-color: rgb(220, 60, 32);color:white
   }
   .newEpisodes{
     border:solid black;max-width:19.5cm;min-width:19.5cm;margin-top: 1cm;
