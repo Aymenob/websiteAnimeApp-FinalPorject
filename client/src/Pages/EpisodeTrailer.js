@@ -36,7 +36,7 @@ const Trailer = () => {
   /*add Episode modal handles*/const handleClose = () => {setShow(false);setEpInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true)}
   const data=new FormData();
   data.append("newEpisodes",JSON.stringify(EpInfo));checked?data.append("New",checked):console.log("not new");console.log(data.get("newEpisodes"));console.log(data.get("New"))
-  const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""||EpInfo.number===""?alert("please verify your information"):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setEpInfo({number:0,url:""});dispatch(getEpisode({  season: season, animeName: animeName }));handleClick()})}
+  const handleSubmit = () => {EpInfo.number<=0||EpInfo.url===""||EpInfo.number===""?Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true}):dispatch(addEpisode({id:Trailer._id,Data:data})).then(result=>{setEpInfo({number:0,url:""});dispatch(getEpisode({  season: season, animeName: animeName }));handleClick()})}
   const handleNew=(e)=>{e.target.checked===true?setchecked(true):setchecked()};
    const [TRInfo, setTRInfo] = useState({});console.log(TRInfo)
   const handleClose2 = () => {setShow2(false);setTRInfo({})};const [show2, setShow2] = useState(false);const handleShow2 = () => {setShow2(true);dispatch(cleanTrailerErreurs())};
