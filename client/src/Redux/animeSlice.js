@@ -81,6 +81,16 @@ export const searchTrailer=createAsyncThunk("animes/searchTrailer",async functio
       return data
     } catch (err) { return rejectWithValue(err?.response.data.msg)}
 })
+
+//........Random trailer
+export const random=createAsyncThunk("animes/findTrailer",async function (_,{rejectWithValue}) {
+  try {
+  const {data}=await axios.get("http://localhost:8081/findTrailer")
+  return data
+  } catch (err) {
+      return rejectWithValue(err.response.data.msg)
+  }
+})
 const initialState={
  
   loading:true,
@@ -96,7 +106,8 @@ const initialState={
   modifiedTrailer:null,
   trailers:[],
   trailers2:[],
-  searchedTrailers:[]
+  searchedTrailers:[],
+  random:[]
  }
   
   export const animeSlice = createSlice({
@@ -201,6 +212,16 @@ const initialState={
      state.searchedTrailers=payload
    },
     [searchTrailer.rejected]:(state,{payload})=>{
+     state.errors=payload
+     state.loading=false
+     
+   },
+   [random.pending]:(state)=>{ state.loading=true},
+    [random.fulfilled]:(state,{payload})=>{
+     state.loading=false
+     state.random=payload
+   },
+    [random.rejected]:(state,{payload})=>{
      state.errors=payload
      state.loading=false
      

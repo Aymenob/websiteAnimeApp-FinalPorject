@@ -91,4 +91,10 @@ const searchTrailer = async function (req, res) {
         return res.status(200).json(search)
     } catch (err) { return res.status(500).json({ msg: err }) }
 }
-module.exports = { postTrailer, getTrailers, updateTrailers, getTrailers2, getEpisode, deleteEpisode, deleteTrailer, searchTrailer }
+const findTrailer = async function (req, res) {
+    try {
+        const trailers = await Trailer.aggregate([{ $sample: { size: 1 } }])
+        return res.status(200).json(trailers)
+    } catch (err) { return res.status(500).json({ msg: err }) }
+}
+module.exports = { postTrailer, getTrailers, updateTrailers, getTrailers2, getEpisode, deleteEpisode, deleteTrailer, searchTrailer,findTrailer }

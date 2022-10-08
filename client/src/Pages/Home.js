@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs,searchTrailer } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs,searchTrailer,random } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
@@ -27,18 +27,18 @@ const Home = () => {
   const [TRInfo, setTRInfo] = useState({});//console.log(TRInfo)
   const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true);dispatch(cleanTrailerErreurs())};
   const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{result.payload._message==="Trailer validation failed"?Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true}):dispatch(getTrailers2())})}
-  const [search, setsearch] = useState("");console.log(search)
   return (
     <div class="HomeBackground">
       <div class="Home">
         <nav>
           
-          <li><a href="#home">Anime List</a></li>
+          
           <li><a onClick={() => navigate("/")} href="/">Home</a></li>
-          <li><a href="#news">Random Anime</a></li>
-          {false&&<li><a href="#contact">Genres</a></li>}
-          <GenreDropDown handleRegister={() => { navigate("/Register") }}/>
-          <input  onKeyDown={(e)=>e.keyCode==13?navigate("/HomeSearch",{state:e.target.value}):null} onChange={(e)=>{setsearch(e.target.value);dispatch(searchTrailer({animeName:e.target.value}))}} type="search"></input><svg style={{ marginLeft: "0.3cm" }}  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+          <li><a href="#news" onClick={(e)=>dispatch(random()).then(result=>navigate(`/watch/${result.payload[0].animeName}/${result.payload[0].season||0}`))}>Random</a></li>
+          
+          <GenreDropDown handleSearch2={(e) => { dispatch(searchTrailer({genre:[e.target.name]})).then(result=>navigate("/HomeSearch")) }}/>
+          <input style={{marginLeft:"4cm"}} onKeyDown={(e)=>e.keyCode==13?navigate("/HomeSearch",{state:e.target.value}):null} onChange={(e)=>{dispatch(searchTrailer({animeName:e.target.value}))}} type="search"></input>
+          <svg style={{ marginLeft: "0.3cm" }}  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
           </svg>
           <div class="container">
