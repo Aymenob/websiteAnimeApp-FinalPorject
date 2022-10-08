@@ -10,6 +10,7 @@ import Episode from './Pages/Episode';
 import Trailer from './Pages/EpisodeTrailer';
 import { PrivateRoute } from './PrivateRoute';
 import {Routes,Route} from "react-router-dom";
+import HomeSearch from './Pages/HomeSearch';
 function App() {
   return (
     <Routes>
@@ -21,7 +22,7 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/watch/:animeName/:season/:number" element={<Episode/>}/>
       <Route path="/watch/:animeName/:season" element={<Trailer/>}/>
-
+      <Route path="/HomeSearch" element={<HomeSearch/>}/>
     </Routes>
   );
 }
