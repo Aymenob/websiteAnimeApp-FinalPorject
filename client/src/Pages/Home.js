@@ -12,6 +12,7 @@ import { useState } from 'react'
 import Swal from 'sweetalert2'
 import HomeDropDown from '../animeComponents/HomeDropDown'
 import GenreDropDown from '../animeComponents/genreDropDown'
+import PageBtn from '../animeComponents/pageBtn'
 const Home = () => {
   const admin=useSelector(state=>state.Users.user?.Role)
   const user = JSON.parse(localStorage.getItem('user'))
@@ -27,6 +28,8 @@ const Home = () => {
   const [TRInfo, setTRInfo] = useState({});//console.log(TRInfo)
   const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true);dispatch(cleanTrailerErreurs())};
   const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{result.payload._message==="Trailer validation failed"?Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true}):dispatch(getTrailers2())})}
+  const [page, setpage] = useState(1);
+  const handlePage=(e)=>{setpage(parseInt(e.target.name))};console.log(page)
   return (
     <div class="HomeBackground">
       <div class="Home">
@@ -49,12 +52,18 @@ const Home = () => {
         </nav>
         <section class="firstSection">
           <div class="subFirstSection">
+            
             <div class="newEpisodesBar">
+            <div class="PagesBtn">{[1,2,3,4,5].map(e=><PageBtn handlePage={handlePage}  number={e}/>)}</div>
+
               <h4 style={{ marginLeft: "1cm", color: "white" }}>New Episodes</h4 >
               {admin==="admin"?<Modals handleSubmit={handleSubmit} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
               </div>
             <div class="newEpisodes">
-              {true && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? <NewEpisode  number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+              {false && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? 
+              <NewEpisode  number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+               {true && trailers?.map((e,i) =>  i<=((page-1)*12)+11&&i>=((page-1)*12)+0?e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? 
+              <NewEpisode  number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null):null)}
 
 
             </div>

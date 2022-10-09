@@ -24,8 +24,8 @@ function Admin() {
 
 
     return (
-
-        <div class="bg-light" style={{ height: "100vh" }}>
+        
+        <div  class="bg-light" style={{ height: "100vh" }}>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 

@@ -250,10 +250,10 @@ margin-left:2cm;
   .newEpisodesBar button:focus{
    
     all: unset;list-style: none;border:none;
-    cursor: pointer;margin-left:0.5cm;
+    cursor: pointer;
   }
   .newEpisodesBar button:hover{
-    padding:0.15cm;height:0.9cm;border-radius: 6px;background-color: rgb(220, 60, 32);color:white
+    height:0.9cm;border-radius: 6px;background-color: rgb(220, 60, 32);color:white
   }
   .newEpisodes{
     border:solid black;max-width:19.5cm;min-width:19.5cm;margin-top: 1cm;
@@ -336,6 +336,15 @@ margin-left:2cm;
     background-size:cover ;min-height:100vh;
     
     }
+    .bg-light2{
+    
+      background-image: url('https://res.cloudinary.com/dotrkogsz/image/upload/v1664150399/WallpaperDog-6650_b6urqn.jpg');
+     
+      background-repeat: no-repeat;
+      background-size:cover ;
+      
+      }
+
   .homeBackground{
     display:flex;justify-content: center;align-items: center;   
     position: relative;
@@ -475,4 +484,26 @@ margin-left:2cm;
 .Dropdown2 .link:focus + .Dropdown-menu2{
   margin-left:-4.2cm;margin-top: 0.2cm;opacity: 1;pointer-events: all;width:11cm;display: grid;grid-template-columns:1fr 1fr 1fr;
   justify-content: center;align-items: center;border-radius:12px;
+}
+.PagesBtn button:hover{
+  background-color:rgb(169, 34, 34);;height: 0.8cm;padding-left:0.1cm;
+  padding-right: 0.1cm; text-align: center;
+}
+.PagesBtn button{
+  all:unset;
+  background-color:none;position: static;color:rgb(255, 255, 255)
+  ;top:0;right: 0;text-align: center;width:0.5cm;height: 0.8cm;
+  font-size:larger;
+}
+.PagesBtn button:focus{
+  border: none;
+ 
+}
+.PagesBtn button,select{
+  text-transform: none;
+}
+.PagesBtn{
+  z-index: 10;
+  position: absolute;
+  margin-left: 16.5cm;
 }
