@@ -13,6 +13,7 @@ import { useState } from 'react'
 import Swal from 'sweetalert2'
 import HomeDropDown from '../animeComponents/HomeDropDown'
 import GenreDropDown from '../animeComponents/genreDropDown'
+import PageBtn from '../animeComponents/pageBtn'
 
 const HomeSearch = () => {
     const admin = useSelector(state => state.Users.user?.Role)
@@ -30,6 +31,8 @@ const HomeSearch = () => {
     }, [])
     const [search, setsearch] = useState("");//console.log(search)
     const { state } = useLocation(); console.log(state);
+    const [page, setpage] = useState(1);
+  const handlePage=(e)=>{setpage(parseInt(e.target.name))};
     return (
         <div class="HomeBackground">
             <div class="Home">
@@ -50,10 +53,11 @@ const HomeSearch = () => {
                     <div class="subFirstSection">
                         <div class="newEpisodesBar">
                             <h4 style={{ marginLeft: "1cm", color: "white" }}>Searched Animes</h4 >
+                            <div class="PagesBtn">{[1,2,3,4,5].map(e=><PageBtn handlePage={handlePage}  number={e}/>)}</div>
                         </div>
                         <div class="newEpisodes">
-                            {trailers3?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number)) == JSON.parse(d).number ? <SearchTrailer number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
-
+                            {false&&trailers3?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number)) == JSON.parse(d).number ? <SearchTrailer number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+                            {true && trailers3?.map((e,i) =>  i<=((page-1)*12)+11&&i>=((page-1)*12)+0?e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number)) == JSON.parse(d).number ? <SearchTrailer number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null):null)}
 
                         </div>
                     </div>

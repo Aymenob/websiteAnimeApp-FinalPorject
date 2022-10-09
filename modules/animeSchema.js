@@ -1,7 +1,7 @@
 const mongoose=require("mongoose")
 
 const Trailer=mongoose.Schema({
-    animeName:{ type: String,required: true },
+    animeName:{ type: String,required: true},
     animePicture:{ type: String,required: true },
     trailer:{type:String,required: true },
     season:{type:String,required: true },

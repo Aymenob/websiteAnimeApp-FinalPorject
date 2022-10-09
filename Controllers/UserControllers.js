@@ -131,4 +131,14 @@ const modifyUsers = async function (req, res) {
      return  res.status(500).json({ msg: err })
    }
 }
+
+//-------------------------------get Users
+const addFavorite=async function(req,res){
+   try {
+      const users=await Users.find({})
+      return  res.status(200).json(users)
+   } catch (err) {
+     return  res.status(500).json({msg:err})
+   }
+}
 module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers }

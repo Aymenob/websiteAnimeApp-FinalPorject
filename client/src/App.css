@@ -249,7 +249,7 @@ margin-left:2cm;
   
   .newEpisodesBar button:focus{
    
-    all: unset;list-style: none;border:none;
+;list-style: none;border:none;
     cursor: pointer;
   }
   .newEpisodesBar button:hover{

@@ -64,6 +64,7 @@ const Episode = () => {
               {admin === "admin" ? <button style={{ marginLeft: "4cm", color: "black" }} type="button" class="btn btn-primary" onClick={() => { Swal.fire({ text: "Url :", input: 'text', }).then(result => result.isConfirmed ? seturl({ number: number, url: result.value }) : null) }} >Modify</button> : null}
               {admin === "admin" ? <button style={{ color: "black" }} type="button" class="btn btn-success" onClick={() => { url ? Swal.fire({ text: "are you sure you want to save changes?", confirmButtonText: "yes", confirmButtonColor: "green" }).then(result => result.isConfirmed ? dispatch(modifyEpisode({ id: Id, Data: data })) && window.location.reload() : null) : Swal.fire({ icon: 'warning', text: "you didn't apply any changes", showCloseButton: true, showConfirmButton: false }) }} >Save</button> : null}
               {admin === "admin" ? <button style={{ color: "black" }} type="button" class="btn btn-danger" onClick={() => { ; Swal.fire({ text: "are you sure you want to delete The episode", showCloseButton: true, showConfirmButton: true, confirmButtonText: "yes", confirmButtonColor: "red" }).then(result => result.isConfirmed ? dispatch(deleteEpisode({ id: Id, data: data })) && oldUrl && window.location.reload() : null) }} >Delete</button> : null}
+               <button style={{ color: "black" }} type="button" class="btn btn-danger" onClick={()=>{navigate(`/watch/${animeName}/${season||0}`)}} >Trailer</button> 
 
             </div>
             <div class="newEpisode" >

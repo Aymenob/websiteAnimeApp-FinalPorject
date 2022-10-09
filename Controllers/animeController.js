@@ -40,7 +40,8 @@ const getEpisode = async function (req, res) {
 const updateTrailers = async function (req, res) {
     const errors = validationResult(req);
     const trailerId = req.params.id
-    const { animeName, animePicture, season, trailer, animeDescription, genre, episodes, newEpisodes, favorites, New } = req.body
+    const {index}=req.params
+    const { animeName, animePicture, season, trailer, animeDescription, genre, episodes, newEpisodes, favorites, New } = req.body;console.log(index)
     try {
 
         if (newEpisodes) {
@@ -49,7 +50,7 @@ const updateTrailers = async function (req, res) {
 
         // update date only if New value is set true 
 
-        const trailers = await Trailer.findOneAndUpdate({ _id: trailerId }, { animePicture, genre, animeName, season, trailer, animeDescription, favorites, $push: { "episodes": newEpisodes } }, { timestamps: New || false, returnDocument: 'after' })
+        const trailers = await Trailer.findOneAndUpdate({ _id: trailerId }, { animePicture, genre, animeName, season, trailer, animeDescription, favorites, $push: { "episodes": { $each:[newEpisodes],$position:index>0?index:0} } }, { timestamps: New || false, returnDocument: 'after' })
         return res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({ msg: err }) }
 }
@@ -97,4 +98,5 @@ const findTrailer = async function (req, res) {
         return res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({ msg: err }) }
 }
+
 module.exports = { postTrailer, getTrailers, updateTrailers, getTrailers2, getEpisode, deleteEpisode, deleteTrailer, searchTrailer,findTrailer }

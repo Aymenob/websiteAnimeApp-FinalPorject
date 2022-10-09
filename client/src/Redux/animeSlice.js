@@ -45,7 +45,7 @@ export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async functio
 })
 export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id+"/"+EpInfo.index,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)

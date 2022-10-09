@@ -60,8 +60,7 @@ const Home = () => {
               {admin==="admin"?<Modals handleSubmit={handleSubmit} handleNumber={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleUrl={(e)=>setTRInfo({...TRInfo,[e.target.name]:e.target.value})} handleClose={handleClose} handleShow={handleShow} show={show}/>:null}
               </div>
             <div class="newEpisodes">
-              {false && trailers?.map(e => e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? 
-              <NewEpisode  number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null))}
+              
                {true && trailers?.map((e,i) =>  i<=((page-1)*12)+11&&i>=((page-1)*12)+0?e.episodes?.map((d, i) => Math.max(...e.episodes.map(f => JSON.parse(f).number))==JSON.parse(d).number  ? 
               <NewEpisode  number={JSON.parse(d).number} url={JSON.parse(d).url} animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} /> : null):null)}
 
