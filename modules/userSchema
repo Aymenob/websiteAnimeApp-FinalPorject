@@ -4,6 +4,7 @@ const User=mongoose.Schema({
     Role: {type:String,enum:["user","admin"],default:"user"},
     Password:{type:String},
     Email:String,
-    Image:mongoose.Schema.Types.Mixed
+    Image:mongoose.Schema.Types.Mixed,
+    favorites:[String]
 })
 module.exports=mongoose.model("Users",User)

@@ -135,10 +135,28 @@ const modifyUsers = async function (req, res) {
 //-------------------------------get Users
 const addFavorite=async function(req,res){
    try {
-      const users=await Users.find({})
+      const userId=req.params.id;console.log(userId)
+      const trailerId=req.body;console.log(trailerId)
+     
+      const users=await Users.findOneAndUpdate({ _id: userId },{$addToSet: { "favorites": trailerId.trailerId } },{new:true})
+        
+
       return  res.status(200).json(users)
    } catch (err) {
      return  res.status(500).json({msg:err})
    }
 }
-module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers }
+const deleteFavorite=async function(req,res){
+   try {
+      const {userId,trailerId}=req.params;console.log(userId)
+     
+     
+      const users=await Users.findOneAndUpdate({ _id: userId },{$pull: { "favorites": trailerId } },{new:true})
+        
+
+      return  res.status(200).json(users)
+   } catch (err) {
+     return  res.status(500).json({msg:err})
+   }
+}
+module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers,addFavorite,deleteFavorite }
