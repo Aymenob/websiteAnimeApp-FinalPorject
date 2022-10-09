@@ -36,10 +36,10 @@ const postUsers = async function (req, res) {
    }
 }
 
-//-------------------------------get Users
+//-------------------------------get Users sorted by alphabets with admin at the top
 const getUsers=async function(req,res){
    try {
-      const users=await Users.find({})
+      const users=await Users.find({}).sort({Role:1}).sort({userName:1})
       return  res.status(200).json(users)
    } catch (err) {
      return  res.status(500).json({msg:err})
@@ -132,7 +132,7 @@ const modifyUsers = async function (req, res) {
    }
 }
 
-//-------------------------------get Users
+//-------------------------------add a favorite trailer
 const addFavorite=async function(req,res){
    try {
       const userId=req.params.id;console.log(userId)
@@ -146,9 +146,10 @@ const addFavorite=async function(req,res){
      return  res.status(500).json({msg:err})
    }
 }
+//-------------------------------delete a favorite trailer
 const deleteFavorite=async function(req,res){
    try {
-      const {userId,trailerId}=req.params;console.log(userId)
+      const {userId,trailerId}=req.params;
      
      
       const users=await Users.findOneAndUpdate({ _id: userId },{$pull: { "favorites": trailerId } },{new:true})
@@ -159,4 +160,19 @@ const deleteFavorite=async function(req,res){
      return  res.status(500).json({msg:err})
    }
 }
-module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers,addFavorite,deleteFavorite }
+//-------------------------------ban or unban User
+const banUser=async function(req,res){
+   try {
+      const userId=req.params.id;console.log(userId)
+      const ban=req.body;console.log(ban)
+     
+      const users=await Users.findOneAndUpdate({ _id: userId },{ban:ban.ban},{new:true})
+        
+
+      return  res.status(200).json(users)
+   } catch (err) {
+     return  res.status(500).json({msg:err})
+   }
+}
+
+module.exports = { postUsers,getUsers,loginUser,deleteUser,modifyUsers,addFavorite,deleteFavorite,banUser }

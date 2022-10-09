@@ -5,6 +5,7 @@ const User=mongoose.Schema({
     Password:{type:String},
     Email:String,
     Image:mongoose.Schema.Types.Mixed,
-    favorites:[String]
+    favorites:[String],
+    ban:{type:String,default:"false"}
 })
 module.exports=mongoose.model("Users",User)
