@@ -52,7 +52,7 @@ const Trailer = () => {
         <nav>
           
           <li><a onClick={() => navigate("/")} href="/">Home</a></li>
-          <li><a href="#news" onClick={(e)=>dispatch(random()).then(result=>navigate(`/watch/${result.payload[0].animeName}/${result.payload[0].season||0}`)||dispatch(getEpisode({ season: season, animeName: animeName })))}>Random</a></li>
+          <li><a href="#news" onClick={(e)=>dispatch(random()).then(result=>navigate(`/watch/${result?.payload[0].animeName}/${result?.payload[0].season||0}`))}>Random</a></li>
           <GenreDropDown handleSearch2={(e) => { dispatch(searchTrailer({genre:[e.target.name]})).then(result=>navigate("/HomeSearch") ) }}/>
           <input  style={{marginLeft:"4cm"}}  onKeyDown={(e)=>e.keyCode==13?navigate("/HomeSearch",{state:e.target.value}):null} onChange={(e)=>{dispatch(searchTrailer({animeName:e.target.value}))}} type="search"></input><svg style={{ marginLeft: "0.3cm" }}  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
@@ -75,7 +75,7 @@ const Trailer = () => {
 
             </div>
             <div class="newTrailer" >
-              {Trailer ? (<Video url={Trailer.trailer} />) : null}
+              {Trailer ? (<Video url={Trailer?.trailer} />) : null}
 
               <p style={{}}>Episodes :</p>
               <div class="buttons">
