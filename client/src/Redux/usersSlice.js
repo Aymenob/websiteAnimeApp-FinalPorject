@@ -53,6 +53,15 @@ export const DeleteUserAdmin=createAsyncThunk("users/DeleteUser",async function 
     return rejectWithValue(err.response.data.msg)
   }
 })
+//-------------------ban or unband user
+export const banUser=createAsyncThunk("animes/addFavorite",async function (userInfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.put("http://localhost:8081/banUser"+userInfo.userId,userInfo.ban)  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response.data.msg)
+  }
+})
 
 const initialState={
  
@@ -68,7 +77,7 @@ const initialState={
   user:JSON.parse(localStorage.getItem('user')),
   token: localStorage.getItem("token"),
   authorized: Boolean(localStorage.getItem("isAuthorized")),
-  
+  bannedUser:{}
  }
   
   export const usersSlice = createSlice({
@@ -90,6 +99,7 @@ const initialState={
       state.token=null
       state.authorized=false
       state.signedIn=null
+      
     }
   },
   extraReducers:{
@@ -187,7 +197,16 @@ const initialState={
         },
          [DeleteUserAdmin.rejected]:(state,{payload})=>{
           state.errors=payload
-        }
+        },
+        [banUser.pending]:(state)=>{ state.loading=true},
+        [banUser.fulfilled]:(state,{payload})=>{
+         state.loading=false
+         state.bannedUser=payload
+       },
+        [banUser.rejected]:(state,{payload})=>{
+         state.loading=false
+         state.errors=payload
+       }
   }
 })
 

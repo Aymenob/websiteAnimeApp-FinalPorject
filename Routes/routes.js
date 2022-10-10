@@ -7,7 +7,7 @@ router.get("/getUsers",Authentified,getUsers)
 router.post("/loginUser",LoginValidation,loginUser)
 router.delete("/deleteUser:id",Authentified,deleteUser)
 router.put("/modifyUser:id",modifyValidation,modifyUsers)
-router.put("/addFavorite:id",addFavorite)
+router.put("/addFavorite/:userId/:trailerId",addFavorite)
 router.delete("/deleteFavorite/:userId/:trailerId",deleteFavorite)
 router.put("/banUser:id",banUser)
 module.exports=router

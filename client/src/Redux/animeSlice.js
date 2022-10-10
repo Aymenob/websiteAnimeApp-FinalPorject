@@ -91,6 +91,15 @@ export const random=createAsyncThunk("animes/findTrailer",async function (_,{rej
       return rejectWithValue(err.response.data.msg)
   }
 })
+export const addFavorite=createAsyncThunk("animes/addFavorite",async function (TRInfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.put("http://localhost:8081/addFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//send id ana data in the same object  
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response.data.msg)
+  }
+})
+
 const initialState={
  
   loading:true,
@@ -107,7 +116,9 @@ const initialState={
   trailers:[],
   trailers2:[],
   searchedTrailers:[],
-  random:[]
+  random:[],
+  favorites:[],
+  
  }
   
   export const animeSlice = createSlice({
@@ -225,7 +236,17 @@ const initialState={
      state.errors=payload
      state.loading=false
      
-   }
+   },
+   [addFavorite.pending]:(state)=>{ state.loading=true},
+   [addFavorite.fulfilled]:(state,{payload})=>{
+    state.loading=false
+    state.favorites=payload
+    localStorage.setItem("user",JSON.stringify(payload))
+  },
+   [addFavorite.rejected]:(state,{payload})=>{
+    state.loading=false
+    state.errors=payload
+  }
   }
 })
 

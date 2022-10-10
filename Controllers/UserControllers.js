@@ -135,10 +135,10 @@ const modifyUsers = async function (req, res) {
 //-------------------------------add a favorite trailer
 const addFavorite=async function(req,res){
    try {
-      const userId=req.params.id;console.log(userId)
-      const trailerId=req.body;console.log(trailerId)
+      
+      const {userId,trailerId}=req.params;console.log(trailerId);console.log(userId)
      
-      const users=await Users.findOneAndUpdate({ _id: userId },{$addToSet: { "favorites": trailerId.trailerId } },{new:true})
+      const users=await Users.findOneAndUpdate({ _id: userId },{$addToSet: { "favorites": trailerId } },{new:true})
         
 
       return  res.status(200).json(users)

@@ -1,12 +1,12 @@
 import React from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import {useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers2, getEpisode, addEpisode, deleteTrailer, modifyTrailer, cleanTrailerErreurs,searchTrailer,random } from '../Redux/animeSlice'
+import { getTrailers2,getTrailers, getEpisode, addEpisode, deleteTrailer, modifyTrailer, cleanTrailerErreurs,searchTrailer,random,addFavorite } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewAnimes from '../animeComponents/newAnimes'
-import { useLocation } from 'react-router-dom';
+
 import { useState } from 'react'
 import Video from '../animeComponents/video'
 import EpisodesBtn from "../animeComponents/episodesBtn"
@@ -26,8 +26,12 @@ const Trailer = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
-    dispatch(getTrailers2()); dispatch(getEpisode({ season: season, animeName: animeName }));// console.log(season); console.log(animeName)
-  }, [])
+   dispatch(getTrailers2()); dispatch(getEpisode({ season: season, animeName: animeName }));// console.log(season); console.log(animeName)
+    dispatch(getTrailers());
+  }, [animeName,season])
+  
+  
+  
   const formRef = useRef();
   const handleClick = () => {
     formRef.current.reset();
@@ -61,6 +65,9 @@ const Trailer = () => {
         <section class="firstSection">
           <div class="subFirstSection">
             <div class="newEpisodesBar">
+            <svg  style={{marginLeft:"0.4cm",cursor:"hand"}} onClick={()=> Swal.fire({ text: "Add This to your Favorite?", showCloseButton: true, showConfirmButton: true, confirmButtonText: "yes", confirmButtonColor: "orange",position:"top" }).then(result=>result.isConfirmed?dispatch(addFavorite({trailerId:Trailer._id,userId:user._id})):null)}  xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
+</svg>
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
               {admin === "admin" ? <Modals2 formRef={formRef} Trailer={Trailer} handleSubmit={handleSubmit2} handleNumber={(e) => setTRInfo({ ...TRInfo, [e.target.name]: e.target.value })} handleUrl={(e) => setTRInfo({ ...TRInfo, [e.target.name]: e.target.value })} handleClose={handleClose2} handleShow={handleShow2} show={show2} /> : null}
               {admin === "admin" ? <ModalAddEp formRef={formRef} handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e) => setEpInfo({ ...EpInfo, [e.target.name]: e.target.value })} handleUrl={(e) => setEpInfo({ ...EpInfo, [e.target.name]: e.target.value })} handleClose={handleClose} handleShow={handleShow} show={show} /> : null}
@@ -69,8 +76,10 @@ const Trailer = () => {
             </div>
             <div class="newTrailer" >
               {Trailer ? (<Video url={Trailer.trailer} />) : null}
+
               <p style={{}}>Episodes :</p>
               <div class="buttons">
+                
                 {Trailer ? Trailer.episodes.map((e, i) => <EpisodesBtn season={Trailer.season} animeName={Trailer.animeName} number={JSON.parse(e).number} />) : null}
 
 

@@ -507,3 +507,26 @@ margin-left:2cm;
   position: absolute;
   margin-left: 16.5cm;
 }
+html {
+  --scrollbarBG: #CFD8DC;
+  --thumbBG: #90A4AE;
+}
+.newTrailer p~p{
+  scrollbar-color:red;
+}
+.newTrailer p~p::-webkit-scrollbar {
+  width: 11px;
+}
+.newTrailer p~p {
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
+}
+.newTrailer p~p::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.newTrailer p~p::-webkit-scrollbar-thumb {
+  background-color: var(--thumbBG) ;
+  border-radius: 6px;
+  border: 3px solid var(--scrollbarBG);
+}
+
