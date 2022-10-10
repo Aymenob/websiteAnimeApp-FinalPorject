@@ -29,7 +29,7 @@ const Home = () => {
   const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true);dispatch(cleanTrailerErreurs())};
   const handleSubmit = () => {dispatch(addTrailer( TRInfo)).then(result=>{result.payload._message==="Trailer validation failed"?Swal.fire({text:"empty input fields",icon:"warning",showConfirmButton:false,timer:1000,showCloseButton:true}):dispatch(getTrailers2())})}
   const [page, setpage] = useState(1);
-  const handlePage=(e)=>{setpage(parseInt(e.target.name))};console.log(page)
+  const handlePage=(e)=>{setpage(parseInt(e.target.name))};//console.log(page)
   return (
     <div class="HomeBackground">
       <div class="Home">

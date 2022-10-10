@@ -36,10 +36,10 @@ const Trailer = () => {
   const handleClick = () => {
     formRef.current.reset();
   }
-  const [EpInfo, setEpInfo] = useState({ number: 0, url: "" }); console.log(EpInfo); const [checked, setchecked] = useState()
+  const [EpInfo, setEpInfo] = useState({ number: 0, url: "" }); const [checked, setchecked] = useState()
   /*add Episode modal handles*/const handleClose = () => { setShow(false); setEpInfo({}) }; const [show, setShow] = useState(false); const handleShow = () => { setShow(true) }
   const data = new FormData();
-  data.append("newEpisodes", JSON.stringify(EpInfo)); checked ? data.append("New", checked) : console.log("not new"); console.log(data.get("newEpisodes")); console.log(data.get("New"))
+  data.append("newEpisodes", JSON.stringify(EpInfo)); checked ? data.append("New", checked) : console.log("not new");// console.log(data.get("newEpisodes")); console.log(data.get("New"))
   const handleSubmit = () => { EpInfo.number <= 0 || EpInfo.url === "" || EpInfo.number === "" ? Swal.fire({ text: "empty input fields", icon: "warning", showConfirmButton: false, timer: 1000, showCloseButton: true }) : dispatch(addEpisode({ id: Trailer._id, Data: data,index:(EpInfo.number- Math.min(...Trailer.episodes.map(f => JSON.parse(f).number)) )})).then(result => { setEpInfo({ number: 0, url: "" }); dispatch(getEpisode({ season: season, animeName: animeName })); handleClick() }) }
   const handleNew = (e) => { e.target.checked === true ? setchecked(true) : setchecked() };
   const [TRInfo, setTRInfo] = useState({}); console.log(TRInfo)

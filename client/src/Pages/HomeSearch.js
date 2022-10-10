@@ -30,7 +30,7 @@ const HomeSearch = () => {
 
     }, [])
     const [search, setsearch] = useState("");//console.log(search)
-    const { state } = useLocation(); console.log(state);
+    const { state } = useLocation(); //console.log(state);
     const [page, setpage] = useState(1);
   const handlePage=(e)=>{setpage(parseInt(e.target.name))};
     return (

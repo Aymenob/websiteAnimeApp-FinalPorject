@@ -20,15 +20,15 @@ const Episode = () => {
   const admin = useSelector(state => state.Users.user?.Role)
   const trailers2 = useSelector(state => state.animes.trailers2);
   const Episodes = useSelector(state => state.animes?.clickedEpisode?.episodes)
-  const Id = useSelector(state => state.animes?.clickedEpisode?._id); console.log(Id)
+  const Id = useSelector(state => state.animes?.clickedEpisode?._id); //console.log(Id)
 
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [oldUrl, setOldUrl] = useState({ number: number }); //console.log(oldUrl)
-  const [url, seturl] = useState(null);// console.log(url)
+  const [url, seturl] = useState(null)//;console.log(url)
   const data = new FormData(); const data2 = new FormData();
-  data.append('episodes', JSON.stringify(oldUrl)); console.log(data.get("episodes"))
+  data.append('episodes', JSON.stringify(oldUrl));// console.log(data.get("episodes"))
   data.append('newEpisodes', JSON.stringify(url))
   for (var pair of data2.entries()) {
     //console.log(pair[0] + ', ' + pair[1]);
@@ -62,7 +62,7 @@ const Episode = () => {
             <div class="newEpisodesBar">
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Episode</h4 >
               {admin === "admin" ? <button style={{ marginLeft: "4cm", color: "black" }} type="button" class="btn btn-primary" onClick={() => { Swal.fire({ text: "Url :", input: 'text', }).then(result => result.isConfirmed ? seturl({ number: number, url: result.value }) : null) }} >Modify</button> : null}
-              {admin === "admin" ? <button style={{ color: "black" }} type="button" class="btn btn-success" onClick={() => { url ? Swal.fire({ text: "are you sure you want to save changes?", confirmButtonText: "yes", confirmButtonColor: "green" }).then(result => result.isConfirmed ? dispatch(modifyEpisode({ id: Id, Data: data })) && window.location.reload() : null) : Swal.fire({ icon: 'warning', text: "you didn't apply any changes", showCloseButton: true, showConfirmButton: false }) }} >Save</button> : null}
+              {admin === "admin" ? <button style={{ color: "black" }} type="button" class="btn btn-success" onClick={() => { url.url!=="" ? Swal.fire({ text: "are you sure you want to save changes?", confirmButtonText: "yes", confirmButtonColor: "green" }).then(result => result.isConfirmed ? dispatch(modifyEpisode({ id: Id, Data: data })) && window.location.reload() : null) : Swal.fire({ icon: 'warning', text: "you didn't apply any changes", showCloseButton: true, showConfirmButton: false }) }} >Save</button> : null}
               {admin === "admin" ? <button style={{ color: "black" }} type="button" class="btn btn-danger" onClick={() => { ; Swal.fire({ text: "are you sure you want to delete The episode", showCloseButton: true, showConfirmButton: true, confirmButtonText: "yes", confirmButtonColor: "red" }).then(result => result.isConfirmed ? dispatch(deleteEpisode({ id: Id, data: data })) && oldUrl && window.location.reload() : null) }} >Delete</button> : null}
                <button style={{ color: "black" }} type="button" class="btn btn-danger" onClick={()=>{navigate(`/watch/${animeName}/${season||0}`)}} >Trailer</button> 
 

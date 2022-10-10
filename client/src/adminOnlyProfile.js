@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import {  DeleteUserAdmin} from "./Redux/usersSlice";
 
-const AdminOnlyProfile = ({userName,Email,Role,Image,userID,userRole}) => {
+const AdminOnlyProfile = ({handleBan,userName,Email,Role,Image,userID,userRole,ban}) => {
     const dispatch = useDispatch()
     
   return (
@@ -22,7 +22,7 @@ const AdminOnlyProfile = ({userName,Email,Role,Image,userID,userRole}) => {
                 <th>{userName}</th>
                 <td>{Email}</td>
                 <td>{Role}</td>
-                {userRole==="user"?<td><button style={{position:"relative",bottom:"-40px",right:"-80px"}} class="btn btn-danger" onClick={(e) => { e.preventDefault(); dispatch() }}>Ban</button></td>:null}
+                {userRole==="user"?<td><button style={{position:"relative",bottom:"-40px",right:"-80px"}} class="btn btn-danger" onClick={handleBan }>{ban==="true"?"unban":"ban"}</button></td>:null}
                 <td><button style={{position:"relative",bottom:"-40px",right:"-40px"}} class="btn btn-outline-danger" onClick={(e) => { e.preventDefault(); dispatch(DeleteUserAdmin(userID)) }}>Delete</button></td>
             </tr>
         </tbody>

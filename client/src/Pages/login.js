@@ -6,6 +6,7 @@ import {  useNavigate } from 'react-router-dom';
 import { cleanUser, loginUser,cleanName,logOUT } from "../Redux/usersSlice"
 import { cleanLogin,cleanEmail,cleanPassword } from "../Redux/usersSlice";
 import '../App.css';
+import Swal from "sweetalert2"
 function Login() {
     const Navigate=useNavigate()
     const authorized=useSelector(state=>state.Users.authorized)
@@ -67,7 +68,7 @@ function Login() {
                                     {errorsPassword?<p class="errors">{errorsPassword.msg||errorsPassword}</p>:null}
                                 </div>
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" onClick={(e)=>{e.preventDefault();dispatch(loginUser(newUser))}} class="btn btn-outline-primary"> Login <i class="fa-solid fa-floppy-disk"></i></button>
+                                    <button type="submit" onClick={(e)=>{e.preventDefault();dispatch(loginUser(newUser)).then(result=>result.payload==="this account has been suspended"?Swal.fire({ icon: 'error', text: "your account has been suspended for bad activities", showCloseButton: false, showConfirmButton: true,confirmButtonColor:"red" }):null)}} class="btn btn-outline-primary"> Login <i class="fa-solid fa-floppy-disk"></i></button>
                                     <span class="register">dont have an account ? </span><button class="btn btn-outline-success" onClick={()=>{Navigate("/Register");dispatch(cleanLogin())}}>Register</button>
 
                                 </div>

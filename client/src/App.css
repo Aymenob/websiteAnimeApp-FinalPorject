@@ -336,14 +336,7 @@ margin-left:2cm;
     background-size:cover ;min-height:100vh;
     
     }
-    .bg-light2{
-    
-      background-image: url('https://res.cloudinary.com/dotrkogsz/image/upload/v1664150399/WallpaperDog-6650_b6urqn.jpg');
-     
-      background-repeat: no-repeat;
-      background-size:cover ;
-      
-      }
+   
 
   .homeBackground{
     display:flex;justify-content: center;align-items: center;   
@@ -530,3 +523,11 @@ html {
   border: 3px solid var(--scrollbarBG);
 }
 
+.bg-light .container {
+  border: rgb(191, 32, 32);
+  
+}
+.bg-light .container button{
+  position: static;margin-top: cm;margin-left:;
+  
+}

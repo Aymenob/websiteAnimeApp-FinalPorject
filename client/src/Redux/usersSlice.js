@@ -54,9 +54,9 @@ export const DeleteUserAdmin=createAsyncThunk("users/DeleteUser",async function 
   }
 })
 //-------------------ban or unband user
-export const banUser=createAsyncThunk("animes/addFavorite",async function (userInfo,{rejectWithValue}) {
+export const banUser=createAsyncThunk("users/banUser",async function (userInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("http://localhost:8081/banUser"+userInfo.userId,userInfo.ban)  
+  const {data}=await axios.put("http://localhost:8081/banUser"+userInfo.userId,{ban:userInfo.ban});console.log(userInfo)  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -99,6 +99,7 @@ const initialState={
       state.token=null
       state.authorized=false
       state.signedIn=null
+      state.bannedUser={}
       
     }
   },
@@ -119,9 +120,11 @@ const initialState={
   if (typeof(payload)==="string") {
     payload.includes("sign")?state.errorsUserName=payload:state.errorsUserName=null
     payload.includes("Password")?state.errorsPassword=payload:state.errorsPassword=null
+    
   } else {
     payload.map(e=>e.param==="userName"?state.errorsUserName=e:null)
     payload.map(e=>e.param==="Password"?state.errorsPassword=e:null)
+    
   } },
   [RegisterUser.pending]:(state)=>{ state.loading=true},
   [RegisterUser.fulfilled]:(state,{payload})=>{

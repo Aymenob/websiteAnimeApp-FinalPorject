@@ -6,6 +6,7 @@ import {  logOUT, DeleteUser,getUsers } from "../Redux/usersSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import AdminOnlyProfile from '../adminOnlyProfile';
 import '../App.css';
+import {banUser }from "../Redux/usersSlice"
 const AdminOnly = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -13,7 +14,7 @@ const AdminOnly = () => {
     useEffect(() => {
      dispatch(getUsers())
     }, [])
-    
+    const handleBan=(ban,userId)=>dispatch(banUser({userId:userId,ban:ban==="true"?false:true})).then(result=>dispatch(getUsers()))//ban==="true"?false:true)
     return (
         <div class="bg-light" style={{ height: "100vh" }}>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -47,7 +48,7 @@ const AdminOnly = () => {
                             <i class="fa-solid fa-user fs-1 mx-2"></i> <h2>Profiles list</h2>
                         </div>
                    
-                        {users.map(e=><AdminOnlyProfile userName={e.userName} Email={e.Email} Role={e.Role} Image={e.Image.path} userID={e._id} userRole={e.Role}/>)}
+                        {users.map(e=><AdminOnlyProfile handleBan={()=>handleBan(e.ban,e._id)} ban={e.ban} userName={e.userName} Email={e.Email} Role={e.Role} Image={e.Image.path} userID={e._id} userRole={e.Role}/>)}
                         
                     </div>
                     

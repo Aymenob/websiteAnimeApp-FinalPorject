@@ -51,6 +51,7 @@ const loginUser = async function (req, res) {
    try {
       const { userName, Password } = req.body
       const errors = validationResult(req);
+     
       if (!errors.isEmpty()) {
         return res.status(400).json({ Errors: errors.array({ onlyFirstError: true }) });
       }
@@ -58,9 +59,13 @@ const loginUser = async function (req, res) {
       if (!result) {
          return res.status(400).json({msg:"you need to sign up first"})
       }
+     
       const match = await bcrypt.compare(Password, result.Password)
       if (!match) {
          return res.status(400).json({msg:"wrong Password"})
+      }
+      if (result.ban==="true") {
+         return res.status(400).json({msg:"this account has been suspended"})
       }
       const token = await jwt.sign({ id: result._id }, process.env.TOKEN_SECRET)
       return res.status(200).json({result,token})
