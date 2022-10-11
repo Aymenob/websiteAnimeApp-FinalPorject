@@ -62,7 +62,6 @@ export const banUser=createAsyncThunk("users/banUser",async function (userInfo,{
       return rejectWithValue(err?.response.data.msg)
   }
 })
-
 const initialState={
  
   loading:true,

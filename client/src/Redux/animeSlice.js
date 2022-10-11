@@ -29,7 +29,7 @@ export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpI
 })
 export const modifyEpisode=createAsyncThunk("animes/modifyEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id+"/"+EpInfo.index,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -67,9 +67,9 @@ export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async functio
       return rejectWithValue(err?.response.data.msg)
   }
 })
-export const modifyTrailer=createAsyncThunk("animes/modifyEpsiode",async function (EpInfo,{rejectWithValue}) {
+export const modifyTrailer=createAsyncThunk("animes/modifyTrailer",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id,EpInfo.Data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id+"/null",EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -99,6 +99,15 @@ export const addFavorite=createAsyncThunk("animes/addFavorite",async function (T
       return rejectWithValue(err?.response.data.msg)
   }
 })
+export const getFavoriteTrailers=createAsyncThunk("animes/getFavoriteTrailers",async function(FavInfo,{rejectWithValue}){
+  try {
+    const {data}=await axios.put("http://localhost:8081/getFavoriteTrailers",FavInfo)
+    return data
+  } catch (err) {
+    return rejectWithValue(err?.response.data.msg)
+  }
+})
+
 
 const initialState={
  
@@ -246,7 +255,16 @@ const initialState={
    [addFavorite.rejected]:(state,{payload})=>{
     state.loading=false
     state.errors=payload
-  }
+  },
+  [getFavoriteTrailers.pending]:(state)=>{ state.loading=true},
+  [getFavoriteTrailers.fulfilled]:(state,{payload})=>{
+   state.loading=false
+   state.favorites=payload
+ },
+  [getFavoriteTrailers.rejected]:(state,{payload})=>{
+   state.loading=false
+   state.errors=payload
+ }
   }
 })
 

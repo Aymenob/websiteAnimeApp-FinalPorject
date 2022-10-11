@@ -226,6 +226,30 @@ margin-left:2cm;
     border: solid black;
     min-height: 8cm;max-height: 8cm;
     min-width:27.8cm;max-width:27.8cm;
+    
+  }
+  .subfavorites{
+    display: flex;overflow: auto;
+    overflow-y: hidden;
+    padding:0cm;padding-left: 0;
+    
+  }
+  .newFavoritesBar{position: ;
+    background-color:rgb(218, 124, 30);  
+    ;min-height:1cm;min-width:27.7cm
+    ;max-height:1cm;max-width:27.7cm
+    ;margin-bottom: 0.2cm
+    ;display:flex;justify-content:flex-start;align-items: center;
+    
+
+  }
+  
+  .hoverBtn{
+    z-index: 10;bottom:2.7cm;margin-left:1.3cm;
+  }
+  
+  .hoverBtn button{
+    /*position: absolute;z-index: 10;bottom:2.7cm;margin-left:3cm;*/
   }
   .subFirstSection{
     display: grid;grid-template-rows:5% 95%; overflow: hidden;
@@ -510,7 +534,7 @@ html {
 .newTrailer p~p::-webkit-scrollbar {
   width: 11px;
 }
-.newTrailer p~p {
+.newTrail{
   scrollbar-width: thin;
   scrollbar-color: var(--thumbBG) var(--scrollbarBG);
 }
@@ -531,3 +555,17 @@ html {
   position: static;margin-top: cm;margin-left:;
   
 }
+.subfavorites::-webkit-scrollbar {   height: 12.5px;
+  width: 4.5px;
+  background: rgb(235, 231, 231);}
+.subfavorites::-webkit-scrollbar-track {
+  background: var(--scrollbarBG);
+}
+.subfavorites::-webkit-scrollbar-thumb {
+  background-color: orangered ;
+  border-radius: 6px;
+  border: 3px solid orangered;}
+  .Sign-up{
+    border:solid red
+    ;height: 4cm ;width:14cm
+    }

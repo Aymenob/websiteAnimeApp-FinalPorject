@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logOUT } from '../Redux/usersSlice'
-import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs,searchTrailer,random } from '../Redux/animeSlice'
+import { getTrailers, getTrailers2,addTrailer,cleanTrailerErreurs,searchTrailer,random,getFavoriteTrailers } from '../Redux/animeSlice'
 import { useEffect } from 'react'
 import NewEpisode from '../animeComponents/newEpisode'
 import NewAnimes from '../animeComponents/newAnimes'
+import FavoritesTrailer from '../animeComponents/Favorites.'
 import Modals from '../animeComponents/modal'
 import { useState } from 'react'
 import Swal from 'sweetalert2'
@@ -19,11 +20,14 @@ const Home = () => {
   const authorized = useSelector(state => state.Users.authorized)
   const trailers = useSelector(state => state.animes?.trailers)
   const trailers2 = useSelector(state => state.animes?.trailers2);
+  const favorites=useSelector(state=>state.Users.user?.favorites);
+  const Favorites=useSelector(state=>state.animes?.favorites);
   const dispatch = useDispatch()
   const navigate = useNavigate()
   useEffect(() => {
     dispatch(getTrailers())
     dispatch(getTrailers2())
+    dispatch(getFavoriteTrailers(favorites))
   }, [])
   const [TRInfo, setTRInfo] = useState({});//console.log(TRInfo)
   const handleClose = () => {setShow(false);setTRInfo({})};const [show, setShow] = useState(false);const handleShow = () => {setShow(true);dispatch(cleanTrailerErreurs())};
@@ -80,8 +84,14 @@ const Home = () => {
           </div>
         </section>
         <section class="favorites">
-          favorites for the ones who have an Account
-          
+        <div class="newFavoritesBar" >
+              <h4 style={{ marginLeft: "1cm", color: "white" }}>Favorites</h4 >
+             
+
+            </div>
+            <div class="subfavorites">
+          {authorized? Favorites?.map((e, i) =>  <FavoritesTrailer animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} />):<div class="Sign-up"><span>Sign up to use this featuer</span><button>Sign Up</button></div> }
+          </div>
         </section>
       </div>
     </div>

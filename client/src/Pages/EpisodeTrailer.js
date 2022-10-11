@@ -36,11 +36,11 @@ const Trailer = () => {
   const handleClick = () => {
     formRef.current.reset();
   }
-  const [EpInfo, setEpInfo] = useState({ number: 0, url: "" }); const [checked, setchecked] = useState()
+  const [EpInfo, setEpInfo] = useState({ number: 0, url: "" }); const [checked, setchecked] = useState();console.log(EpInfo)
   /*add Episode modal handles*/const handleClose = () => { setShow(false); setEpInfo({}) }; const [show, setShow] = useState(false); const handleShow = () => { setShow(true) }
   const data = new FormData();
   data.append("newEpisodes", JSON.stringify(EpInfo)); checked ? data.append("New", checked) : console.log("not new");// console.log(data.get("newEpisodes")); console.log(data.get("New"))
-  const handleSubmit = () => { EpInfo.number <= 0 || EpInfo.url === "" || EpInfo.number === "" ? Swal.fire({ text: "empty input fields", icon: "warning", showConfirmButton: false, timer: 1000, showCloseButton: true }) : dispatch(addEpisode({ id: Trailer._id, Data: data,index:(EpInfo.number- Math.min(...Trailer.episodes.map(f => JSON.parse(f).number)) )})).then(result => { setEpInfo({ number: 0, url: "" }); dispatch(getEpisode({ season: season, animeName: animeName })); handleClick() }) }
+  const handleSubmit = () => { EpInfo.number <= 0 || EpInfo.url === "" || EpInfo.number === "" ? Swal.fire({ text: "empty input fields", icon: "warning", showConfirmButton: false, timer: 1000, showCloseButton: true }) : dispatch(addEpisode({ id: Trailer._id, Data: data,index:(EpInfo?.number- Math.min(...Trailer?.episodes.map(f => JSON.parse(f).number)) )})).then(result => { setEpInfo({ number: 0, url: "" }); dispatch(getEpisode({ season: season, animeName: animeName })); handleClick() }) }
   const handleNew = (e) => { e.target.checked === true ? setchecked(true) : setchecked() };
   const [TRInfo, setTRInfo] = useState({}); console.log(TRInfo)
   const handleClose2 = () => { setShow2(false); setTRInfo({}) }; const [show2, setShow2] = useState(false); const handleShow2 = () => { setShow2(true); dispatch(cleanTrailerErreurs()) };
@@ -65,9 +65,9 @@ const Trailer = () => {
         <section class="firstSection">
           <div class="subFirstSection">
             <div class="newEpisodesBar">
-            <svg  style={{marginLeft:"0.4cm",cursor:"hand"}} onClick={()=> Swal.fire({ text: "Add This to your Favorite?", showCloseButton: true, showConfirmButton: true, confirmButtonText: "yes", confirmButtonColor: "orange",position:"top" }).then(result=>result.isConfirmed?dispatch(addFavorite({trailerId:Trailer._id,userId:user._id})):null)}  xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
+            {authorized?<svg  style={{marginLeft:"0.4cm",cursor:"hand",}} onClick={()=> Swal.fire({ text: "Add This to your Favorite?", showCloseButton: true, showConfirmButton: true, confirmButtonText: "yes", confirmButtonColor: "orange",position:"top" }).then(result=>result.isConfirmed?dispatch(addFavorite({trailerId:Trailer._id,userId:user._id})):null)}  xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-bookmark-star-fill" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM8.16 4.1a.178.178 0 0 0-.32 0l-.634 1.285a.178.178 0 0 1-.134.098l-1.42.206a.178.178 0 0 0-.098.303L6.58 6.993c.042.041.061.1.051.158L6.39 8.565a.178.178 0 0 0 .258.187l1.27-.668a.178.178 0 0 1 .165 0l1.27.668a.178.178 0 0 0 .257-.187L9.368 7.15a.178.178 0 0 1 .05-.158l1.028-1.001a.178.178 0 0 0-.098-.303l-1.42-.206a.178.178 0 0 1-.134-.098L8.16 4.1z"/>
-</svg>
+</svg>:null}
               <h4 style={{ marginLeft: "1cm", color: "white" }}>Anime Trailer</h4 >
               {admin === "admin" ? <Modals2 formRef={formRef} Trailer={Trailer} handleSubmit={handleSubmit2} handleNumber={(e) => setTRInfo({ ...TRInfo, [e.target.name]: e.target.value })} handleUrl={(e) => setTRInfo({ ...TRInfo, [e.target.name]: e.target.value })} handleClose={handleClose2} handleShow={handleShow2} show={show2} /> : null}
               {admin === "admin" ? <ModalAddEp formRef={formRef} handleNew={handleNew} handleSubmit={handleSubmit} handleNumber={(e) => setEpInfo({ ...EpInfo, [e.target.name]: e.target.value })} handleUrl={(e) => setEpInfo({ ...EpInfo, [e.target.name]: e.target.value })} handleClose={handleClose} handleShow={handleShow} show={show} /> : null}

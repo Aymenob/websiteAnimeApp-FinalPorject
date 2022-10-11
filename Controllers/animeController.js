@@ -41,17 +41,25 @@ const updateTrailers = async function (req, res) {
     const errors = validationResult(req);
     const trailerId = req.params.id
     const {index}=req.params
-    const { animeName, animePicture, season, trailer, animeDescription, genre, episodes, newEpisodes, favorites, New } = req.body;console.log(index)
+    const { animeName, animePicture, season, trailer, animeDescription, genre, episodes, newEpisodes, favorites, New } = req.body;console.log(req.body);console.log(req.params);console.log(episodes)
     try {
-
+        if (index==='NaN') {
+            return res.status(400).json({ msg:"invalid input fields"})
+        }
         if (newEpisodes) {
             await Trailer.findOneAndUpdate({ _id: trailerId }, { $pull: { "episodes": episodes } }, { timestamps: New || false })
         }
 
         // update date only if New value is set true 
-
+        if (index==='null') {
+            
+        const trailers = await Trailer.findOneAndUpdate({ _id: trailerId }, { animePicture, genre, animeName, season, trailer, animeDescription, favorites, $push: { "episodes":newEpisodes } }, { timestamps: New || false, returnDocument: 'after' })
+        return res.status(200).json(trailers)
+           
+        }
         const trailers = await Trailer.findOneAndUpdate({ _id: trailerId }, { animePicture, genre, animeName, season, trailer, animeDescription, favorites, $push: { "episodes": { $each:[newEpisodes],$position:index>0?index:0} } }, { timestamps: New || false, returnDocument: 'after' })
         return res.status(200).json(trailers)
+
     } catch (err) { return res.status(500).json({ msg: err }) }
 }
 //------------------------------delete User
@@ -98,5 +106,11 @@ const findTrailer = async function (req, res) {
         return res.status(200).json(trailers)
     } catch (err) { return res.status(500).json({ msg: err }) }
 }
-
-module.exports = { postTrailer, getTrailers, updateTrailers, getTrailers2, getEpisode, deleteEpisode, deleteTrailer, searchTrailer,findTrailer }
+const getFavoriteTrailers = async function (req, res) {
+    const ids=req.body
+    try {
+        const trailers = await Trailer.find({_id: {$in: ids}}).sort({ animeName: -1 }).limit(25)
+        return res.status(200).json(trailers)
+    } catch (err) { return res.status(500).json({ msg: err }) }
+}
+module.exports = { postTrailer, getTrailers, updateTrailers, getTrailers2, getEpisode, deleteEpisode, deleteTrailer, searchTrailer,findTrailer,getFavoriteTrailers }
