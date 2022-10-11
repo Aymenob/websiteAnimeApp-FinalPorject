@@ -84,7 +84,7 @@ const HomeSearch = () => {
 
                     </div>
                     <div class="subfavorites">
-                        {authorized ? Favorites?.map((e, i) => <FavoritesSearch animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} />) : <div class="Sign-up"><span>Sign up to use this featuer</span><button onClick={() => navigate("/register")}>Sign Up</button></div>}
+                        {authorized ? Favorites?.map((e, i) => <FavoritesSearch animePicture={e.animePicture} animeName={e.animeName} season={e.season} Id={e._id} />) : <div class="Sign-up"><span>Sign up to use this feature</span><button onClick={() => navigate("/register")}>Sign Up</button></div>}
                     </div>
                 </section>
             </div>
