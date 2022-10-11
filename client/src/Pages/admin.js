@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { cleanLogin, logOUT, DeleteUser, cleanImage, ModifyUser, cleanUser, cleanPassword, cleanName } from "../Redux/usersSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import '../App.css';
-
+import Swal from 'sweetalert2';
 
 function Admin() {
     const authorized = useSelector(state => state.Users.authorized)
@@ -13,6 +13,7 @@ function Admin() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const user = useSelector(state => state.Users.user)
+    const modified = useSelector(state => state.Users.userModified)
     const Admin = useSelector(state => state.Users.user.Role)
     const [info, setinfo] = useState({ Email: user.Email }); console.log(info)
     const Modify = (e) => { setinfo({ ...info, [e.target.name]: e.target.value }) }
@@ -21,7 +22,7 @@ function Admin() {
     info.userName ? data.append('userName', info.userName) : console.log("nothing");
     data.append("Email", info.Email); data.append("Password", info.Password); data.append('Image', selectedFile)
     const [modify, setmodify] = useState(true)
-
+     
 
     return (
         
@@ -77,7 +78,7 @@ function Admin() {
                                         {modify && <td><button class="btn btn-outline-success" onClick={(e) => { e.preventDefault(); setmodify(!modify) }}>Modify</button></td>}
                                         {modify && <td><button style={{ right: "650px" }} class="btn btn-outline-danger" onClick={(e) => { e.preventDefault(); dispatch(DeleteUser(user._id)); dispatch(logOUT()); navigate("/") }}>Delete</button></td>}
 
-                                        {!modify && <td><button class="btn btn-outline-secondary" onClick={(e) => { e.preventDefault(); dispatch(ModifyUser({ data: data, userID: user._id })).then((err) => { err.payload[0].msg ? alert(`${err.payload[0].msg}`) : alert(`${err.payload}`) }); dispatch(cleanLogin()) }}>submit</button></td>}
+                                        {!modify && <td><button class="btn btn-outline-secondary" onClick={(e) => { e.preventDefault(); dispatch(ModifyUser({ data: data, userID: user._id })).then((err) => { err.type==='users/registerUser/fulfilled'?Swal.fire({ title: "Your account was successfully updated", icon: "success", showCloseButton: false,showConfirmButton:false,timer:3000,customClass: 'swal-height' }):err.payload[0].msg ? alert(`${err.payload[0].msg}`) : alert(`${err.payload}`) }).then(result=>navigate("/Login")); dispatch(cleanLogin()) }}>submit</button></td>}
                                         {!modify && <td><button style={{ right: "650px" }} class="btn btn-outline-primary" onClick={(e) => { e.preventDefault(); setmodify(!modify); setinfo({}); setSelectedFile(); dispatch(cleanLogin()) }}>Go back</button></td>}
 
 

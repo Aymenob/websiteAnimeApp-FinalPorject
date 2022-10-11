@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-const FavoritesTrailer = ({ animeName, animePicture, season, handleFavorite}) => {
+const FavoritesSearch = ({ animeName, animePicture, season, }) => {
     const Navigate = useNavigate()
     const authorized = useSelector(state => state.Users.authorized)
     const dispatch=useDispatch()
@@ -27,15 +27,13 @@ const FavoritesTrailer = ({ animeName, animePicture, season, handleFavorite}) =>
            
             
             </div>
-             <svg onClick={handleFavorite} style={{cursor:"hand",marginLeft:"0.2cm",marginTop:"-0.2cm",color:"red"}}xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bookmark-dash-fill" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zM6 6a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6z" />
-            </svg>
+             
 
-            <span  style={{marginLeft:"0.6cm"}}>Season:{season}</span>
+            <span  style={{marginLeft:"1.6cm"}}>Season:{season}</span>
            
         </div>
         
     )
 }
 
-export default FavoritesTrailer
+export default FavoritesSearch

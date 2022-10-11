@@ -71,6 +71,7 @@ const initialState={
   errorsEmail:null,
   errorsImage:null,
   deletedUser:{},
+  userModified:null,
   users:[],
   signedIn:null,
   user:JSON.parse(localStorage.getItem('user')),
@@ -168,6 +169,7 @@ const initialState={
         localStorage.removeItem("user")
         localStorage.setItem("user",JSON.stringify(payload))
         state.user=payload
+        state.userModified=payload
          },
         
         [ModifyUser.rejected]:(state,{payload})=>{

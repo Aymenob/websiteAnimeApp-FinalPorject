@@ -93,7 +93,15 @@ export const random=createAsyncThunk("animes/findTrailer",async function (_,{rej
 })
 export const addFavorite=createAsyncThunk("animes/addFavorite",async function (TRInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("http://localhost:8081/addFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/addFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//
+  return data
+  } catch (err) {
+      return rejectWithValue(err?.response.data.msg)
+  }
+})
+export const deleteFavorite=createAsyncThunk("animes/deleteFavorite",async function (TRInfo,{rejectWithValue}) {
+  try {
+  const {data}=await axios.delete("http://localhost:8081/deleteFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -256,10 +264,24 @@ const initialState={
     state.loading=false
     state.errors=payload
   },
+  [deleteFavorite.pending]:(state)=>{ state.loading=true},
+  [deleteFavorite.fulfilled]:(state,{payload})=>{
+   state.loading=false
+   state.favorites=payload.favorites
+   localStorage.setItem("user",JSON.stringify(payload))
+  
+  
+ },
+  [deleteFavorite.rejected]:(state,{payload})=>{
+   state.loading=false
+   state.errors=payload
+ }
+  ,
   [getFavoriteTrailers.pending]:(state)=>{ state.loading=true},
   [getFavoriteTrailers.fulfilled]:(state,{payload})=>{
    state.loading=false
    state.favorites=payload
+   
  },
   [getFavoriteTrailers.rejected]:(state,{payload})=>{
    state.loading=false

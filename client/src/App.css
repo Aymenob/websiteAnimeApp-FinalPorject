@@ -562,10 +562,17 @@ html {
   background: var(--scrollbarBG);
 }
 .subfavorites::-webkit-scrollbar-thumb {
-  background-color: orangered ;
+  background-color:  rgb(227, 147, 66) ;
   border-radius: 6px;
-  border: 3px solid orangered;}
+  border: 3px solid  rgb(218, 124, 30);}
   .Sign-up{
-    border:solid red
-    ;height: 4cm ;width:14cm
+    border:
+    ;height: 6.5cm ;width:27cm;display: grid;
+    justify-content: center;justify-items: center;
+    }
+    .Sign-up span{
+      font-size:x-large;font-weight: 500 ;
+    }
+    .Sign-up button{border:none;color:white;
+      height: 1cm;border-radius: 8px;width: 3cm;background-color: rgb(236, 73, 55);
     }
