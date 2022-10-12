@@ -122,8 +122,8 @@ const initialState={
     payload.includes("Password")?state.errorsPassword=payload:state.errorsPassword=null
     
   } else {
-    payload.map(e=>e.param==="userName"?state.errorsUserName=e:null)
-    payload.map(e=>e.param==="Password"?state.errorsPassword=e:null)
+    payload?.map(e=>e.param==="userName"?state.errorsUserName=e:null)
+    payload?.map(e=>e.param==="Password"?state.errorsPassword=e:null)
     
   } },
   [RegisterUser.pending]:(state)=>{ state.loading=true},
