@@ -16,7 +16,7 @@ app.use('/api', createProxyMiddleware({
        proxyRes.headers['Access-Control-Allow-Origin'] = '*';
     }
 }));
-app.listen(5000);
+app.listen(3000);
 const router=require("./Routes/routes")
 const animeRouter=require("./Routes/animeRoutes")
 const fileUpload=require("express-fileupload")
