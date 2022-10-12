@@ -3,7 +3,20 @@ const app=express()
 require("dotenv").config()
 app.listen(process.env.PORT ||7000,()=>{console.log("you server is running...")})
 const cors=require("cors")
-app.use(cors({origin:"http://localhost:3000"}))
+
+const express = require("express");
+var cors = require('cors')
+app.use(cors());
+const { createProxyMiddleware } = require('http-proxy-middleware');
+app.use('/api', createProxyMiddleware({ 
+    target: 'http://localhost:8081/', //original url
+    changeOrigin: true, 
+    //secure: false,
+    onProxyRes: function (proxyRes, req, res) {
+       proxyRes.headers['Access-Control-Allow-Origin'] = '*';
+    }
+}));
+app.listen(5000);
 const router=require("./Routes/routes")
 const animeRouter=require("./Routes/animeRoutes")
 const fileUpload=require("express-fileupload")
