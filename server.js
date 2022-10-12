@@ -4,7 +4,8 @@ require("dotenv").config()
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin','*');
     res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
-    res.setHeader('Access-Control-Allow-Methods','*','Authorization');
+    res.setHeader('Access-Control-Allow-Methods','Content-Type','Authorization');
+    res.setHeader('Access-Control-Allow-Headers','*');
     next(); 
 })
 app.listen(process.env.PORT ||7000,()=>{console.log("you server is running...")})
