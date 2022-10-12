@@ -3,7 +3,7 @@ import axios from "axios"
 //........trailers are sorted by UpdateDate and limited at 12
 export const getTrailers=createAsyncThunk("animes/getTrailers",async function (_,{rejectWithValue}) {
     try {
-    const {data}=await axios.get("/getTrailers")
+    const {data}=await axios.get("http://localhost:8081/getTrailers")
     return data
     } catch (err) {
         return rejectWithValue(err.response.data.msg)
@@ -12,7 +12,7 @@ export const getTrailers=createAsyncThunk("animes/getTrailers",async function (_
 //.........trailers are reverse in order and limit at 9
 export const getTrailers2=createAsyncThunk("animes/getTrailers2",async function (_,{rejectWithValue}) {
   try {
-  const {data}=await axios.get("/getTrailers2")
+  const {data}=await axios.get("http://localhost:8081/getTrailers2")
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg )
@@ -21,7 +21,7 @@ export const getTrailers2=createAsyncThunk("animes/getTrailers2",async function 
 
 export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.get("/getEpisode/"+EpInfo.animeName+"/"+EpInfo.season)
+  const {data}=await axios.get("http://localhost:8081/getEpisode/"+EpInfo.animeName+"/"+EpInfo.season)
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -29,7 +29,7 @@ export const getEpisode=createAsyncThunk("animes/getEpisode",async function (EpI
 })
 export const modifyEpisode=createAsyncThunk("animes/modifyEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("/updateTrailer"+EpInfo.id+"/"+EpInfo.index,EpInfo.Data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id+"/"+EpInfo.index,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -37,7 +37,7 @@ export const modifyEpisode=createAsyncThunk("animes/modifyEpisode",async functio
 })
 export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/deleteEpisode"+EpInfo.id,EpInfo.data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -45,7 +45,7 @@ export const deleteEpisode=createAsyncThunk("animes/deleteEpisode",async functio
 })
 export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("/updateTrailer"+EpInfo.id+"/"+EpInfo.index,EpInfo.Data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id+"/"+EpInfo.index,EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -53,7 +53,7 @@ export const addEpisode=createAsyncThunk("animes/addEpisode",async function (EpI
 })
 export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.post("/postTrailer",TRInfo)//send id ana data in the same object  
+  const {data}=await axios.post("http://localhost:8081/postTrailer",TRInfo)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -61,7 +61,7 @@ export const addTrailer=createAsyncThunk("animes/addTrailer",async function (TRI
 })
 export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async function (TRinfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.delete("/deleteTrailer"+TRinfo)//send id ana data in the same object  
+  const {data}=await axios.delete("http://localhost:8081/deleteTrailer"+TRinfo)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -69,7 +69,7 @@ export const deleteTrailer=createAsyncThunk("animes/deleteTrailer",async functio
 })
 export const modifyTrailer=createAsyncThunk("animes/modifyTrailer",async function (EpInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("/updateTrailer"+EpInfo.id+"/null",EpInfo.Data)//send id ana data in the same object  
+  const {data}=await axios.put("http://localhost:8081/updateTrailer"+EpInfo.id+"/null",EpInfo.Data)//send id ana data in the same object  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -77,7 +77,7 @@ export const modifyTrailer=createAsyncThunk("animes/modifyTrailer",async functio
 })
 export const searchTrailer=createAsyncThunk("animes/searchTrailer",async function(TRInfo,{rejectWithValue}){
     try {
-      const {data}=await axios.get("/searchTrailer/"+TRInfo.animeName+"/"+TRInfo.genre)
+      const {data}=await axios.get("http://localhost:8081/searchTrailer/"+TRInfo.animeName+"/"+TRInfo.genre)
       return data
     } catch (err) { return rejectWithValue(err?.response.data.msg)}
 })
@@ -85,7 +85,7 @@ export const searchTrailer=createAsyncThunk("animes/searchTrailer",async functio
 //........Random trailer
 export const random=createAsyncThunk("animes/findTrailer",async function (_,{rejectWithValue}) {
   try {
-  const {data}=await axios.get("/findTrailer")
+  const {data}=await axios.get("http://localhost:8081/findTrailer")
   return data
   } catch (err) {
       return rejectWithValue(err.response.data.msg)
@@ -93,7 +93,7 @@ export const random=createAsyncThunk("animes/findTrailer",async function (_,{rej
 })
 export const addFavorite=createAsyncThunk("animes/addFavorite",async function (TRInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("/addFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//
+  const {data}=await axios.put("http://localhost:8081/addFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -101,7 +101,7 @@ export const addFavorite=createAsyncThunk("animes/addFavorite",async function (T
 })
 export const deleteFavorite=createAsyncThunk("animes/deleteFavorite",async function (TRInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.delete("/deleteFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//
+  const {data}=await axios.delete("http://localhost:8081/deleteFavorite/"+TRInfo.userId+"/"+TRInfo.trailerId)//
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -109,7 +109,7 @@ export const deleteFavorite=createAsyncThunk("animes/deleteFavorite",async funct
 })
 export const getFavoriteTrailers=createAsyncThunk("animes/getFavoriteTrailers",async function(FavInfo,{rejectWithValue}){
   try {
-    const {data}=await axios.put("/getFavoriteTrailers",FavInfo)
+    const {data}=await axios.put("http://localhost:8081/getFavoriteTrailers",FavInfo)
     return data
   } catch (err) {
     return rejectWithValue(err?.response.data.msg)
