@@ -15,6 +15,7 @@ app.use(express.json({limit:'50mb'}))
 app.use(fileUpload({useTempFiles : true}))
 app.use("/",router)
 app.use("/",animeRouter)
+
 //set up for deployment
 app.use(express.static(path.join(__dirname,'./','client','build')))
 app.get('*',(req,res)=>{
