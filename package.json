@@ -2,12 +2,12 @@
   "name": "project-gomycode-final",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "engines": {"node": "v16.17.0"},
   "scripts": {
-    "start":"node index.js",
+    "start":"node server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "back-end": "nodemon index.js",
+    "back-end": "nodemon server.js",
     "front-end": "cd client && npm start",
     "dev": "concurrently \"npm run back-end\" \"npm run front-end\""
   },
