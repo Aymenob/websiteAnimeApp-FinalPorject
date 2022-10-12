@@ -1,7 +1,7 @@
 const express=require("express")
 const app=express()
 require("dotenv").config()
-app.listen(process.env.PORT ||8081,()=>{console.log("you server is running...")})
+app.listen(process.env.PORT ||7000,()=>{console.log("you server is running...")})
 const cors=require("cors")
 app.use(cors({origin:"http://localhost:3000"}))
 const router=require("./Routes/routes")
