@@ -1,15 +1,15 @@
 const express=require("express")
 const app=express()
+require("dotenv").config()
 app.use((req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin','*');
     res.setHeader('Access-Control-Allow-Methods','GET,POST,PUT,PATCH,DELETE');
     res.setHeader('Access-Control-Allow-Methods','Content-Type','Authorization');
     next(); 
 })
-require("dotenv").config()
 app.listen(process.env.PORT ||7000,()=>{console.log("you server is running...")})
-const cors=require("cors")
-app.use(cors({origin:"http://localhost:3000"}))
+
+
 const router=require("./Routes/routes")
 const animeRouter=require("./Routes/animeRoutes")
 const fileUpload=require("express-fileupload")
