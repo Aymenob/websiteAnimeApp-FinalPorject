@@ -2,7 +2,7 @@ const express=require("express")
 const app=express()
 require("dotenv").config()
 app.use((req,res,next)=>{
-    res.setHeader('Access-Control-Allow-Methods','GET,PATCH,DELETE,POST, PUT, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods','GET,DELETE,POST, PUT');
     res.setHeader('Access-Control-Allow-Origin','*');
     res.setHeader('Access-Control-Allow-Methods','Content-Type','Authorization');
     res.setHeader('Access-Control-Allow-Headers','*');

@@ -8,8 +8,9 @@ router.get("/getTrailers2",getTrailers2)
 router.get("/getEpisode/:animeName/:season",getEpisode)
 router.put("/updateTrailer:id/:index",TrailerValidation,updateTrailers)//needs update
 router.put("/deleteEpisode:id",deleteEpisode)
+router.put("/getFavoriteTrailers",getFavoriteTrailers)
 router.delete("/deleteTrailer:id",deleteTrailer)
 router.get("/searchTrailer/:animeName/:genre",searchTrailer)
 router.get("/findTrailer",findTrailer)
-router.put("/getFavoriteTrailers",getFavoriteTrailers)
+
 module.exports=router
