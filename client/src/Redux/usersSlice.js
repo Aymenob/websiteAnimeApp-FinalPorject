@@ -3,7 +3,7 @@ import axios from "axios"
 
 export const loginUser=createAsyncThunk("users/loginUser",async function (oldUser,{rejectWithValue}) {
   try{
-        const {data}=await axios.post("/loginUser",oldUser)
+        const {data}=await axios.post("http://localhost:8081/loginUser",oldUser)
              return data
   }//msg Errors  are set as priority messages in contorllers anyway
   catch(err){return rejectWithValue(err.response.data.msg? err.response.data.msg :err.response.data.Errors)}
@@ -12,7 +12,7 @@ export const loginUser=createAsyncThunk("users/loginUser",async function (oldUse
 
 export const RegisterUser=createAsyncThunk("users/registerUser",async function (newUser,{rejectWithValue}) {
   try{
-    const {data}=await axios.post("/postUser",newUser)
+    const {data}=await axios.post("http://localhost:8081/postUser",newUser)
     return data
     
   }
@@ -21,7 +21,7 @@ export const RegisterUser=createAsyncThunk("users/registerUser",async function (
 export const DeleteUser=createAsyncThunk("users/DeleteUser",async function (userID,{rejectWithValue}) {
   try {
     let reqInstance = axios.create({headers: {token : localStorage.getItem("token") }})
-    const {data}=await reqInstance.delete("/deleteUser"+userID)
+    const {data}=await reqInstance.delete("http://localhost:8081/deleteUser"+userID)
     return data
   } catch (err) {
     return rejectWithValue(err.response.data.msg)
@@ -29,7 +29,7 @@ export const DeleteUser=createAsyncThunk("users/DeleteUser",async function (user
 })
 export const ModifyUser=createAsyncThunk("users/registerUser",async function (userInfo,{rejectWithValue}) {
   try{
-    const {data}=await axios.put("/modifyUser"+userInfo.userID,userInfo.data)
+    const {data}=await axios.put("http://localhost:8081/modifyUser"+userInfo.userID,userInfo.data)
     return data
   }
   catch(err){return rejectWithValue(err.response.data.msg? err.response.data.msg :err.response.data.Errors )}
@@ -37,7 +37,7 @@ export const ModifyUser=createAsyncThunk("users/registerUser",async function (us
 export const getUsers=createAsyncThunk("users/getUsers",async function (_,{rejectWithValue}) {
   try {
     let reqInstance = axios.create({headers: {token : localStorage.getItem("token") }})
-    const {data}=await reqInstance.get("/getUsers")
+    const {data}=await reqInstance.get("http://localhost:8081/getUsers")
     return data
   } catch (err) {
     return rejectWithValue(err.response.data.msg)
@@ -46,7 +46,7 @@ export const getUsers=createAsyncThunk("users/getUsers",async function (_,{rejec
 export const DeleteUserAdmin=createAsyncThunk("users/DeleteUser",async function (userID,{rejectWithValue,dispatch}) {
   try {
     let reqInstance = axios.create({headers: {token : localStorage.getItem("token") }})
-    const {data}=await reqInstance.delete("/deleteUser"+userID)
+    const {data}=await reqInstance.delete("http://localhost:8081/deleteUser"+userID)
     dispatch(getUsers())
     return data
   } catch (err) {
@@ -56,7 +56,7 @@ export const DeleteUserAdmin=createAsyncThunk("users/DeleteUser",async function 
 //-------------------ban or unband user
 export const banUser=createAsyncThunk("users/banUser",async function (userInfo,{rejectWithValue}) {
   try {
-  const {data}=await axios.put("/banUser"+userInfo.userId,{ban:userInfo.ban});console.log(userInfo)  
+  const {data}=await axios.put("http://localhost:8081/banUser"+userInfo.userId,{ban:userInfo.ban});console.log(userInfo)  
   return data
   } catch (err) {
       return rejectWithValue(err?.response.data.msg)
@@ -122,8 +122,8 @@ const initialState={
     payload.includes("Password")?state.errorsPassword=payload:state.errorsPassword=null
     
   } else {
-    payload?.map(e=>e.param==="userName"?state.errorsUserName=e:null)
-    payload?.map(e=>e.param==="Password"?state.errorsPassword=e:null)
+    payload.map(e=>e.param==="userName"?state.errorsUserName=e:null)
+    payload.map(e=>e.param==="Password"?state.errorsPassword=e:null)
     
   } },
   [RegisterUser.pending]:(state)=>{ state.loading=true},
